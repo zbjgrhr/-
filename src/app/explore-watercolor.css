@@ -840,3 +840,40 @@
 @media (prefers-reduced-motion: reduce) {
   .explore-dream-cluster { animation: none; }
 }
+
+/* Palette correction: remove the remaining yellow-green journal accents. */
+.explore-page .rhythm-invitation {
+  border-radius: 2.5rem;
+  background:
+    radial-gradient(circle at 86% 12%, rgba(255,255,255,.46), transparent 14rem),
+    linear-gradient(118deg, #eee8f5 0%, #e3eaf4 52%, #f2e2e5 100%),
+    url("/portfolio/resonance-watercolor-journey.png") center / cover;
+  box-shadow: 0 24px 55px rgba(83,76,109,.12);
+}
+.explore-page .rhythm-invitation p { color: #8069b8; }
+.explore-page .rhythm-invitation h2 { color: var(--dream-night); font-weight: 600; }
+.explore-page .rhythm-invitation > div > span { color: #757184; }
+.explore-page .rhythm-invitation-score i {
+  border-radius: 999px;
+  background: linear-gradient(#d88991 0%, #a386ca 48%, #7da6d4 100%);
+}
+.explore-page .rhythm-invitation-button {
+  color: #fff !important;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #8c77c9 0%, #789fd3 68%, #c98395 100%);
+  box-shadow: 0 12px 28px rgba(102,87,151,.2);
+}
+.explore-page .rhythm-invitation-button:hover {
+  color: #fff !important;
+  background: linear-gradient(135deg, #7d69bd 0%, #6e94ca 68%, #bf7689 100%);
+}
+
+.explore-page .proof-strip > div:nth-child(1) { background: rgba(255,253,252,.88); }
+.explore-page .proof-strip > div:nth-child(2) { background: #eeeaf4; }
+.explore-page .proof-strip > div:nth-child(3) { background: #f3e5e6; }
+.explore-page .proof-strip > div:nth-child(4) { background: #e5edf4; }
+
+.explore-page .capability-card:nth-child(1) { background: rgba(255,253,252,.9); }
+.explore-page .capability-card:nth-child(2) { background: #ece8f3; }
+.explore-page .capability-card:nth-child(3) { background: #f3e4e5; }
+.explore-page .capability-card:nth-child(4) { background: #e4ecf4; }
