@@ -192,7 +192,11 @@ export const projects: ProjectArchive[] = [
     challenges: ["Platform DOM changes", "Editable-region detection", "Synchronization between background and page state", "Define responsible product boundaries for automation"],
     outcome:
       "A working Chrome and Edge prototype showing that cross-platform posting logic can be shared, while clearly labeling delayed replies as an X-only feature.",
-    screenshots: ["/portfolio/auto-reply-control.webp", "/portfolio/auto-reply-x-zh.png", "/portfolio/auto-reply-facebook-en.png"],
+    screenshots: [
+      "/portfolio/auto-tune-control-panel.png",
+      "/portfolio/auto-tune-adapters.png",
+      "/portfolio/auto-tune-x-reply.png",
+    ],
     github: "https://github.com/zbjgrhr/Social-Media_Auto-Reply",
     learned: [
       "Automation copy must be as precise as the capability it describes.",
@@ -228,7 +232,16 @@ export const projects: ProjectArchive[] = [
     challenges: ["Restore highlights after nodes are replaced.", "Prevent CSS and stacking-context conflicts.", "Unify local and remote page identity.", "Maintain cross-browser builds."],
     outcome:
       "A practical research-reading companion that connects reading, translation, annotation, phrase collection, notes, focus time, local documents, and knowledge structures—without making readers leave the source.",
-    screenshots: ["/portfolio/web-study-workspace.webp", "/portfolio/web-study-map.webp"],
+    screenshots: [
+      "/portfolio/literature-workspace.png",
+      "/portfolio/literature-reading-loop.png",
+      "/portfolio/literature-installed.png",
+      "/portfolio/literature-search.png",
+      "/portfolio/literature-saved-library.png",
+      "/portfolio/literature-saved-notes.png",
+      "/portfolio/literature-translation-highlight.png",
+      "/portfolio/literature-mind-map.png",
+    ],
     github: "https://github.com/zbjgrhr/web-translate-highlight-mind-map-notes-timer",
     learned: [
       "Persistence is part of the reading experience, not merely a storage problem.",
