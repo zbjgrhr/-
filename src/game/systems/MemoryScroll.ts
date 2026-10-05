@@ -135,16 +135,16 @@ export class MemoryScroll {
     this.skin = id;
     const colors: Record<string, number> = {
       "pixel-void": COLORS.deepBlue,
-      "pixel-generate": 0x385562,
-      "pixel-world": 0x314653,
-      "rainy-arcade": 0x354f61,
-      "iwbtz": 0x654c43,
-      "auto-tune": 0x685a3d,
-      "study-assistant": 0x3f584c,
-      "browser-city": 0x3f584c,
-      "reply-pulse": 0x36564f,
-      "emotion-quiet": 0x554a51,
-      "research-wave": 0x394f5c,
+      "pixel-generate": 0x665f7f,
+      "pixel-world": 0x5c5d7b,
+      "rainy-arcade": 0x536b82,
+      "iwbtz": 0x725c68,
+      "auto-tune": 0x74675b,
+      "study-assistant": 0x586d68,
+      "browser-city": 0x586d68,
+      "reply-pulse": 0x526d70,
+      "emotion-quiet": 0x6d5d70,
+      "research-wave": 0x58677e,
       "coda-merge": COLORS.midnightPurple,
     };
     if (id === "pixel-generate") this.ensureBaseGrid();

@@ -4,15 +4,15 @@ export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720;
 
 export const COLORS = {
-  deepBlue: 0x314653,
-  midnightPurple: 0x594a42,
-  cyan: 0x73b2c0,
-  magenta: 0xe36d66,
-  moonlight: 0xffd66b,
-  keyWhite: 0xfff7e7,
-  keyBlack: 0x28383e,
-  keyLit: 0xf1b85a,
-  player: 0xed7b67,
+  deepBlue: 0x54536f,
+  midnightPurple: 0x665a7a,
+  cyan: 0x8eb7cb,
+  magenta: 0xd88994,
+  moonlight: 0xf1cf9c,
+  keyWhite: 0xfffbf7,
+  keyBlack: 0x55536b,
+  keyLit: 0xc5a6d8,
+  player: 0xde9485,
 };
 
 export function createGameConfig(
@@ -24,7 +24,7 @@ export function createGameConfig(
     parent,
     width: GAME_WIDTH,
     height: GAME_HEIGHT,
-    backgroundColor: "#314653",
+    backgroundColor: "#54536f",
     pixelArt: true,
     antialias: false,
     physics: {

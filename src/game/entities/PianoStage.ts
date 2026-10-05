@@ -39,7 +39,7 @@ export class PianoStage {
         (PIANO_TOP + GAME_HEIGHT) / 2,
         GAME_WIDTH,
         GAME_HEIGHT - PIANO_TOP,
-        0x263a42,
+        0x46475f,
         0.92,
       )
       .setDepth(6);
@@ -55,7 +55,7 @@ export class PianoStage {
 
       const key = this.scene.add
         .rectangle(x, KEY_Y, keyW, 56, COLORS.keyWhite, 0.95)
-        .setStrokeStyle(1, 0xbfae8c, 0.8)
+        .setStrokeStyle(1, 0xcabed0, 0.8)
         .setDepth(12);
       this.keys.push(key);
 
@@ -68,7 +68,7 @@ export class PianoStage {
         .text(x, KEY_Y + 28, ["D", "F", "SPACE", "J", "K"][i], {
           fontFamily: "Courier New, monospace",
           fontSize: i === 2 ? "11px" : "13px",
-          color: "#6c604d",
+          color: "#625c72",
         })
         .setOrigin(0.5)
         .setDepth(13);
@@ -142,7 +142,7 @@ export class PianoStage {
   }
 
   clearPrelight() {
-    this.keys.forEach((k) => k.setStrokeStyle(1, 0xbfae8c, 0.8));
+    this.keys.forEach((k) => k.setStrokeStyle(1, 0xcabed0, 0.8));
     this.glow.forEach((g) => {
       if (g.alpha < 0.6) g.setAlpha(0);
     });
@@ -150,7 +150,7 @@ export class PianoStage {
 
   private release(i: number) {
     this.keys[i]?.setFillStyle(COLORS.keyWhite, 0.95);
-    this.keys[i]?.setStrokeStyle(1, 0xbfae8c, 0.8);
+    this.keys[i]?.setStrokeStyle(1, 0xcabed0, 0.8);
     this.glow[i]?.setAlpha(0);
   }
 

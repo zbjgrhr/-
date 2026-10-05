@@ -44,6 +44,11 @@ export function ExploreView() {
       </header>
 
       <section className="explore-hero" aria-labelledby="portfolio-title">
+        <div className="explore-dream-cluster" aria-hidden>
+          <i />
+          <i />
+          <span>✦</span>
+        </div>
         <div className="explore-hero-copy">
           <p className="entry-eyebrow">{profile.role}</p>
           <h1 id="portfolio-title">{profile.headline}</h1>

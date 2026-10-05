@@ -56,9 +56,11 @@ export function EntryGate() {
           <button
             type="button"
             className="game-utility"
+            aria-label={locale === "en" ? "切换为中文" : "Switch to English"}
             onClick={() => setLocale(locale === "en" ? "zh" : "en")}
           >
-            {locale === "en" ? "中文" : "EN"}
+            <span className="locale-full">{locale === "en" ? "中文" : "EN"}</span>
+            <span className="locale-short" aria-hidden>{locale === "en" ? "中" : "EN"}</span>
           </button>
           <Link href="/explore" className="game-portfolio-cta">
             <span aria-hidden>↗</span>
