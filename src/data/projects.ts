@@ -98,6 +98,7 @@ export const projects: ProjectArchive[] = [
       "/portfolio/preservative-02-workshop.png",
       "/portfolio/preservative-03-sandbox.png",
     ],
+    liveDemo: "https://steamcommunity.com/sharedfiles/filedetails/?id=3814649025",
     learned: [
       "A survival convenience remains interesting when its cost is legible, configurable, and recoverable through play.",
       "Publishing turns system design into an ongoing conversation with real players.",

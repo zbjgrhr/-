@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProjectCaseStudy } from "@/components/portfolio/ProjectCaseStudy";
 import { getContent } from "@/content";
 import { getProfileCopy, publicLinks } from "@/data/profile";
@@ -14,9 +14,35 @@ export function ExploreView() {
   const setMode = useUiStore((state) => state.setMode);
   const setLocale = useUiStore((state) => state.setLocale);
   const [showWechat, setShowWechat] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const content = getContent(locale);
   const profile = getProfileCopy(locale);
   const projectList = localizeProjects(projects, locale);
+
+  useEffect(() => {
+    const targetId = decodeURIComponent(window.location.hash.slice(1));
+    if (!targetId) return;
+
+    let cancelled = false;
+    const restoreHashPosition = () => {
+      if (cancelled) return;
+      document.getElementById(targetId)?.scrollIntoView({ block: "start" });
+    };
+
+    const frame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(restoreHashPosition);
+    });
+    const timer = window.setTimeout(restoreHashPosition, 500);
+    window.addEventListener("load", restoreHashPosition, { once: true });
+    document.fonts?.ready.then(restoreHashPosition);
+
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+      window.removeEventListener("load", restoreHashPosition);
+    };
+  }, []);
 
   return (
     <main className="explore-page" id="main-content">
@@ -25,18 +51,40 @@ export function ExploreView() {
           <span>HZ</span>
           <strong>Resonance Archive</strong>
         </Link>
-        <nav className="explore-nav" aria-label={locale === "en" ? "Portfolio navigation" : "作品集导航"}>
-          <a href="#work">{locale === "en" ? "Work" : "作品"}</a>
-          <a href="#experience">{locale === "en" ? "Experience" : "经历"}</a>
-          <a href="#contact">{locale === "en" ? "Contact" : "联系"}</a>
+        <button
+          type="button"
+          className="mobile-menu-toggle"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="portfolio-navigation"
+          aria-label={locale === "en" ? "Toggle portfolio navigation" : "打开或关闭作品集导航"}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <span aria-hidden />
+          <span aria-hidden />
+          <span aria-hidden />
+        </button>
+        <nav
+          id="portfolio-navigation"
+          className={`explore-nav${mobileMenuOpen ? " is-open" : ""}`}
+          aria-label={locale === "en" ? "Portfolio navigation" : "作品集导航"}
+        >
+          <a href="#work" onClick={() => setMobileMenuOpen(false)}>{locale === "en" ? "Work" : "作品"}</a>
+          <a href="#experience" onClick={() => setMobileMenuOpen(false)}>{locale === "en" ? "Experience" : "经历"}</a>
+          <a href="#contact" onClick={() => setMobileMenuOpen(false)}>{locale === "en" ? "Contact" : "联系"}</a>
           <button
             type="button"
             className="btn-ghost"
-            onClick={() => setLocale(locale === "en" ? "zh" : "en")}
+            onClick={() => {
+              setLocale(locale === "en" ? "zh" : "en");
+              setMobileMenuOpen(false);
+            }}
           >
             {locale === "en" ? "中文" : "EN"}
           </button>
-          <Link href="/play" className="portfolio-play-cta" onClick={() => setMode("entry")}>
+          <Link href="/play" className="portfolio-play-cta" onClick={() => {
+            setMode("entry");
+            setMobileMenuOpen(false);
+          }}>
             <span className="play-cta-eq" aria-hidden><i /><i /><i /><i /></span>
             {content.explore.playInstead}
           </Link>
@@ -163,6 +211,8 @@ export function ExploreView() {
                               alt={`${project.title} ${locale === "en" ? "feature view" : "功能画面"} ${screenshotIndex + 1}`}
                               width={1600}
                               height={900}
+                              loading="lazy"
+                              decoding="async"
                             />
                           </figure>
                         ))}
@@ -179,6 +229,8 @@ export function ExploreView() {
                       alt={`${project.title} interface or system view`}
                       width={1600}
                       height={900}
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div className="project-media-placeholder">{project.title}</div>
@@ -197,13 +249,22 @@ export function ExploreView() {
                 <p className="project-context">{project.context}</p>
 
                 {project.metrics?.length ? (
-                  <div className="project-metrics" aria-label={`${project.title} evidence`}>
-                    {project.metrics.map((metric) => (
-                      <div key={`${metric.value}-${metric.label}`}>
-                        <strong>{metric.value}</strong>
-                        <span>{metric.label}</span>
-                      </div>
-                    ))}
+                  <div className="project-metrics-wrap">
+                    <div className="project-metrics" aria-label={`${project.title} evidence`}>
+                      {project.metrics.map((metric) => (
+                        <div key={`${metric.value}-${metric.label}`}>
+                          <strong>{metric.value}</strong>
+                          <span>{metric.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                    {project.id === "preservative" ? (
+                      <p className="metric-source">
+                        {locale === "en"
+                          ? "Steam Workshop public statistics · October 2026 snapshot"
+                          : "Steam Workshop 公开数据 · 2026 年 10 月快照"}
+                      </p>
+                    ) : null}
                   </div>
                 ) : null}
 
@@ -222,6 +283,32 @@ export function ExploreView() {
                   </div>
                 </div>
 
+                {project.id === "preservative" ? (
+                  <section className="preservative-decision-spine" aria-label={locale === "en" ? "Core design decisions" : "核心设计判断"}>
+                    <div className="decision-spine-heading">
+                      <span>{locale === "en" ? "DESIGN LOGIC" : "设计逻辑"}</span>
+                      <strong>{locale === "en" ? "Useful, but never free." : "有用，但不能没有代价。"}</strong>
+                    </div>
+                    <div className="decision-spine-grid">
+                      <article>
+                        <span>01</span>
+                        <strong>{locale === "en" ? "Preserve pressure" : "保留生存压力"}</strong>
+                        <p>{locale === "en" ? "Protection time is consumed only while food is actually protected." : "只有真正保护食物时才消耗持续时间，避免把保鲜变成无成本常驻增益。"}</p>
+                      </article>
+                      <article>
+                        <span>02</span>
+                        <strong>{locale === "en" ? "Make risk playable" : "让风险可以被处理"}</strong>
+                        <p>{locale === "en" ? "Accidental consumption is dangerous, clearly signaled, and recoverable through treatment." : "误食足够危险，但通过状态图标、倒计时与治疗反馈保持可读、可挽回。"}</p>
+                      </article>
+                      <article>
+                        <span>03</span>
+                        <strong>{locale === "en" ? "Expose the balance" : "把平衡交给玩家"}</strong>
+                        <p>{locale === "en" ? "Solo players and servers can tune duration, efficiency, radius, and global spoilage rules." : "单人玩家与服务器都能调整时长、效率、范围和全局腐坏规则。"}</p>
+                      </article>
+                    </div>
+                  </section>
+                ) : null}
+
                 <details className="project-details">
                   <summary>{locale === "en" ? "Process, Decisions & Technology" : "过程、决策与技术"}</summary>
                   <div className="project-details-grid">
@@ -239,8 +326,10 @@ export function ExploreView() {
 
                 <div className="project-links">
                   {project.liveDemo && (
-                    <a href={project.liveDemo} target="_blank" rel="noreferrer">
-                      {locale === "en" ? "View Live Project ↗" : "查看线上成品 ↗"}
+                    <a className={project.id === "preservative" ? "project-link-primary" : undefined} href={project.liveDemo} target="_blank" rel="noreferrer">
+                      {project.id === "preservative"
+                        ? locale === "en" ? "View on Steam Workshop ↗" : "查看 Steam Workshop ↗"
+                        : locale === "en" ? "View Live Project ↗" : "查看线上成品 ↗"}
                     </a>
                   )}
                   {project.github && <a href={project.github} target="_blank" rel="noreferrer">GitHub ↗</a>}
@@ -329,7 +418,7 @@ export function ExploreView() {
             <p className="section-index">WeChat / 微信</p>
             <h2 id="wechat-title">{locale === "en" ? "We can also continue the conversation on WeChat." : "也可以在微信继续聊。"}</h2>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/contact/wechat-qr.jpg" alt={locale === "en" ? "Huaxin Zhang’s WeChat QR Code" : "张铧心微信二维码"} width={800} height={1067} />
+            <img src="/contact/wechat-qr.jpg" alt={locale === "en" ? "Huaxin Zhang’s WeChat QR Code" : "张铧心微信二维码"} width={800} height={1067} loading="lazy" decoding="async" />
             <div className="wechat-id">
               <span>{locale === "en" ? "WeChat ID" : "微信号"}</span>
               <strong>yuelaiyuehao86768</strong>

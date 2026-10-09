@@ -28,6 +28,8 @@ function CaseStudyVisual({ visual }: { visual: ProjectCaseStudyVisual }) {
               alt={visual.alt}
               width={1600}
               height={900}
+              loading="lazy"
+              decoding="async"
               data-fit={visual.fit ?? "cover"}
             />
             <span className="preservative-frame-scan" aria-hidden />
@@ -49,6 +51,8 @@ function CaseStudyVisual({ visual }: { visual: ProjectCaseStudyVisual }) {
           alt={visual.alt}
           width={1600}
           height={900}
+          loading="lazy"
+          decoding="async"
           data-fit={visual.fit ?? "contain"}
         />
       </div>
@@ -66,6 +70,8 @@ function CaseStudyVisual({ visual }: { visual: ProjectCaseStudyVisual }) {
               alt={item.alt}
               width={1200}
               height={1600}
+              loading="lazy"
+              decoding="async"
               data-fit={item.fit ?? "contain"}
             />
           </div>
@@ -85,7 +91,7 @@ function CaseStudyVisual({ visual }: { visual: ProjectCaseStudyVisual }) {
           <div className="preservative-asset-board__hero">
             <span className="preservative-asset-board__label">{visual.hero.label}</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={visual.hero.src} alt={visual.hero.alt} width={1200} height={1200} />
+            <img src={visual.hero.src} alt={visual.hero.alt} width={1200} height={1200} loading="lazy" decoding="async" />
           </div>
           <div className="preservative-asset-board__stack">
             {visual.assets.map((asset, index) => (
@@ -96,7 +102,7 @@ function CaseStudyVisual({ visual }: { visual: ProjectCaseStudyVisual }) {
                   <small>{asset.caption}</small>
                 </div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={asset.src} alt={asset.alt} width={620} height={620} />
+                <img src={asset.src} alt={asset.alt} width={620} height={620} loading="lazy" decoding="async" />
               </div>
             ))}
           </div>
@@ -180,23 +186,34 @@ export function ProjectCaseStudy({
       className={`project-case-study project-case-study--${projectId}`}
       aria-label={locale === "en" ? `${projectTitle} case study` : `${projectTitle} 项目案例`}
     >
-      {sections.map((section) => (
-        <figure
-          key={section.step}
-          className={`project-case-study-card${section.layout === "wide" ? " project-case-study-card--wide" : ""}${section.presentation === "framed" ? " project-case-study-card--framed" : ""}`}
+      <details className="project-case-study-disclosure">
+        <summary>
+          <span>{locale === "en" ? "Open the complete case study" : "展开完整项目案例"}</span>
+          <small>{locale === "en" ? `${sections.length} evidence chapters` : `${sections.length} 组关键证据`}</small>
+        </summary>
+        <div
+          className="project-case-study-grid"
+          aria-label={locale === "en" ? `${projectTitle} case study` : `${projectTitle} 项目案例`}
         >
-          <CaseStudyVisual visual={section.visual} />
-          {section.presentation !== "framed" ? (
-            <figcaption>
-              <span>{section.step}</span>
-              <div>
-                <strong>{section.title}</strong>
-                <p>{section.body}</p>
-              </div>
-            </figcaption>
-          ) : null}
-        </figure>
-      ))}
+          {sections.map((section) => (
+            <figure
+              key={section.step}
+              className={`project-case-study-card${section.layout === "wide" ? " project-case-study-card--wide" : ""}${section.presentation === "framed" ? " project-case-study-card--framed" : ""}`}
+            >
+              <CaseStudyVisual visual={section.visual} />
+              {section.presentation !== "framed" ? (
+                <figcaption>
+                  <span>{section.step}</span>
+                  <div>
+                    <strong>{section.title}</strong>
+                    <p>{section.body}</p>
+                  </div>
+                </figcaption>
+              ) : null}
+            </figure>
+          ))}
+        </div>
+      </details>
     </section>
   );
 }
