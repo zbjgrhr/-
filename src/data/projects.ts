@@ -60,6 +60,56 @@ export const projects: ProjectArchive[] = [
     ],
   },
   {
+    id: "preservative",
+    title: "Preservative",
+    oneLiner: "A published Project Zomboid mod that turns food preservation into a configurable risk–reward system with visible poisoning and treatment feedback.",
+    category: "Game Systems · Published Steam Workshop Mod",
+    period: "Sep–Oct 2026 · Independent Mod",
+    status: "Published · Build 42",
+    featured: true,
+    context:
+      "Preservative extends Project Zomboid's food-survival loop. A bottle can protect food in inventories, nested containers, vehicle storage, refrigerators, freezers, or a configurable ground radius; a separate global setting can tune spoilage across the world.",
+    problem:
+      "Preservation can easily erase survival pressure. The system needed to remain useful without becoming a free shortcut, communicate hidden time and efficiency rules, and turn accidental consumption into a readable, treatable risk.",
+    role:
+      "I independently designed, implemented, tested, documented, localized, branded, and published the mod, then maintained its Steam Workshop page and player-facing configuration guidance.",
+    process: [
+      "Translate a real survival pain point into local-container and global-preservation rules.",
+      "Expose efficiency, duration, spawn rate, refrigeration support, poisoning, and treatment guidance as sandbox settings.",
+      "Add hover information, a red status icon, a six-hour countdown, and explicit antidote feedback.",
+      "Publish a bilingual Workshop page and iterate against player questions and use.",
+    ],
+    keyDecisions: [
+      "Consume duration only while food is actually being protected.",
+      "Keep poisoning lethal but treatable, so convenience creates a clear survival trade-off.",
+      "Make server and solo rules configurable instead of enforcing one balance profile.",
+      "Show remaining duration, protection strength, and danger at the moment of decision.",
+    ],
+    technology: ["Project Zomboid Build 42", "Sandbox options", "Inventory and status UI", "Steam Workshop", "CN / EN documentation", "Post-launch community feedback"],
+    challenges: [
+      "Protect food across nested inventories and vehicle storage.",
+      "Keep local and world-wide preservation settings understandable.",
+      "Communicate poisoning urgency without replacing the game's visual language.",
+    ],
+    outcome:
+      "The released mod reached 4,431 unique visitors, 1,480 current subscribers, and 182 favorites, with discussion and comment threads providing real post-launch feedback.",
+    screenshots: [
+      "/portfolio/preservative-01-concept-approved.png",
+      "/portfolio/preservative-02-workshop.png",
+      "/portfolio/preservative-03-sandbox.png",
+    ],
+    learned: [
+      "A survival convenience remains interesting when its cost is legible, configurable, and recoverable through play.",
+      "Publishing turns system design into an ongoing conversation with real players.",
+    ],
+    metrics: [
+      { value: "4,431", label: "unique visitors" },
+      { value: "1,480", label: "current subscribers" },
+      { value: "182", label: "favorites" },
+      { value: "14", label: "discussions + comments" },
+    ],
+  },
+  {
     id: "rainy-arcade",
     title: "Rainy Night Arcade",
     oneLiner: "A narrative arcade that shifts between genres while quietly turning player behavior into a locally stored, exportable experience report.",

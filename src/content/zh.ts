@@ -85,7 +85,7 @@ export const zh = {
   },
   explore: {
     title: "精选作品",
-    subtitle: "五个项目，五种把创意做成产品的方法。",
+    subtitle: "六个项目，六种把创意做成产品的方法。",
     about: "关于",
     projects: "项目",
     contact: "联系",

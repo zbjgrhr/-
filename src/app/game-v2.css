@@ -76,6 +76,12 @@
   box-shadow: inset 0 0 18px rgba(94, 234, 212, 0.1), 0 0 24px rgba(94, 234, 212, 0.08);
 }
 
+.game-wordmark-mark svg {
+  width: 1.65rem;
+  height: 1.65rem;
+  fill: currentColor;
+}
+
 .game-wordmark strong,
 .game-wordmark small {
   display: block;

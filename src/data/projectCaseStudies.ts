@@ -1,8 +1,38 @@
 import type { Locale, ProjectId } from "@/types";
 
 export type ProjectCaseStudyVisual =
-  | { kind: "image"; src: string; alt: string; fit?: "contain" | "cover" }
+  | {
+      kind: "image";
+      src: string;
+      alt: string;
+      fit?: "contain" | "cover";
+      frame?: {
+        variant: "launch" | "proof" | "system";
+        eyebrow: string;
+        title: string;
+        meta: string[];
+      };
+    }
   | { kind: "gallery"; images: Array<{ src: string; alt: string; fit?: "contain" | "cover" }> }
+  | {
+      kind: "asset-board";
+      eyebrow: string;
+      title: string;
+      note: string;
+      hero: { src: string; alt: string; label: string };
+      assets: Array<{ src: string; alt: string; label: string; caption: string }>;
+    }
+  | {
+      kind: "report";
+      eyebrow: string;
+      title: string;
+      note: string;
+      pdfSrc: string;
+      pptxSrc: string;
+      pdfLabel: string;
+      pptxLabel: string;
+      iframeTitle: string;
+    }
   | { kind: "flow"; eyebrow: string; nodes: string[]; note?: string }
   | { kind: "code"; eyebrow: string; lines: string[]; note?: string };
 
@@ -12,230 +42,403 @@ export interface ProjectCaseStudySection {
   body: string;
   visual: ProjectCaseStudyVisual;
   layout?: "standard" | "wide";
+  presentation?: "framed";
 }
 
 type LocalizedCaseStudy = Record<Locale, ProjectCaseStudySection[]>;
 
 export const caseStudyProjectIds = [
-  "pixel-world", "rainy-arcade", "iwbtz", "auto-tune", "study-assistant",
+  "pixel-world", "preservative", "rainy-arcade", "iwbtz", "auto-tune", "study-assistant",
 ] as const satisfies readonly ProjectId[];
 
 export const projectCaseStudies: Record<ProjectId, LocalizedCaseStudy> = {
   "pixel-world": {
     en: [
       {
-        step: "01", title: "Preserve the Creative Premise, Then Structure Production",
-        body: "The creator begins with a title, story, level count, and non-negotiable rules. Pixel World fills only the missing production fields, without rewriting the core concept, then organizes the result into an inspectable GameSpec V3.",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/pixel-world-v5-creative-brief.png", alt: "Pixel World Creative Brief Editor" },
-          { src: "/portfolio/pixel-world-v5-structured-spec.png", alt: "Structured GameSpec V3 Fields" },
-        ] }, layout: "wide",
+        step: "01", title: "A Prompt Becomes a World You Can Enter",
+        body: "The concept cover establishes Pixel World's promise before the production details begin: write a world, generate it, then cross the threshold and play it.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-concept-cover.png", alt: "Pixel World concept cover introducing a prompt-driven pixel game creation platform" }, layout: "wide",
       },
       {
-        step: "02", title: "Ten Agents Put the Work on the Table Before Generation",
-        body: "Direction, narrative, mechanics, art, levels, integration, consistency, engine checks, revision, and asset coordination become distinct responsibilities. Cross-review exposes conflicts, while the creator still approves the work before any credits are spent.",
-        visual: { kind: "image", src: "/portfolio/pixel-world-v5-agent-studio.png", alt: "Ten-Agent Studio with Review and Recovery States" }, layout: "wide",
+        step: "02", title: "A Few Prompts Become a Production Plan",
+        body: "The creator defines the premise; ten specialist agents turn it into a reviewed GameSpec, production tasks, assets, and playable levels.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-01-prompt-spec-agents.png", alt: "Pixel World prompt, GameSpec, and ten-agent production workflow" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "03", title: "Model Selection Becomes a Product Decision",
-        body: "Text reasoning and image generation can be configured separately. The interface explains each platform’s strengths, regional availability, and key requirements. One visual model is locked per project so separately generated assets still belong to the same world.",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/pixel-world-v5-image-providers.png", alt: "Image-Model Platform Routes" },
-          { src: "/portfolio/pixel-world-v5-agent-providers.png", alt: "Agent Platform Configuration" },
-        ] },
+        step: "03", title: "Model Routing Is Visible and Replaceable",
+        body: "Text agents and image generation can use different providers. The product explains each route, its credential format, regional access, and practical strengths.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-02-model-routing.png", alt: "Pixel World model provider routing and credential guidance" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "04", title: "Approved Rules Expand into a Recoverable Asset System",
-        body: "The spec continues into editable characters, enemies, effects, audio, actions, and level-by-level assignments. Tasks run in parallel, can be retried independently, and always retain their relationship to the target level.",
-        visual: { kind: "image", src: "/portfolio/pixel-world-v5-asset-system.png", alt: "Pixel World Asset and Level-Assignment Workspace" }, layout: "wide",
+        step: "04", title: "The Creator Keeps Approval Control",
+        body: "A locked agent model keeps the review coherent, while explicit approval remains required before image generation begins and credits are consumed.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-03-agent-config.png", alt: "Pixel World agent model configuration and creator approval controls" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "05", title: "The Generated World Takes Over the Product Interface",
-        body: "The finished cover and background replace the product’s default visual identity. Creators return to the world they are building, while the same specification continues into a genuinely playable runtime.",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/pixel-world-v5-dynamic-home.png", alt: "A Generated Game Takes Over the Pixel World Home Screen", fit: "cover" },
-          { src: "/portfolio/pixel-world-v5-gameplay-level-1.png", alt: "The First Playable Level of a Generated Game", fit: "cover" },
-        ] }, layout: "wide",
+        step: "05", title: "Approved Rules Expand into a Recoverable Asset System",
+        body: "Characters, enemies, effects, sound, behavior, and level assignments remain inspectable. Individual tasks can be retried without discarding completed work.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-04-asset-system.png", alt: "Pixel World asset system and level assignment overview" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "06", title: "Save It Locally—and Take the Complete Game with You",
-        body: "The workflow ultimately returns ownership to the creator: playtest first, save and reopen locally, then package the assets, levels, rules, and runtime into an offline ZIP.",
-        visual: { kind: "flow", eyebrow: "A Complete, Creator-Controlled Pipeline", nodes: ["Creative Premise", "Agent Review", "Approved GameSpec", "Assets & Runtime", "Local Save", "Offline ZIP"], note: "A prompt is only the beginning. The game is complete when you can take it with you." }, layout: "wide",
+        step: "06", title: "The Interface Changes with the World",
+        body: "Generated cover art and particles transform the creation workspace so each project begins to feel like its own game before playtesting starts.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-05-cover-particles.png", alt: "Pixel World cover and particle effects adapting to the generated game style" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "07", title: "The Same GameSpec Drives the Complete Game Entry",
+        body: "One approved specification continues from cover to levels and saves, producing a title, story, controls, settings, and a playable entry point.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-06-generated-world.png", alt: "Pixel World generated game entry driven by ten specialist agents" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "08", title: "Generated Rules Run in a Real Level",
+        body: "The Moonshadow Forest playtest demonstrates movement, combat, collectibles, enemies, health states, and an exit that responds to the level objective.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-07-moonshadow-level.png", alt: "Pixel World Moonshadow Forest playable level" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "09", title: "Different Worlds, Consistently Playable",
+        body: "The same generation pipeline can produce a bright garden, a night castle, or a tidal cave while keeping character silhouettes, HUD information, and gameplay readable.",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-08-playable-worlds.png", alt: "Three distinct playable Pixel World environments with consistent visual clarity" }, layout: "wide", presentation: "framed",
       },
     ],
     zh: [
       {
-        step: "01", title: "保留创意原点，再把生产结构化",
-        body: "创作者先写下名称、故事、关卡数与不可妥协的规则。Pixel World 只补足缺失的生产字段，不改写核心设定，再把结果整理为可检查的 GameSpec V3。",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/pixel-world-v5-creative-brief.png", alt: "Pixel World 创意简报编辑器" },
-          { src: "/portfolio/pixel-world-v5-structured-spec.png", alt: "结构化 GameSpec V3 字段" },
-        ] }, layout: "wide",
+        step: "01", title: "从一句提示词，走进一个可玩的世界",
+        body: "概念图先确立 Pixel World 的核心承诺：写下世界、生成世界，再真正进入其中游玩；后续设计与制作流程都围绕这条体验主线展开。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-concept-cover.png", alt: "以提示词驱动像素游戏创作的 Pixel World 概念图" }, layout: "wide",
       },
       {
-        step: "02", title: "十个 Agent 在生成前把工作摊开",
-        body: "总控、叙事、玩法、美术、关卡、整合、一致性、引擎检查、修订与素材统筹成为独立职责。交叉复核公开冲突，消耗额度前仍由创作者批准。",
-        visual: { kind: "image", src: "/portfolio/pixel-world-v5-agent-studio.png", alt: "包含复核与恢复状态的十 Agent 工作室" }, layout: "wide",
+        step: "02", title: "几句提示词进入完整生产流程",
+        body: "创作者定义原点，十个专业 Agent 再把它整理为获批 GameSpec、生产任务、素材与可玩关卡。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-01-prompt-spec-agents.png", alt: "Pixel World 从提示词、GameSpec 到十 Agent 制作流程" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "03", title: "模型选择成为产品决策",
-        body: "文字推理和图片生成可以分别选择。界面说明平台优势、地区与密钥要求；单个项目锁定统一视觉模型，让分别生成的素材仍像来自同一世界。",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/pixel-world-v5-image-providers.png", alt: "图片模型平台路线" },
-          { src: "/portfolio/pixel-world-v5-agent-providers.png", alt: "Agent 平台配置" },
-        ] },
+        step: "03", title: "模型路线清楚，也可以替换",
+        body: "文字 Agent 与图片生成可以使用不同平台；界面直接说明凭证格式、地区访问条件和各路线的实际优势。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-02-model-routing.png", alt: "Pixel World 模型平台路线与凭证说明" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "04", title: "获批规则展开为可恢复的素材系统",
-        body: "规格继续成为可编辑角色、敌人、特效、音频、动作与逐关分配。任务并行执行，可以独立重试，也始终保留和目标关卡的关系。",
-        visual: { kind: "image", src: "/portfolio/pixel-world-v5-asset-system.png", alt: "Pixel World 素材与逐关分配工作区" }, layout: "wide",
+        step: "04", title: "创作者始终保留审批权",
+        body: "本次运行锁定统一 Agent 模型保持复核一致；正式生图和消耗额度前，仍必须由创作者明确批准。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-03-agent-config.png", alt: "Pixel World Agent 模型配置与创作者审批" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "05", title: "生成世界接管产品界面",
-        body: "完整封面与背景会替换产品的默认主视觉。创作者回到的是正在制作的世界；同一份规格也继续驱动真正可玩的运行时。",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/pixel-world-v5-dynamic-home.png", alt: "生成游戏画面接管 Pixel World 首页", fit: "cover" },
-          { src: "/portfolio/pixel-world-v5-gameplay-level-1.png", alt: "可玩的生成游戏第一关", fit: "cover" },
-        ] }, layout: "wide",
+        step: "05", title: "获批规则展开为可恢复的素材系统",
+        body: "角色、敌人、特效、音频、行为与逐关分配保持可检查；单个任务可以独立重试，不会抹掉已经完成的工作。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-04-asset-system.png", alt: "Pixel World 素材系统与关卡分配总览" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "06", title: "保存在本地，也把完整游戏带走",
-        body: "工作流最终把所有权交还给创作者：先试玩，再在本地保存和重新打开，最后把素材、关卡、规则和运行时打包成离线 ZIP。",
-        visual: { kind: "flow", eyebrow: "创作者可控的完整链路", nodes: ["创意原点", "Agent 复核", "获批 GameSpec", "素材与运行时", "本地存档", "离线 ZIP"], note: "Prompt 只是开始；能带走的游戏才算完成。" }, layout: "wide",
+        step: "06", title: "界面会随生成世界一起变化",
+        body: "生成封面与粒子效果会改造创作工作区，让每个项目在正式试玩前就具有自己的游戏气质。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-05-cover-particles.png", alt: "随游戏风格变化的 Pixel World 封面与粒子效果" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "07", title: "同一份 GameSpec 持续驱动完整游戏入口",
+        body: "获批规格从封面继续进入关卡与存档，生成标题、故事、操作、设置和真实可进入的游戏入口。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-06-generated-world.png", alt: "由十个专业 Agent 共同完成的 Pixel World 游戏入口" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "08", title: "生成规则在真实关卡中运行",
+        body: "月影森林试玩呈现移动、战斗、收集物、敌人、生命状态，以及随关卡目标变化的出口。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-07-moonshadow-level.png", alt: "Pixel World 月影森林真实可玩关卡" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "09", title: "世界不同，依然稳定可玩",
+        body: "同一条生成流程可以产出明亮花园、暗夜城堡和潮汐洞窟，同时维持角色轮廓、HUD 信息和游玩画面的清晰度。",
+        visual: { kind: "image", src: "/portfolio/pixel-world-case-08-playable-worlds.png", alt: "三种视觉路线清晰稳定的 Pixel World 可玩世界" }, layout: "wide", presentation: "framed",
+      },
+    ],
+  },
+  preservative: {
+    en: [
+      {
+        step: "01",
+        title: "Preservation Buys Time, Not Safety",
+        body: "A rain-soaked storeroom establishes the mod's core tension before any interface appears: preserved food keeps a shelter alive, while the bottle protecting it remains a lethal survival risk.",
+        visual: {
+          kind: "image",
+          src: "/portfolio/preservative-01-concept-approved.png",
+          alt: "Isometric rainy survival storeroom with preserved food, zombies outside, and a dangerous preservative bottle on the worktable",
+          frame: {
+            variant: "launch",
+            eyebrow: "SURVIVAL FILE 01 · CONCEPT",
+            title: "PRESERVATION BUYS TIME / DANGER SETS THE PRICE",
+            meta: ["SHELTER", "FOOD", "RISK"],
+          },
+        },
+        layout: "wide",
+      },
+      {
+        step: "02",
+        title: "The Report Connects Market Research to Live Workshop Results",
+        body: "The marketing report is shown beside real Workshop evidence. The published mod reached 4,431 unique visitors, 1,480 current subscribers, and 182 favorites, turning the analysis into a measurable release outcome.",
+        visual: { kind: "image", src: "/portfolio/preservative-02-report-evidence.png", alt: "Portfolio board pairing the Project Zomboid marketing report with Steam Workshop performance data" },
+        layout: "wide",
+        presentation: "framed",
+      },
+      {
+        step: "03",
+        title: "The Cover and Logo Form One Recognizable Mod Identity",
+        body: "The final cover, bottle illustration, and IA signature use the same hazard symbol, amber glass, cyan edge light, and magenta accent so the project stays recognizable at every scale.",
+        visual: { kind: "image", src: "/portfolio/preservative-03-visual-identity.png", alt: "Portfolio board showing the final Preservative mod cover, bottle artwork, and IA logo system" },
+        layout: "wide",
+        presentation: "framed",
+      },
+      {
+        step: "04",
+        title: "Food Decay Timing, Poison Alerts, and Antidotes Stay Readable",
+        body: "The in-game evidence shows the complete feedback chain: remaining preservation time in the inventory, a six-hour lethal countdown, a persistent status icon, and clear Lemongrass or Antibiotics guidance.",
+        visual: { kind: "image", src: "/portfolio/preservative-04-gameplay-evidence.png", alt: "Portfolio board showing Preservative inventory timing, poisoning countdown, status icon, and antidote guidance in Project Zomboid" },
+        layout: "wide",
+        presentation: "framed",
+      },
+      {
+        step: "05",
+        title: "The Full Report Is Available Without Leaving the Case Study",
+        body: "Read the PDF inside the page, open it in a dedicated tab, or download the original PowerPoint file for a closer review of the research and launch strategy.",
+        visual: {
+          kind: "report",
+          eyebrow: "PROJECT ZOMBOID / RESEARCH ARCHIVE",
+          title: "Steam Store Page and Community Marketing Analysis",
+          note: "Scroll inside the document frame. The source PDF and editable PowerPoint remain available from the toolbar.",
+          pdfSrc: "/portfolio/reports/project-zomboid-marketing-report.pdf",
+          pptxSrc: "/portfolio/reports/project-zomboid-marketing-report.pptx",
+          pdfLabel: "Open PDF",
+          pptxLabel: "Download PPTX",
+          iframeTitle: "Project Zomboid Steam store page and community marketing analysis report",
+        },
+        layout: "wide",
+      },
+    ],
+    zh: [
+      {
+        step: "01",
+        title: "保鲜延长时间，却不等于绝对安全",
+        body: "雨夜储藏间先于界面建立模组的核心矛盾：被保护的食物维持避难所生存，而提供保护的药瓶本身也是足以致命的风险。",
+        visual: {
+          kind: "image",
+          src: "/portfolio/preservative-01-concept-approved.png",
+          alt: "雨夜等距生存储藏间，室外有丧尸，工作台上摆放被保护食物与危险防腐剂",
+          frame: {
+            variant: "launch",
+            eyebrow: "生存档案 01 · 概念图",
+            title: "保鲜争取时间，危险决定代价",
+            meta: ["避难所", "食物", "风险"],
+          },
+        },
+        layout: "wide",
+      },
+      {
+        step: "02",
+        title: "报告分析与真实 Workshop 数据相互印证",
+        body: "营销拆解报告与真实发布数据并置呈现：模组获得 4,431 位不重复访客、1,480 位当前订阅者与 182 次收藏，让研究过程最终落到可验证的发行结果。",
+        visual: { kind: "image", src: "/portfolio/preservative-02-report-evidence.png", alt: "并列展示 Project Zomboid 营销报告与 Steam Workshop 成果数据的作品集页面" },
+        layout: "wide",
+        presentation: "framed",
+      },
+      {
+        step: "03",
+        title: "封面与 Logo 建立统一、可识别的模组形象",
+        body: "终稿封面、药瓶视觉与 IA 标识统一使用危险符号、琥珀玻璃、青色轮廓光和洋红点缀，在不同尺寸下保持同一项目身份。",
+        visual: { kind: "image", src: "/portfolio/preservative-03-visual-identity.png", alt: "展示防腐剂模组封面终稿、药瓶视觉与 IA Logo 系统的作品集页面" },
+        layout: "wide",
+        presentation: "framed",
+      },
+      {
+        step: "04",
+        title: "食物腐坏计时与中毒警报和解毒方法始终可读",
+        body: "游戏内证据完整呈现反馈链路：背包中的剩余保鲜时间、六小时致命倒计时、持续显示的状态图标，以及明确的香茅草或抗生素解毒提示。",
+        visual: { kind: "image", src: "/portfolio/preservative-04-gameplay-evidence.png", alt: "展示防腐剂剩余时间、中毒倒计时、状态图标与解毒提示的 Project Zomboid 游戏内证据页面" },
+        layout: "wide",
+        presentation: "framed",
+      },
+      {
+        step: "05",
+        title: "完整报告可以直接阅读，也可以带走原文件",
+        body: "在页面内滚动查看 PDF，也可以在新窗口打开；需要演示或继续编辑时，可直接下载 PPTX 原文件。",
+        visual: {
+          kind: "report",
+          eyebrow: "PROJECT ZOMBOID / 研究档案",
+          title: "Steam 商店页与社群营销拆解报告",
+          note: "文档框内可以独立滚动；工具栏同时保留 PDF 原文与可编辑 PowerPoint 文件。",
+          pdfSrc: "/portfolio/reports/project-zomboid-marketing-report.pdf",
+          pptxSrc: "/portfolio/reports/project-zomboid-marketing-report.pptx",
+          pdfLabel: "新窗口打开 PDF",
+          pptxLabel: "下载 PPTX 原文件",
+          iframeTitle: "Project Zomboid Steam 商店页与社群营销拆解报告",
+        },
+        layout: "wide",
       },
     ],
   },
   "rainy-arcade": {
     en: [
       {
-        step: "01", title: "One Rainy-Night Room, Many Ways to Play",
-        body: "The arcade is both an emotional center and a navigation hub. Each cabinet can change genres without breaking the continuity of the same night: Block City is about rebuilding the road home, while Rain City is about seeing through a loop built from regret and false rules.",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/rain-arcade-hero.png", alt: "Rainy Night Arcade Title Screen", fit: "cover" },
-          { src: "/portfolio/rain-arcade-hall.png", alt: "The Arcade with Two Playable Cabinets", fit: "cover" },
-        ] }, layout: "wide",
+        step: "01", title: "Three Figures Hold the Story Together",
+        body: "The concept image introduces Zhang Huaxin, Xiaoman and the faceless player as one rain-soaked ensemble. Warm reflections connect their separate silhouettes, while the crescent-and-joystick mark frames the arcade as a place where unfinished memories become playable.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-concept-cover.png", alt: "Rainy Night Arcade concept cover with Zhang Huaxin, Xiaoman, the faceless player, and the crescent joystick logo" }, layout: "wide",
       },
       {
-        step: "02", title: "Block City Rebuilds Trust Through Objects and Space",
-        body: "Players reconnect the road, identify old belongings, compare memories with physical evidence, find the right house, and complete the reconstruction in the order implied by the clues. The difficulty moves from isolation to recognition, and finally toward reunion.",
-        visual: { kind: "flow", eyebrow: "Block City", nodes: ["Reconnect the Road", "Find Old Belongings", "Check the Evidence", "Recognize Home", "Complete the Reconstruction", "Reunion"], note: "Every puzzle returns the same promise: someone is still waiting." },
+        step: "02", title: "One Arcade Connects Four Playable Worlds",
+        body: "The arcade is both the emotional center and the navigation hub. Four cabinets lead to different genres and moods, while progress, sound, choices and saves remain local so the entire night can be played offline as one continuous experience.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-overview.png", alt: "Rainy Night Arcade project overview showing four worlds, multiple play styles, local saves, and offline play" }, layout: "wide",
       },
       {
-        step: "03", title: "Rain City Makes Observation the Price of Departure",
-        body: "A torn ticket, a watch that runs backward, passengers trapped in ritual, and six broadcast rules form the loop. Players compare what the city says with what the scene actually shows, identify the false rule, and earn permission to leave.",
-        visual: { kind: "image", src: "/portfolio/rain-city.png", alt: "Rain City Station and Train World", fit: "cover" }, layout: "wide",
+        step: "03", title: "The Cast Shares One Night, Not One Identity",
+        body: "Zhang Huaxin's red headphones and soft pink knitwear, Xiaoman's repaired yellow raincoat and cat, and the faceless player's dark waterproof silhouette create three immediately distinct roles without breaking the same wet, nocturnal material language.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-character-ensemble.png", alt: "Rainy Night Arcade character ensemble in the rain: Zhang Huaxin, Xiaoman with a cat, and the faceless player" }, layout: "wide",
       },
       {
-        step: "04", title: "Player Profiles Stay Local—and Stay Modest",
-        body: "Action counts, stage entries, hints, evidence checks, duration, and completion status remain in the browser. Four entertainment-oriented dimensions turn those signals into accessible play feedback while showing the evidence and stating clearly that the result is not a psychological diagnosis.",
-        visual: { kind: "image", src: "/portfolio/rain-player-profile.png", alt: "Rainy Night Four-Dimension Player Profile Using Clearly Labeled Sample Data", fit: "cover" }, layout: "wide",
+        step: "04", title: "Turnarounds Keep Narrative Silhouettes Consistent",
+        body: "Front, back and side views lock the player's raincoat, backpack and hidden face, alongside Zhang Huaxin's headphones, cardigan and loose trousers. The sheet preserves recognition when camera angle and scene lighting change.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-character-turnarounds.png", alt: "Rainy Night Arcade character turnaround sheet for the faceless player and Zhang Huaxin" }, layout: "wide",
       },
       {
-        step: "05", title: "Aggregate Playtest Reports Without Running a Server",
-        body: "Players export anonymous JSON only when they choose to. The Developer Observatory can import multiple reports, validate them, deduplicate them by randomized session ID, and display completion, funnels, duration, hints, retries, and profile-code distribution entirely on-device.",
-        visual: { kind: "image", src: "/portfolio/rain-developer-analytics.png", alt: "Rainy Night Developer Observatory Using Clearly Labeled Anonymous Sample Data", fit: "cover" }, layout: "wide",
+        step: "05", title: "Story, Puzzle and Archive Use One Interaction Loop",
+        body: "The player enters a chapter, chooses a response, operates the scene, and checks the resulting clue. Dialogue, spatial puzzles and saved evidence therefore accumulate along one readable path instead of behaving like disconnected mini-games.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-interaction-flow.png", alt: "Rainy Night Arcade interaction flow from chapter entry and dialogue choice to scene operation and clue verification" }, layout: "wide",
+      },
+      {
+        step: "06", title: "Block City Rebuilds the Road Home",
+        body: "Players reconnect broken routes, identify old belongings, compare memory with physical evidence, recognize the correct house, and restore it piece by piece. Each spatial action moves Xiaoman from isolation toward reunion.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-block-city.png", alt: "Block City design board showing road reconnection, object search, house verification, and the restored home" }, layout: "wide",
+      },
+      {
+        step: "07", title: "Rain City Turns Reversed Time into Evidence",
+        body: "At a terminal where the train waits in the rain, players revisit dialogue, compare the backward clock with the scene, and order four sound-wave fragments. Observation—not speed—reveals the sequence hidden inside the city's loop.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-rain-city.png", alt: "Rain City design board showing chapter progress, reversed chronology, dialogue review, and sound-wave ordering" }, layout: "wide",
+      },
+      {
+        step: "08", title: "Library City Lets Silence Carry Meaning",
+        body: "Four page fragments advance by turning pages, listening for their sound order and choosing what remains unwritten. The quietest city turns blank space into an active part of the story rather than an absence to be filled.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-library-city.png", alt: "Library City design board showing page fragments, page-turn progression, sound ordering, and a deliberately blank ending" }, layout: "wide",
+      },
+      {
+        step: "09", title: "Playtests Become Evidence the Design Can Revisit",
+        body: "Anonymous, on-device reports summarize chapter completion, hints, retries, calibration and playtime. A clearly labeled entertainment profile reflects observed play patterns without presenting them as a psychological diagnosis.",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-playtest-telemetry.png", alt: "Rainy Night Arcade playtest and telemetry board with anonymous local reports and an entertainment-oriented player profile" }, layout: "wide",
       },
     ],
     zh: [
       {
-        step: "01", title: "一间雨夜房间，装下不同玩法",
-        body: "游戏厅既是情绪中心，也是导航中心。每台街机都可以更换玩法类型，却不会切断同一个夜晚：《积木城》讲重建回家的路，《雨城》讲看穿由遗憾和虚假规则组成的循环。",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/rain-arcade-hero.png", alt: "雨夜游戏厅标题画面", fit: "cover" },
-          { src: "/portfolio/rain-arcade-hall.png", alt: "拥有两台可玩街机的游戏厅", fit: "cover" },
-        ] }, layout: "wide",
+        step: "01", title: "三个人物，共同撑起同一个雨夜",
+        body: "概念图先让张铧心、小满与无面玩家作为一个完整群像出现。暖色倒影串联三种不同轮廓，月牙摇杆标志则把游戏厅定义为让未完成记忆重新变得可玩的入口。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-concept-cover.png", alt: "包含张铧心、小满、无面玩家与月牙摇杆标志的雨夜游戏厅概念图" }, layout: "wide",
       },
       {
-        step: "02", title: "《积木城》用物件与空间重新建立信任",
-        body: "玩家先接回道路，再辨认旧物、把记忆和现场证据对照起来、找出正确房屋，并按线索顺序完成拼装。难度从隔离逐步过渡到辨认，最终通向重逢。",
-        visual: { kind: "flow", eyebrow: "积木城", nodes: ["接回道路", "寻找旧物", "核对证据", "认出家", "完成拼装", "重逢"], note: "每个谜题都归还同一个承诺：仍然有人在等。" },
+        step: "02", title: "一间游戏厅，连接四个可玩世界",
+        body: "游戏厅既是情绪中心，也是导航中心。四台街机分别通往不同玩法与气质的世界；章节进度、声音、选择与存档都保留在本地，让整个雨夜可以离线连续体验。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-overview.png", alt: "展示四个世界、多类型玩法、本地存档与离线游玩的雨夜游戏厅项目总览" }, layout: "wide",
       },
       {
-        step: "03", title: "《雨城》把观察变成离开的条件",
-        body: "破碎车票、倒走的手表、困在仪式里的乘客和六条广播规则共同组成循环。玩家比较城市所说的内容与场景真正展示的证据，选出假规则后获得离站许可。",
-        visual: { kind: "image", src: "/portfolio/rain-city.png", alt: "雨城车站与列车世界", fit: "cover" }, layout: "wide",
+        step: "03", title: "角色共享同一场雨，却拥有清楚的身份边界",
+        body: "张铧心的红色耳机与粉色针织衫、小满打满补丁的黄色雨衣和怀中小猫，以及无面玩家的深色防雨轮廓，构成三种一眼可辨的角色语言，同时保持统一的潮湿夜色质感。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-character-ensemble.png", alt: "雨中的雨夜游戏厅人物群像：张铧心、抱猫的小满与无面玩家" }, layout: "wide",
       },
       {
-        step: "04", title: "玩家画像保持本地，也保持克制",
-        body: "操作次数、阶段进入、提示、核对、时长与完成状态只留在浏览器。这些数据再由四个娱乐向维度整理成容易看懂的玩法反馈，同时公开依据，并明确它不是心理诊断。",
-        visual: { kind: "image", src: "/portfolio/rain-player-profile.png", alt: "使用明确标注样例数据的雨夜四维玩家画像", fit: "cover" }, layout: "wide",
+        step: "04", title: "四视图让叙事轮廓在镜头切换中保持一致",
+        body: "正面、背面与两侧视图锁定无面玩家的雨衣、背包和面部留白，也明确张铧心的耳机、针织衫与宽松长裤；即使镜头角度和场景光线变化，角色依然能被迅速认出。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-character-turnarounds.png", alt: "无面玩家与张铧心的雨夜游戏厅人物四视图设定板" }, layout: "wide",
       },
       {
-        step: "05", title: "不架服务器，也能聚合试玩报告",
-        body: "玩家只在主动选择时导出匿名 JSON。开发者观察室可导入多份报告，校验并按随机会话 ID 去重，再在本机展示完成、漏斗、时长、提示、重试与画像代码分布。",
-        visual: { kind: "image", src: "/portfolio/rain-developer-analytics.png", alt: "使用明确标注匿名样例数据的雨夜开发者观察室", fit: "cover" }, layout: "wide",
+        step: "05", title: "剧情、谜题与存档沿同一条交互链推进",
+        body: "玩家进入章节、选择回应、操作场景，再核对由行动产生的线索。对话、空间谜题与已保存证据因此不断累积，而不是彼此割裂的小游戏。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-interaction-flow.png", alt: "从进入章节、选择回应到操作场景和核对线索的雨夜游戏厅交互流程" }, layout: "wide",
+      },
+      {
+        step: "06", title: "《积木城》把回家的路一块块接起来",
+        body: "玩家重接道路、寻找旧物、用现场证据校准记忆、认出正确房屋，再逐步完成复原。每一次空间操作都推动小满从孤立走向重逢。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-block-city.png", alt: "展示重接道路、寻找旧物、核对房屋与完成复原的积木城设计板" }, layout: "wide",
+      },
+      {
+        step: "07", title: "《雨城》把倒流的时间变成可核对的证据",
+        body: "列车停在雨中的站台，玩家回看对话，把倒走的时钟与现场细节对照，再依次锁定四段声音波形。离开的条件不是速度，而是从循环中听出正确顺序。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-rain-city.png", alt: "展示章节进度、倒序叙事、对话回看与声音排序的雨城设计板" }, layout: "wide",
+      },
+      {
+        step: "08", title: "《图书城》让空白本身承担意义",
+        body: "四幕书页通过翻页、聆听声音顺序和选择留白逐步推进。最安静的一座城把未写完的部分变成叙事动作，而不是等待被填满的缺口。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-library-city.png", alt: "展示四幕书页、翻页推进、声音排序与结局留白的图书城设计板" }, layout: "wide",
+      },
+      {
+        step: "09", title: "让试玩行为成为可以回看的设计证据",
+        body: "匿名报告只在本地汇总章节完成率、提示、重试、校对次数与体验时长；娱乐向玩家画像依据实际操作生成，同时明确不用于心理诊断。",
+        visual: { kind: "image", src: "/portfolio/rainy-arcade-playtest-telemetry.png", alt: "展示本地匿名报告与娱乐向玩家画像的雨夜游戏厅测试数据板" }, layout: "wide",
       },
     ],
   },
   iwbtz: {
     en: [
       {
-        step: "01", title: "Difficulty Is Part of the Narrative",
-        body: "Seven standard levels move through childhood, school, social pressure, and self-acceptance. “Refusing to be defined by others” is not confined to dialogue; players experience it through jumping, traps, recovery, and repeated attempts.",
-        visual: { kind: "image", src: "/portfolio/iwbtz-stage-select.png", alt: "IWBTZ Level Select Organized Around Memories", fit: "cover" }, layout: "wide",
+        step: "01", title: "A Bright Platformer with a Darker Silhouette",
+        body: "The opening concept establishes Zomboy between an overgrown childhood world and a city shaped by pressure, introducing the project’s central tension before play begins.",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-01-concept.png", alt: "I Wanna Be the Zomboy concept art with Zomboy crossing from a bright overgrown world into an industrial city" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "02", title: "Each Level Changes Its Visual Language—and Its Movement Pressure",
-        body: "Graybox prototypes, industrial ruins, neon districts, and a small town create different rhythms through platform silhouettes, sightlines, and obstacle density, while preserving one precise movement language.",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/iwbtz-level-industrial.png", alt: "Industrial IWBTZ Level", fit: "cover" },
-          { src: "/portfolio/iwbtz-level-city.png", alt: "Neon-City IWBTZ Level", fit: "cover" },
-          { src: "/portfolio/iwbtz-level-town.png", alt: "Small-Town IWBTZ Level", fit: "cover" },
-          { src: "/portfolio/iwbtz-level-prototype.png", alt: "Graybox Prototype Used to Tune Jumping", fit: "cover" },
-        ] }, layout: "wide",
+        step: "02", title: "One Movement Language, Several Emotional Climates",
+        body: "The level atlas shifts from living ruins to school corridors, industrial pressure, neon isolation, and a fragile return to warmth while preserving readable platform silhouettes.",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-02-level-atlas.png", alt: "IWBTZ level atlas moving through overgrown ruins, school spaces, industrial districts, neon city, and a warm final landscape" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "03", title: "Bosses Escalate by Layering Patterns",
-        body: "All four boss battles are built on readable attack languages. Every 25% drop in health unlocks a new pattern or layers it onto existing ones, forcing players to shift attention instead of merely absorbing more damage.",
-        visual: { kind: "image", src: "/portfolio/iwbtz-level-boss.png", alt: "IWBTZ Boss and Environmental Hazards", fit: "cover" },
+        step: "03", title: "Multiple Threats Remain Legible in Motion",
+        body: "Watermelon projectiles, a lunging flower, horizontal hazards, and falling fireballs occupy distinct lanes so difficulty comes from combining patterns rather than hiding information.",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-03-multi-attack.gif", alt: "Animated IWBTZ boss encounter combining projectiles, a biting flower, floor hazards, and falling fireballs" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "04", title: "DYOC Turns AI Output into Usable Character Parts",
-        body: "The randomize button supports both a fully local path and an online AI path. Generated armor, hair, facial accessories, weapons, and skin feed into the same application function, synchronize with saved indices, and refresh the same live preview.",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/iwbtz-dyoc-flow.png", alt: "DYOC Random and AI Generation Flow" },
-          { src: "/portfolio/iwbtz-dyoc-result.png", alt: "IWBTZ Character Customization Result", fit: "cover" },
-        ] }, layout: "wide",
+        step: "04", title: "Jump, Read, Correct, Repeat",
+        body: "The core loop keeps the player’s single life, jump arc, projectile timing, and restart rhythm visible at once, making each failure readable enough to support the next attempt.",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-04-core-loop.gif", alt: "Animated IWBTZ gameplay loop showing Zomboy jumping and reacting to a boss attack with one life" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "05", title: "Playtesting Changed Where the Story Appears",
-        body: "More than 70% of playtesters skipped the original tutorial, causing about 30% to miss essential story context. After shortening the text, moving essential narrative into the main levels, and giving the tutorial more meaningful mechanical challenges, tutorial completion rose from about 28% to about 60%. Willingness to continue playing increased by 25%.",
-        visual: { kind: "image", src: "/portfolio/iwbtz-failure.png", alt: "IWBTZ Failure and Quick-Restart Screen", fit: "cover" }, layout: "wide",
+        step: "05", title: "The Boss Pattern Escalates without Breaking Its Grammar",
+        body: "The health bar stays attached to the boss while the flower’s bite and vertical fireballs announce separate timing windows, preserving fairness as the encounter becomes denser.",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-05-boss-pattern.gif", alt: "Animated IWBTZ boss phase showing a lunging flower, a boss health bar, and vertical fireball attacks" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "06", title: "Childhood Misunderstanding Becomes a Pursuing Shadow",
+        body: "Familiar mushrooms and flowers shift from warm scenery into pointing silhouettes. The route narrows as Zomboy advances, turning a misread childhood memory into playable pressure.",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-06-memory-forest.png", alt: "IWBTZ childhood-memory level with Zomboy jumping through a mushroom forest beneath pursuing silhouettes" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "07", title: "Repeated Rules Compress the Safe Space",
+        body: "Clocks, homework sheets, rigid platforms, and mechanical obstacles impose a relentless rhythm. Persistence is communicated through the player’s shrinking decision window rather than exposition alone.",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-07-school-pressure.png", alt: "IWBTZ school-pressure level with clocks, homework pages, machinery, and a pursuing flower hazard" }, layout: "wide", presentation: "framed",
       },
     ],
     zh: [
       {
-        step: "01", title: "难度本身就是叙事",
-        body: "七个常规关卡沿童年、校园、社会压力与自我和解展开。“拒绝被他人定义”不只写在文本里，玩家会在跳跃、陷阱、恢复和反复尝试中亲自经历它。",
-        visual: { kind: "image", src: "/portfolio/iwbtz-stage-select.png", alt: "IWBTZ 以记忆组织的关卡选择画面", fit: "cover" }, layout: "wide",
+        step: "01", title: "明亮平台世界里，藏着一条更暗的成长线",
+        body: "概念图把 Zomboy 放在葱郁童年与压力城市之间，在游戏开始前便交代“拒绝被他人定义”的核心矛盾。",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-01-concept.png", alt: "Zomboy 从明亮植物世界走向工业城市的 IWBTZ 概念图" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "02", title: "每关都会更换视觉语法，也改变移动压力",
-        body: "灰盒原型、工业废墟、霓虹街区与小镇通过不同平台轮廓、视线关系和障碍密度形成节奏变化，同时保持统一的精准移动语言。",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/iwbtz-level-industrial.png", alt: "工业环境 IWBTZ 关卡", fit: "cover" },
-          { src: "/portfolio/iwbtz-level-city.png", alt: "霓虹城市 IWBTZ 关卡", fit: "cover" },
-          { src: "/portfolio/iwbtz-level-town.png", alt: "小镇 IWBTZ 关卡", fit: "cover" },
-          { src: "/portfolio/iwbtz-level-prototype.png", alt: "用于调整跳跃的灰盒原型", fit: "cover" },
-        ] }, layout: "wide",
+        step: "02", title: "同一套移动语言，穿过五种情绪气候",
+        body: "关卡从植物废墟、校园空间一路进入工业压力与霓虹孤独，最后回到微弱暖意；平台轮廓始终保持清晰，让视觉变化服务于操作节奏。",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-02-level-atlas.png", alt: "展示植物废墟、校园、工业区、霓虹城市与温暖终章的 IWBTZ 关卡视觉总览" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "03", title: "Boss 通过叠加模式升级",
-        body: "四场 Boss 战都建立在可读的攻击语法上。生命值每下降 25%，新的攻击模式就会解锁或与已有模式叠加，让玩家不断切换注意力，而不只是承受更高伤害。",
-        visual: { kind: "image", src: "/portfolio/iwbtz-level-boss.png", alt: "IWBTZ Boss 与环境危险场景", fit: "cover" },
+        step: "03", title: "多重攻击同时发生，危险仍然可以读懂",
+        body: "西瓜弹、追咬花、横向特效和垂直火球各自占据清楚的运动轨道；难度来自攻击组合，而不是用混乱遮蔽信息。",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-03-multi-attack.gif", alt: "西瓜弹、追咬花、地面特效与垂直火球共同出现的 IWBTZ 动态 Boss 战" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "04", title: "DYOC 把 AI 输出接进可用角色部件",
-        body: "随机按钮既有纯本地路线，也有在线 AI 路线。生成后的护甲、头发、面部配件、武器与皮肤会进入同一应用函数，与已保存索引同步，并刷新同一个实时预览。",
-        visual: { kind: "gallery", images: [
-          { src: "/portfolio/iwbtz-dyoc-flow.png", alt: "DYOC 随机与 AI 生成流程" },
-          { src: "/portfolio/iwbtz-dyoc-result.png", alt: "IWBTZ 角色定制结果", fit: "cover" },
-        ] }, layout: "wide",
+        step: "04", title: "跳跃、观察、修正，再立刻重来",
+        body: "单条生命、跳跃弧线、弹道时机与快速重试同时保持可见，让每次失败都足够清楚，并能直接转化为下一次操作判断。",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-04-core-loop.gif", alt: "Zomboy 以单条生命跳跃并躲避 Boss 攻击的 IWBTZ 核心循环动图" }, layout: "wide", presentation: "framed",
       },
       {
-        step: "05", title: "试玩改变了剧情出现的位置",
-        body: "超过 70% 的试玩者跳过了原教程，约 30% 因此错过必要剧情。缩短文本、把必要叙事移进主关卡、让教程承担更真实的操作挑战后，教程完成率从约 28% 升到约 60%。愿意继续游玩的试玩者增加了 25%。",
-        visual: { kind: "image", src: "/portfolio/iwbtz-failure.png", alt: "IWBTZ 失败与快速重试画面", fit: "cover" }, layout: "wide",
+        step: "05", title: "Boss 升级模式，却不破坏原有攻击语法",
+        body: "血条始终绑定在 Boss 上方，追咬与垂直火球分别给出独立预警；战斗密度增加时，玩家仍能判断风险来源和安全落点。",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-05-boss-pattern.gif", alt: "展示追咬花、Boss 血条与垂直火球的 IWBTZ 动态 Boss 阶段" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "06", title: "童年森林把“被误解”变成会追赶玩家的影子",
+        body: "熟悉的蘑菇与花朵从温暖景物逐渐变成指向主角的轮廓；跳跃路线越往前越收窄，让一段被误读的童年通过操作被重新穿过。",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-06-memory-forest.png", alt: "Zomboy 在追赶般的剪影下穿过蘑菇森林的 IWBTZ 童年记忆关卡" }, layout: "wide", presentation: "framed",
+      },
+      {
+        step: "07", title: "重复的规则持续压缩安全空间",
+        body: "时钟、作业纸和整齐平台共同构成机械节奏；追咬花与移动障碍迫使玩家缩短犹豫时间，也让“坚持”从文字主题变成真实的操作压力。",
+        visual: { kind: "image", src: "/portfolio/iwbtz-case-07-school-pressure.png", alt: "由时钟、作业纸、机械障碍与追咬花构成的 IWBTZ 校园压力关卡" }, layout: "wide", presentation: "framed",
       },
     ],
   },

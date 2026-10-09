@@ -46,7 +46,12 @@ export function EntryGate() {
       </div>
       <header className="level-gate-header">
         <Link href="/play" className="game-wordmark">
-          <span className="game-wordmark-mark">RA</span>
+          <span className="game-wordmark-mark" aria-hidden>
+            <svg viewBox="0 0 32 32" focusable="false">
+              <path d="M5 18.5h3V25H5zM10.5 11h3v14h-3zM16 6h3v19h-3zM21.5 13.5h3V25h-3zM27 17h2v8h-2z" />
+              <circle cx="16" cy="6" r="2.2" />
+            </svg>
+          </span>
           <span>
             <strong>RESONANCE ARCHIVE</strong>
             <small>{locale === "en" ? "A Rhythm Portfolio" : "一款节奏作品集"}</small>

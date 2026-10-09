@@ -14,6 +14,7 @@ export type Judgment = "perfect" | "great" | "miss";
 
 export type ProjectId =
   | "pixel-world"
+  | "preservative"
   | "rainy-arcade"
   | "iwbtz"
   | "auto-tune"

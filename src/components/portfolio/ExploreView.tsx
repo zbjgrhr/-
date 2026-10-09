@@ -100,7 +100,7 @@ export function ExploreView() {
         <div>
           <p>INTERACTIVE MODE / 互动模式</p>
           <h2>{locale === "en" ? "Don’t just read the projects—play them." : "不只阅读项目，也亲自演奏它们。"}</h2>
-          <span>{locale === "en" ? "Five projects · Five arrangements · Every level unlocked" : "五个项目 · 五种编曲 · 全部关卡开放"}</span>
+          <span>{locale === "en" ? "Six projects · Five playable arrangements · Every current level unlocked" : "六个项目 · 五种可玩编曲 · 现有全部关卡开放"}</span>
         </div>
         <Link href="/play" className="rhythm-invitation-button" onClick={() => setMode("entry")}>
           <span>{locale === "en" ? "Play the Portfolio" : "进入演奏作品集"}</span>
@@ -109,7 +109,7 @@ export function ExploreView() {
       </section>
 
       <section className="proof-strip" aria-label={profile.proofLabel}>
-        <div><strong>5</strong><span>{locale === "en" ? "featured projects" : "个重点项目"}</span></div>
+        <div><strong>6</strong><span>{locale === "en" ? "featured projects" : "个重点项目"}</span></div>
         <div><strong>2</strong><span>{locale === "en" ? "playable game worlds" : "组可玩游戏世界"}</span></div>
         <div><strong>10</strong><span>{locale === "en" ? "collaborating agents" : "个 Agent 协作"}</span></div>
         <div><strong>CN / EN</strong><span>{locale === "en" ? "bilingual communication" : "双语沟通"}</span></div>
@@ -151,8 +151,28 @@ export function ExploreView() {
               id={project.id}
             >
               <div className="project-overview">
-                <div className="project-media">
-                  {project.screenshots[0] ? (
+                <div className={`project-media ${project.id === "auto-tune" ? "project-media-auto-tune" : ""}`}>
+                  {project.id === "auto-tune" && project.screenshots.length >= 3 ? (
+                    <div className="auto-tune-overview" aria-label={locale === "en" ? "Auto Tune feature overview" : "Auto Tune 功能总览"}>
+                      <div className="auto-tune-overview-images">
+                        {project.screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
+                          <figure key={screenshot} className={`auto-tune-overview-shot shot-${screenshotIndex + 1}`}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={screenshot}
+                              alt={`${project.title} ${locale === "en" ? "feature view" : "功能画面"} ${screenshotIndex + 1}`}
+                              width={1600}
+                              height={900}
+                            />
+                          </figure>
+                        ))}
+                      </div>
+                      <div className="auto-tune-overview-caption">
+                        <strong>{locale === "en" ? "One panel, three platform adapters" : "一个控制面板，三套平台适配"}</strong>
+                        <span>{locale === "en" ? "Draft and post on X, Facebook and Instagram; delayed auto-reply is limited to X." : "支持 X、Facebook 与 Instagram 草稿发布；延迟自动回复仅限 X。"}</span>
+                      </div>
+                    </div>
+                  ) : project.screenshots[0] ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={project.screenshots[0]}

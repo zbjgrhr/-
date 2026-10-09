@@ -173,7 +173,7 @@ export const en: ContentShape = {
   },
   explore: {
     title: "Selected Work",
-    subtitle: "Five projects. Five ways of turning ideas into products.",
+    subtitle: "Six projects. Six ways of turning ideas into products.",
     about: "About",
     projects: "Projects",
     contact: "Contact",
