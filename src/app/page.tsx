@@ -1,5 +1,5 @@
-import { GameExperience } from "@/components/game/GameExperience";
+import MapPreviewPage from "./map-preview/page";
 
 export default function HomePage() {
-  return <GameExperience />;
+  return <MapPreviewPage />;
 }

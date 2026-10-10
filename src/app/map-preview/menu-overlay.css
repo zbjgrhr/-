@@ -1,0 +1,295 @@
+.map-preview__intro { gap: 22px; }
+.map-preview [hidden] { display: none !important; }
+
+.map-preview__header {
+  align-items: center;
+  padding: clamp(15px, 2.1vw, 28px) clamp(20px, 2.5vw, 36px);
+  background: linear-gradient(to bottom, rgba(10, 24, 44, .14), transparent);
+}
+
+.map-preview__identity,
+.map-preview__header-right {
+  display: flex;
+  align-items: center;
+}
+
+.map-preview__identity { gap: clamp(13px, 1.4vw, 25px); min-width: 0; }
+.map-preview__header-right { gap: clamp(20px, 2.3vw, 38px); }
+.map-preview__owner {
+  padding: 0;
+  border: 0;
+  color: rgba(255, 248, 229, .76);
+  font: 500 clamp(13px, 1vw, 17px)/1.3 "Microsoft YaHei", sans-serif;
+  letter-spacing: .1em;
+  white-space: nowrap;
+  text-shadow: 0 2px 12px rgba(10, 20, 39, .85);
+}
+
+.map-preview__clock {
+  display: grid;
+  gap: 3px;
+  min-width: 166px;
+  text-align: right;
+  opacity: .67;
+  text-shadow: 0 1px 8px rgba(8, 21, 41, .82);
+}
+
+.map-preview__clock span {
+  color: #fff5d8;
+  font: 500 10px/1.2 "Microsoft YaHei", sans-serif;
+  letter-spacing: .2em;
+}
+
+.map-preview__clock strong,
+.map-preview__clock b {
+  color: #fffaf0;
+  font: 500 11px/1.25 "Courier New", "Microsoft YaHei", monospace;
+  letter-spacing: .12em;
+}
+
+.map-preview__clock b { font-size: 16px; letter-spacing: .1em; }
+
+.map-preview__menu-trigger,
+.map-preview__inline-menu {
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+.map-preview__menu-trigger {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  opacity: .66;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+.map-preview__menu-trigger:hover {
+  opacity: .95;
+  transform: scale(1.06);
+}
+.map-preview__menu-trigger:focus-visible { opacity: .95; outline: 2px solid #fff4d6; outline-offset: 2px; }
+
+.map-preview__footer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 70px 22px clamp(24px, 3vw, 42px);
+  background: none;
+}
+
+.map-preview__progress {
+  display: block;
+  max-width: 800px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: rgba(255, 248, 231, .77);
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  text-align: center;
+  text-shadow: 0 1px 8px rgba(6, 20, 41, .82);
+  font: 500 clamp(11px, .82vw, 13px)/1.4 "Microsoft YaHei", sans-serif;
+  letter-spacing: .08em;
+}
+
+.map-preview__progress strong { color: inherit; font-weight: 600; }
+.map-preview__inline-menu {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  margin: 0 2px;
+  border-radius: 0;
+  background: none;
+  opacity: .8;
+  vertical-align: middle;
+}
+.map-preview__inline-menu:hover { opacity: 1; }
+.map-preview__inline-menu:focus-visible { opacity: 1; outline: 2px solid #fff2bd; }
+
+.map-preview.menu-open { cursor: auto; }
+.map-preview.menu-open .map-preview__cursor { display: none; }
+
+.map-preview__menu {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 62px);
+  cursor: auto;
+}
+
+.map-preview__menu-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 23, 51, .70);
+  backdrop-filter: blur(17px);
+  animation: map-menu-fade .35s ease both;
+}
+
+.map-preview__menu-window {
+  position: relative;
+  display: grid;
+  grid-template-columns: 49% 51%;
+  width: min(1180px, 100%);
+  min-height: min(660px, 80dvh);
+  max-height: calc(100dvh - 36px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 246, 221, .9);
+  border-radius: 26px;
+  background: #f4eef2;
+  box-shadow: 0 25px 100px rgba(8, 16, 40, .42), 0 0 0 7px rgba(255, 247, 232, .1);
+  animation: map-menu-enter .45s cubic-bezier(.18,.76,.24,1) both;
+}
+
+.map-preview__menu-art {
+  min-height: 100%;
+  background:
+    linear-gradient(145deg, rgba(69, 48, 108, .18), transparent 40%, rgba(245, 206, 153, .18)),
+    url("/map-preview/world-original.png") center center / cover no-repeat;
+}
+
+.map-preview__menu-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  overflow-y: auto;
+  padding: clamp(32px, 4.4vw, 70px);
+  color: #353650;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(229, 211, 245, .56), transparent 43%),
+    linear-gradient(145deg, #fffaf5, #f2eaf3);
+}
+
+.map-preview__menu-actions {
+  position: absolute;
+  z-index: 2;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.map-preview__menu-actions button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid #d9cde0;
+  border-radius: 50%;
+  color: #56516b;
+  background: rgba(255, 255, 255, .72);
+  cursor: pointer;
+  font: 24px/1 Georgia, serif;
+}
+.map-preview__menu-actions button:hover,
+.map-preview__menu-actions button:focus-visible { color: #2e2945; background: #fff; outline: 2px solid #aa91cb; }
+
+.map-preview__menu-list { display: grid; gap: 13px; }
+.map-preview__menu-card {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  min-height: 139px;
+  padding: 20px 64px 20px 25px;
+  border: 1px solid #dbcfdf;
+  border-radius: 16px;
+  color: #37334f;
+  background: rgba(255, 255, 255, .75);
+  box-shadow: 0 7px 22px rgba(101, 77, 121, .06);
+  text-align: left;
+  cursor: pointer;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.map-preview__menu-card:hover,
+.map-preview__menu-card:focus-visible {
+  color: #37334f;
+  border-color: #aa8fcc;
+  box-shadow: 0 12px 27px rgba(101, 77, 121, .14);
+  transform: translateY(-3px);
+  outline: none;
+}
+.map-preview__menu-card > span,
+.map-preview__menu-detail > span { color: #9d7eb5; font: 700 12px "Courier New", monospace; letter-spacing: .18em; }
+.map-preview__menu-card strong { font: 700 clamp(22px, 2vw, 30px)/1.2 "Microsoft YaHei", sans-serif; letter-spacing: .02em; }
+.map-preview__menu-card small,
+.map-preview__menu-detail small { margin-left: 8px; color: #9b87a5; font: 700 10px "Courier New", monospace; letter-spacing: .1em; vertical-align: middle; }
+.map-preview__menu-card em { color: #757086; font: normal 12px/1.5 "Microsoft YaHei", sans-serif; }
+.map-preview__menu-card > b { position: absolute; right: 23px; bottom: 21px; color: #aa8fc3; font: 25px/1 Georgia, serif; }
+
+.map-preview__menu-detail { max-width: 470px; }
+.map-preview__menu-detail h2 { margin: 24px 0 30px; color: #37334f; font: 700 clamp(30px, 2.6vw, 42px)/1.15 "Microsoft YaHei", sans-serif; }
+.map-preview__menu-detail p { margin: 0; color: #5e596d; font: 16px/1.95 "Microsoft YaHei", sans-serif; }
+.map-preview__contact-links { display: grid; gap: 10px; margin-top: 31px; }
+.map-preview__contact-links a,
+.map-preview__contact-links button {
+  width: 100%;
+  padding: 13px 18px;
+  border: 1px solid #d9c9e1;
+  border-radius: 12px;
+  color: #50445f;
+  background: rgba(255,255,255,.78);
+  cursor: pointer;
+  text-align: left;
+  font: 600 14px "Microsoft YaHei", sans-serif;
+}
+.map-preview__contact-links a:hover,
+.map-preview__contact-links button:hover,
+.map-preview__contact-links a:focus-visible,
+.map-preview__contact-links button:focus-visible { color: #322645; background: #fff; outline: 2px solid #aa91cb; }
+.map-preview__qr { display: block; width: 176px; height: 176px; margin-top: 20px; border: 7px solid white; border-radius: 12px; object-fit: contain; }
+
+@keyframes map-menu-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes map-menu-enter { from { opacity: 0; transform: translateY(20px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (max-width: 900px) {
+  .map-preview__logo-lockup { width: 300px; }
+  .map-preview__owner { padding-left: 0; font-size: 14px; }
+  .map-preview__clock { min-width: 146px; }
+  .map-preview__menu-window { grid-template-columns: 40% 60%; }
+}
+
+@media (max-width: 700px) {
+  .map-preview__header { display: grid; gap: 6px; align-items: start; padding: 16px; }
+  .map-preview__identity { gap: 7px; }
+  .map-preview__logo-lockup { width: min(270px, calc(100vw - 105px)); }
+  .map-preview__owner { padding-left: 0; font-size: 12px; letter-spacing: .04em; }
+  .map-preview__header-right { width: 100%; justify-content: space-between; align-items: center; padding-left: 4px; }
+  .map-preview__clock { min-width: 0; text-align: left; }
+  .map-preview__clock span { font-size: 9px; }
+  .map-preview__clock strong { font-size: 10px; }
+  .map-preview__clock b { font-size: 15px; }
+  .map-preview__menu-trigger { width: 44px; height: 44px; }
+  .map-preview__footer { display: flex; padding: 90px 16px 24px; }
+  .map-preview__progress { padding: 0; border-radius: 0; font-size: 11px; }
+  .map-preview__menu { padding: 12px; }
+  .map-preview__menu-window { display: flex; flex-direction: column; max-height: calc(100dvh - 24px); }
+  .map-preview__menu-art { min-height: 24dvh; flex: none; background-position: center 38%; }
+  .map-preview__menu-content { min-height: 0; padding: 52px 21px 25px; }
+  .map-preview__menu-actions { top: 11px; right: 12px; }
+  .map-preview__menu-card { min-height: 102px; gap: 6px; padding: 14px 40px 14px 17px; }
+  .map-preview__menu-card strong { font-size: 21px; }
+  .map-preview__menu-card em { font-size: 11px; }
+  .map-preview__menu-detail h2 { margin: 13px 0 18px; font-size: 29px; }
+  .map-preview__menu-detail p { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-preview__menu-backdrop,
+  .map-preview__menu-window { animation: none; }
+  .map-preview__menu-card,
+  .map-preview__menu-trigger { transition: none; }
+}
