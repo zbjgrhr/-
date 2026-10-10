@@ -25,6 +25,8 @@ function randomSpawnPoint(occupied: SpawnPoint[]): SpawnPoint | null {
       x: sideMargin + Math.random() * (1 - sideMargin * 2),
       y: .28 + Math.random() * .5,
     };
+    const portal = window.innerWidth < 700 ? { x: .28, y: .76 } : { x: .17, y: .78 };
+    if (Math.hypot((point.x - portal.x) * 1.45, point.y - portal.y) < .2) continue;
     const distance = occupied.length ? Math.min(...occupied.map((other) => Math.hypot((point.x - other.x) * 1.45, point.y - other.y))) : 1;
     if (distance > .19) candidates.push({ point, distance });
   }
@@ -43,31 +45,67 @@ const creatureImages: Record<string, string> = {
 const conceptName = (id: string) => id === "study-assistant" ? "literature-research-assistant" : id;
 const conceptCard = (id: string) => `/map-preview/concepts/${conceptName(id)}-card.webp`;
 const conceptDetail = (id: string) => `/map-preview/concepts/${conceptName(id)}-detail.webp`;
-const galleryImage = (src: string) => src.startsWith("/map-preview/curated/") ? src : src.replace("/portfolio/", "/map-preview/gallery/").replace(/\.[^.]+$/, ".webp");
+const galleryImage = (src: string) => src.startsWith("/map-preview/curated/") || src.endsWith(".gif") || src.startsWith("/portfolio/pixel-world-case-") || src === "/portfolio/pixel-world-concept-cover.png" || src.startsWith("/portfolio/preservative-") || src.startsWith("/portfolio/rainy-arcade-") ? src : src.replace("/portfolio/", "/map-preview/gallery/").replace(/\.[^.]+$/, ".webp");
+const pixelWorldExpanded = [
+  "/portfolio/pixel-world-concept-cover.png",
+  "/portfolio/pixel-world-case-01-prompt-spec-agents.png",
+  "/portfolio/pixel-world-case-02-model-routing.png",
+  "/portfolio/pixel-world-case-03-agent-config.png",
+  "/portfolio/pixel-world-case-04-asset-system.png",
+  "/portfolio/pixel-world-case-05-cover-particles.png",
+  "/portfolio/pixel-world-case-06-generated-world.png",
+  "/portfolio/pixel-world-case-07-moonshadow-level.png",
+  "/portfolio/pixel-world-case-08-playable-worlds.png",
+];
+const preservativeExpanded = [
+  "/portfolio/preservative-01-concept-approved.png",
+  "/portfolio/preservative-02-campaign.png",
+  "/portfolio/preservative-03-visual-identity.png",
+  "/portfolio/preservative-04-gameplay-evidence.png",
+  "/portfolio/preservative-02-workshop.png",
+  "/portfolio/preservative-02-report-evidence.png",
+  "/portfolio/preservative-02-branded.gif",
+  "/portfolio/preservative-02-ingame.gif",
+];
+const rainyArcadeExpanded = [
+  "/portfolio/rainy-arcade-concept-cover.png",
+  "/portfolio/rainy-arcade-overview.png",
+  "/portfolio/rainy-arcade-character-ensemble.png",
+  "/portfolio/rainy-arcade-character-turnarounds.png",
+  "/portfolio/rainy-arcade-library-city.png",
+  "/portfolio/rainy-arcade-framed-01.png",
+  "/portfolio/rainy-arcade-framed-02.png",
+  "/portfolio/rainy-arcade-framed-03.png",
+];
+const iwbtzMotion = [
+  "/portfolio/iwbtz-case-03-multi-attack.gif",
+  "/portfolio/iwbtz-case-04-core-loop.gif",
+  "/portfolio/iwbtz-case-05-boss-pattern.gif",
+];
 const galleryCaptions: Record<string, { zh: string[]; en: string[] }> = {
   "pixel-world": {
-    zh: ["从创意出发，交给十个 Agent 分工复核", "同一套生成流程，展开不同的可玩世界", "让关卡与游戏画面真正跑起来"],
-    en: ["An idea enters a ten-agent review", "One process, different playable worlds", "Levels and game scenes brought to life"],
+    zh: ["从创意出发，交给十个 Agent 分工复核", "同一套生成流程，展开不同的可玩世界", "让关卡与游戏画面真正跑起来", "模型路由也由创作者清楚掌控", "像素世界制作器的主界面", "提示词、GameSpec 与十个 Agent 的工作流", "按任务与成本选择模型路线", "Agent 配置与分工复核", "素材系统将生成内容整理成可用资源", "封面粒子与世界氛围", "生成游戏的真实入口与菜单", "环境与移动规则随关卡变化", "同一提示词延展出的三种可玩世界"],
+    en: ["An idea enters a ten-agent review", "One process, different playable worlds", "Levels and game scenes brought to life", "Model routing stays in the creator's hands", "The Pixel World creator interface", "Prompts, GameSpec, and the ten-agent workflow", "Model routes selected by task and cost", "Agent configuration and review", "The asset system turns generation into usable resources", "Cover particles and world atmosphere", "A real generated game's entry and menu", "Level-specific environments and movement rules", "Three playable worlds from one prompt"],
   },
   preservative: {
-    zh: ["把保鲜规则交还给沙盒设置", "在物品信息里看清保护效果", "误食风险与治疗提示同时可见", "模组在游戏中的实际场景"],
-    en: ["Preservation rules in sandbox settings", "Protection details at the point of use", "Poisoning risk and treatment in view", "The mod in its game world"],
+    zh: ["把保鲜规则交还给沙盒设置", "在物品信息里看清保护效果", "误食风险与治疗提示同时可见", "模组在游戏中的实际场景", "模组封面与核心视觉", "更轻松的传播视觉方案", "封面、物品与模组图标保持同一识别", "把保护效率与解毒提示放到游玩现场", "Steam 创意工坊的真实发布页面", "玩家访问、订阅与收藏的发布结果", "带品牌识别的动态模组图标", "游戏内的防腐剂物品动图"],
+    en: ["Preservation rules in sandbox settings", "Protection details at the point of use", "Poisoning risk and treatment in view", "The mod in its game world", "The mod cover and core visual", "A lighter campaign direction", "One visual identity across cover, item, and mod icon", "Protection and antidote guidance in gameplay context", "The published Steam Workshop page", "Real visits, subscriptions, and favorites", "The animated branded mod icon", "The preservative item animated in-game"],
   },
   "rainy-arcade": {
-    zh: ["《积木城》：从道路和记忆里拼回一个家", "《雨城》：在不可靠的规则中找出口", "只留在本地的游玩记录与分析"],
-    en: ["Block City: rebuilding a home from roads and memories", "Rain City: finding a way through unreliable rules", "Play reports and analysis kept on-device"],
+    zh: ["《积木城》：从道路和记忆里拼回一个家", "《雨城》：在不可靠的规则中找出口", "只留在本地的游玩记录与分析", "从对话选择到线索核对的交互流程", "游戏厅的封面与整体氛围", "从同一大厅通往不同玩法世界", "主要角色与故事关系的视觉设定", "玩家与张华心的角色四视图", "《图书城》的视觉与交互概念（规划中）", "《积木城》可玩界面与章节入口", "《雨城》可玩界面与分段阅读", "《图书城》的界面概念（规划中）"],
+    en: ["Block City: rebuilding a home from roads and memories", "Rain City: finding a way through unreliable rules", "Play reports and analysis kept on-device", "From dialogue choices to checking clues", "The arcade's cover and overall atmosphere", "Different ways to play from one shared lobby", "Visual direction for the main cast", "Player and Zhang Huaxin character turnarounds", "Library City visual and interaction concept (planned)", "Playable Block City interface and chapter entry", "Playable Rain City interface and segmented reading", "Library City interface concept (planned)"],
   },
   iwbtz: {
-    zh: ["一张图里，看见不同关卡的世界", "Boss 战的攻击模式与躲避节奏", "明亮与阴暗并置的关卡环境"],
-    en: ["Distinct worlds across the levels", "Attack patterns and timing in a boss fight", "Light and shadow across the game's environments"],
+    zh: ["一张图里，看见不同关卡的世界", "Boss 战的攻击模式与躲避节奏", "明亮与阴暗并置的关卡环境", "在机关密布的场景中寻找前进路线", "多重攻击与持续收紧的安全空间", "跳跃、投掷与命中的核心循环", "追咬与陨落火球交织的 Boss 战"],
+    en: ["Distinct worlds across the levels", "Attack patterns and timing in a boss fight", "Light and shadow across the game's environments", "Finding a route through the traps", "Layered attacks and a narrowing safe space", "The core loop: jump, throw, land a hit", "A boss encounter of pursuit and falling fire"],
   },
   "auto-tune": {
-    zh: ["当前页面旁的发帖控制面板", "不同平台，各自清楚的操作入口", "延迟自动回复的独立设置"],
-    en: ["The posting panel beside the current page", "Clear controls for different platforms", "Separate settings for delayed replies"],
+    zh: ["当前对话旁的可编辑回复面板", "共享核心与三平台页面适配", "仅在 X 私信可用的延迟自动回复"],
+    en: ["Editable replies beside the current conversation", "A shared core with three platform adapters", "Delayed automatic replies for X direct messages only"],
   },
   "study-assistant": {
-    zh: ["阅读时，工具留在原文旁边", "检索与阅读可以接着完成", "高亮和翻译不必切换页面", "把线索整理成思维导图"],
-    en: ["Reading tools beside the source", "Search and reading in one flow", "Highlight and translate without changing pages", "Turning notes into a mind map"],
+    zh: ["在 Edge 中安装并启用扩展", "阅读工具留在原文页面内", "从选中文字到翻译、高亮与保存", "选中文字后检索相关论文", "本地收藏生词、生句、思维导图与论文", "在原文旁查看已保存笔记", "在网页内翻译并使用多色高亮", "在本地思维导图中整理资料"],
+    en: ["Installed and enabled in Edge", "Reading tools stay inside the source page", "From text selection to translation, highlighting, and saving", "Search related papers from selected text", "Vocabulary, sentences, mind maps, and papers saved locally", "Saved notes beside the source", "Translate and highlight in multiple colors on the page", "Organize research in a local mind map"],
   },
 };
 
@@ -123,11 +161,12 @@ function CreatureArt({ projectId, className = "" }: { projectId: string; classNa
 
 export default function MapPreviewPage() {
   const stageRef = useRef<HTMLElement>(null);
+  const pointerLightRef = useRef<HTMLDivElement>(null);
   const pointerFrame = useRef<number | null>(null);
+  const pointerPosition = useRef<{ x: number; y: number; width: number; height: number } | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const spawnKey = useRef(0);
   const [ready, setReady] = useState(false);
-  const [hasPointer, setHasPointer] = useState(false);
   const [localTime, setLocalTime] = useState<Date | null>(null);
   const [discoveredIds, setDiscoveredIds] = useState<string[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -142,11 +181,22 @@ export default function MapPreviewPage() {
   const [detailOpen, setDetailOpen] = useState(false);
   const locale = useUiStore((state) => state.locale);
   const setLocale = useUiStore((state) => state.setLocale);
+  const setMode = useUiStore((state) => state.setMode);
 
   useEffect(() => {
     const saved = window.localStorage.getItem("resonance-locale");
     setLocale(saved === "en" ? "en" : "zh");
   }, [setLocale]);
+
+  useEffect(() => {
+    const review = new URLSearchParams(window.location.search).get("review");
+    if (review !== "iwbtz-detail" && review !== "pixel-world-detail" && review !== "preservative-detail" && review !== "rainy-arcade-detail" && review !== "auto-tune-detail" && review !== "study-assistant-detail") return;
+    const projectId = review === "iwbtz-detail" ? "iwbtz" : review === "pixel-world-detail" ? "pixel-world" : review === "preservative-detail" ? "preservative" : review === "rainy-arcade-detail" ? "rainy-arcade" : review === "auto-tune-detail" ? "auto-tune" : "study-assistant";
+    setReady(true);
+    setSelectedEncounter({ projectId, point: { x: .5, y: .5 }, key: -1, createdAt: Date.now() });
+    setCardOpen(true);
+    setDetailOpen(true);
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
@@ -306,7 +356,7 @@ export default function MapPreviewPage() {
   };
 
   const clickMap = (event: React.MouseEvent<HTMLElement>) => {
-    if (!ready || menuOpen || (event.target as HTMLElement).closest(".map-preview__header, .map-preview__footer, .map-preview__menu, .map-preview__creature, .encounter-card, .project-detail")) return;
+    if (!ready || menuOpen || (event.target as HTMLElement).closest(".map-preview__header, .map-preview__footer, .map-preview__menu, .map-preview__rhythm-portal, .map-preview__creature, .encounter-card, .project-detail")) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     showCapture(event.clientX - bounds.left, event.clientY - bounds.top);
   };
@@ -335,16 +385,18 @@ export default function MapPreviewPage() {
 
   const movePointer = (event: React.PointerEvent<HTMLElement>) => {
     if (event.pointerType === "touch" || menuOpen) return;
-    setHasPointer(true);
     const bounds = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - bounds.left;
     const y = event.clientY - bounds.top;
-    if (pointerFrame.current !== null) window.cancelAnimationFrame(pointerFrame.current);
+    pointerPosition.current = { x, y, width: bounds.width, height: bounds.height };
+    if (pointerFrame.current !== null) return;
     pointerFrame.current = window.requestAnimationFrame(() => {
-      stageRef.current?.style.setProperty("--pointer-x", x + "px");
-      stageRef.current?.style.setProperty("--pointer-y", y + "px");
-      stageRef.current?.style.setProperty("--drift-x", (x / bounds.width - 0.5) * -14 + "px");
-      stageRef.current?.style.setProperty("--drift-y", (y / bounds.height - 0.5) * -10 + "px");
+      pointerFrame.current = null;
+      const position = pointerPosition.current;
+      if (!position) return;
+      pointerLightRef.current?.style.setProperty("transform", `translate3d(${position.x - 250}px, ${position.y - 250}px, 0)`);
+      stageRef.current?.style.setProperty("--drift-x", (position.x / position.width - 0.5) * -14 + "px");
+      stageRef.current?.style.setProperty("--drift-y", (position.y / position.height - 0.5) * -10 + "px");
     });
   };
 
@@ -352,7 +404,6 @@ export default function MapPreviewPage() {
     setMenuView("index");
     setShowQr(false);
     setMenuOpen(true);
-    setHasPointer(false);
   };
 
   const closeMenu = () => {
@@ -373,9 +424,8 @@ export default function MapPreviewPage() {
   return (
     <main
       ref={stageRef}
-      className={"map-preview map-preview--immersive" + (ready ? " is-ready" : "") + (hasPointer ? " has-pointer" : "") + (menuOpen ? " menu-open" : "")}
+      className={"map-preview map-preview--immersive" + (ready ? " is-ready" : "") + (menuOpen ? " menu-open" : "")}
       onPointerMove={movePointer}
-      onPointerLeave={() => setHasPointer(false)}
       onClick={clickMap}
       onKeyDown={keyMap}
       tabIndex={0}
@@ -389,12 +439,31 @@ export default function MapPreviewPage() {
       <div className="map-preview__scanlines" aria-hidden="true" />
       <div className="map-preview__sweep" aria-hidden="true" />
       <div className="map-preview__vignette" aria-hidden="true" />
-      <div className="map-preview__pointer-light" aria-hidden="true" />
+      <div ref={pointerLightRef} className="map-preview__pointer-light" aria-hidden="true" />
       <div className="map-preview__glint map-preview__glint--one" aria-hidden="true">✦</div>
       <div className="map-preview__glint map-preview__glint--two" aria-hidden="true">✧</div>
       <div className="map-preview__glint map-preview__glint--three" aria-hidden="true">✦</div>
       <div className="map-preview__glint map-preview__glint--four" aria-hidden="true">✧</div>
-      <div className="map-preview__cursor" aria-hidden="true"><span>✦</span></div>
+
+      {ready && !cardOpen && !detailOpen && (
+        <Link
+          className="map-preview__rhythm-portal"
+          href="/play"
+          onClick={(event) => { event.stopPropagation(); setMode("entry"); }}
+          aria-label={locale === "zh" ? "进入音游体验" : "Enter the rhythm experience"}
+        >
+          <span className="map-preview__rhythm-eggs" aria-hidden="true">
+            {[1, 2, 3, 4, 5].map((egg) => (
+              <span className={`map-preview__rhythm-egg map-preview__rhythm-egg--${egg}`} key={egg}>
+                <Image src="/map-preview/capture-egg.png" alt="" width={62} height={66} unoptimized />
+              </span>
+            ))}
+          </span>
+          <span className="map-preview__rhythm-label">
+            <strong>{locale === "zh" ? "音游入口" : "RHYTHM GAME"}</strong>
+          </span>
+        </Link>
+      )}
 
       {ready && !cardOpen && !detailOpen && encounters.map((item) => (
         <button
@@ -460,7 +529,12 @@ export default function MapPreviewPage() {
       )}
 
       {detailOpen && activeProject && activeCopy && activeDetailImage && (
-        <div className="project-detail" role="dialog" aria-modal="true" aria-label={activeProject.title + " 项目详情"}>
+        <div
+          className={"project-detail" + (["iwbtz", "pixel-world", "preservative", "rainy-arcade", "auto-tune", "study-assistant"].includes(activeProject.id) ? " project-detail--iwbtz-review" : "") + (activeProject.id === "pixel-world" ? " project-detail--pixel-world-review" : "") + (activeProject.id === "preservative" ? " project-detail--preservative-review" : "") + (activeProject.id === "rainy-arcade" ? " project-detail--rainy-arcade-review" : "") + (activeProject.id === "auto-tune" ? " project-detail--auto-tune-review" : "") + (activeProject.id === "study-assistant" ? " project-detail--study-assistant-review" : "")}
+          role="dialog"
+          aria-modal="true"
+          aria-label={activeProject.title + " 项目详情"}
+        >
           <div className="project-detail__panel">
             <button className="project-detail__back" type="button" onClick={closeCard}>{locale === "zh" ? "← 返回地图" : "← Back to map"}</button>
             <div className="project-detail__hero">
@@ -474,8 +548,8 @@ export default function MapPreviewPage() {
               <section><h2>{locale === "zh" ? "结果" : "Outcome"}</h2><p>{activeCopy.outcome}</p></section>
             </div>
             <div className="project-detail__gallery">
-              {activeProject.screenshots.map((src, index) => (
-                <figure key={src}>
+              {(activeProject.id === "iwbtz" ? [...activeProject.screenshots, ...iwbtzMotion] : activeProject.id === "pixel-world" ? [...activeProject.screenshots, ...pixelWorldExpanded] : activeProject.id === "preservative" ? [...activeProject.screenshots, ...preservativeExpanded] : activeProject.id === "rainy-arcade" ? [...activeProject.screenshots, ...rainyArcadeExpanded] : activeProject.screenshots).map((src, index) => (
+                <figure key={src} className={src.endsWith(".gif") ? "project-detail__motion" : undefined}>
                   <a href={src} target="_blank" rel="noreferrer" aria-label={(locale === "zh" ? "放大查看图片 " : "Open image ") + (index + 1)}>
                     <Image src={galleryImage(src)} alt={activeProject.title + " 项目图片 " + (index + 1)} width={960} height={540} loading="lazy" unoptimized />
                   </a>
@@ -567,14 +641,11 @@ export default function MapPreviewPage() {
               {menuView === "index" && (
                 <nav className="map-preview__menu-list" aria-label="作品集目录">
                   <button type="button" className="map-preview__menu-card" onClick={() => setMenuView("about")}>
-                    <span>01</span><strong>{locale === "zh" ? "关于我" : "ABOUT"} <small>{locale === "zh" ? "ABOUT" : "张铧心"}</small></strong><em>{locale === "zh" ? "张铧心 · 游戏策划 × AI 产品" : "Huaxin Zhang · Game Design × AI Product"}</em><b aria-hidden="true">↗</b>
+                    <span>01</span><strong>{locale === "zh" ? "关于我" : "ABOUT"} <small>{locale === "zh" ? "ABOUT" : "张铧心"}</small></strong><em>{locale === "zh" ? "张铧心" : "Huaxin Zhang"}</em><b aria-hidden="true">↗</b>
                   </button>
                   <button type="button" className="map-preview__menu-card" onClick={() => setMenuView("contact")}>
                     <span>02</span><strong>{locale === "zh" ? "联系我" : "CONTACT"} <small>{locale === "zh" ? "CONTACT" : "联系我"}</small></strong><em>{locale === "zh" ? "邮箱 · GitHub · 微信" : "Email · GitHub · WeChat"}</em><b aria-hidden="true">↗</b>
                   </button>
-                  <Link className="map-preview__menu-card" href="/play">
-                    <span>03</span><strong>{locale === "zh" ? "音游体验" : "RHYTHM EXPERIENCE"} <small>{locale === "zh" ? "RHYTHM EXPERIENCE" : "音游体验"}</small></strong><em>{locale === "zh" ? "用另一种方式进入我的作品集" : "Explore my work through rhythm"}</em><b aria-hidden="true">↗</b>
-                  </Link>
                 </nav>
               )}
 
@@ -592,7 +663,14 @@ export default function MapPreviewPage() {
                   <h2>{locale === "zh" ? "联系我" : "CONTACT"} <small>{locale === "zh" ? "CONTACT" : "联系我"}</small></h2>
                   <p>{locale === "zh" ? "如果你对某个项目好奇，或想一起做点什么，欢迎给我写信。" : "Curious about a project, or thinking of making something together? I'd be glad to hear from you."}</p>
                   <div className="map-preview__contact-links">
-                    <a href={"mailto:" + publicLinks.email}>{locale === "zh" ? "发送邮件 ↗" : "Send email ↗"}</a>
+                    <a className="map-preview__contact-email" href={"mailto:" + publicLinks.email}>
+                      <span>{locale === "zh" ? "发送邮件 · 常用邮箱" : "Send email · Primary"}<b aria-hidden="true">↗</b></span>
+                      <small>{publicLinks.email}</small>
+                    </a>
+                    <a className="map-preview__contact-email" href={"mailto:" + publicLinks.alumniEmail}>
+                      <span>{locale === "zh" ? "校友邮箱" : "Alumni email"}<b aria-hidden="true">↗</b></span>
+                      <small>{publicLinks.alumniEmail}</small>
+                    </a>
                     <a href={publicLinks.github} target="_blank" rel="noreferrer">{locale === "zh" ? "查看 GitHub ↗" : "View GitHub ↗"}</a>
                     <button type="button" aria-expanded={showQr} onClick={() => setShowQr((current) => !current)}>{locale === "zh" ? "微信二维码 ↗" : "WeChat QR ↗"}</button>
                   </div>

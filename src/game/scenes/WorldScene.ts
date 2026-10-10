@@ -22,7 +22,7 @@ import type {
   ProjectId,
   SegmentKind,
 } from "@/types";
-import { COLORS, GAME_WIDTH } from "@/game/config/gameConfig";
+import { GAME_WIDTH } from "@/game/config/gameConfig";
 import { getGameLevel, localize, type GameLevel } from "@/data/gameLevels";
 
 export class WorldScene extends Phaser.Scene {
@@ -62,15 +62,8 @@ export class WorldScene extends Phaser.Scene {
     super("WorldScene");
   }
 
-  preload() {
-    this.load.image(
-      "watercolor-memory-bg",
-      "/portfolio/resonance-watercolor-journey.png",
-    );
-  }
-
   async create() {
-    this.cameras.main.setBackgroundColor(COLORS.deepBlue);
+    this.cameras.main.setBackgroundColor(0xf3f0e9);
     this.cameras.main.setBounds(0, 0, GAME_WIDTH, this.scale.height);
 
     this.memory = new MemoryScroll(this);

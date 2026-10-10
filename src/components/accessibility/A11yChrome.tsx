@@ -11,7 +11,7 @@ export function A11yChrome() {
 
   return (
     <>
-      <a href="/explore" className="skip-link">
+      <a href={mode === "play" ? "#game-hud" : "#main-content"} className="skip-link">
         {locale === "en" ? "Skip to main content" : "跳到主要内容"}
       </a>
       <div className="sr-only" aria-live="polite">

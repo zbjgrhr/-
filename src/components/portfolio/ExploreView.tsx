@@ -91,27 +91,19 @@ export function ExploreView() {
         </nav>
       </header>
 
-      <section className="explore-hero" aria-labelledby="portfolio-title">
+      <section className="explore-hero" aria-label={locale === "en" ? "Huaxin Zhang portfolio cover" : "张铧心作品集封面"}>
         <div className="explore-dream-cluster" aria-hidden>
           <i />
           <i />
           <span>✦</span>
         </div>
         <div className="explore-hero-copy">
-          <p className="entry-eyebrow">{profile.role}</p>
-          <h1 id="portfolio-title">{profile.headline}</h1>
-          <p className="explore-lead">{profile.summary}</p>
+          <h1 className="explore-cover-sr-title">{locale === "en" ? "Huaxin Zhang" : "张铧心"}</h1>
           <div className="explore-actions">
             <Link href="/play" className="btn-primary portfolio-hero-play" onClick={() => setMode("entry")}>
               <span aria-hidden>▶</span>
-              {locale === "en" ? "Play the Portfolio" : "进入演奏作品集"}
+              Play
             </Link>
-            <a className="btn-primary" href="#work">
-              {locale === "en" ? "View Selected Work" : "查看精选作品"}
-            </a>
-            <a className="btn-secondary" href={publicLinks.github} target="_blank" rel="noreferrer">
-              GitHub ↗
-            </a>
           </div>
         </div>
         <div className="explore-identity-card">
@@ -130,14 +122,18 @@ export function ExploreView() {
               </dd>
             </div>
             <div>
-              <dt>{locale === "en" ? "Focus" : "方向"}</dt>
-              <dd>{profile.focus}</dd>
-            </div>
-            <div>
               <dt>{locale === "en" ? "Location" : "所在地"}</dt>
               <dd>{locale === "en" ? "China · Open to Global Opportunities" : "中国 · 接受全球机会"}</dd>
             </div>
           </dl>
+          <div className="explore-identity-contact" aria-label={locale === "en" ? "Contact Huaxin" : "联系张铧心"}>
+            <a href={`mailto:${publicLinks.email}`}><span>{locale === "en" ? "Primary email" : "常用邮箱"}</span><strong>{publicLinks.email}</strong></a>
+            <a href={`mailto:${publicLinks.alumniEmail}`}><span>{locale === "en" ? "Alumni email" : "校友邮箱"}</span><strong>{publicLinks.alumniEmail}</strong></a>
+            <div>
+              <a href={publicLinks.github} target="_blank" rel="noreferrer">GitHub ↗</a>
+              <button type="button" onClick={() => setShowWechat(true)}>{locale === "en" ? "WeChat QR ↗" : "微信二维码 ↗"}</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -387,10 +383,8 @@ export function ExploreView() {
         </h2>
         <p>{profile.availability}</p>
         <div className="contact-links">
-          <Link className="btn-primary" href="/play" onClick={() => setMode("entry")}>
-            {locale === "en" ? "Play the Portfolio" : "演奏作品集"}
-          </Link>
           <a className="btn-primary" href={`mailto:${publicLinks.email}`}>{publicLinks.email}</a>
+          <a className="btn-primary" href={`mailto:${publicLinks.alumniEmail}`}>{publicLinks.alumniEmail}</a>
           <a className="btn-secondary" href={publicLinks.github} target="_blank" rel="noreferrer">GitHub ↗</a>
           <button type="button" className="btn-secondary" onClick={() => setShowWechat(true)}>
             {locale === "en" ? "WeChat / 微信" : "微信联系"}

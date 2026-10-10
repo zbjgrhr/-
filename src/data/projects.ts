@@ -44,6 +44,7 @@ export const projects: ProjectArchive[] = [
       "/map-preview/curated/pixel-world-01.webp",
       "/map-preview/curated/pixel-world-02.webp",
       "/map-preview/curated/pixel-world-03.webp",
+      "/map-preview/curated/pixel-world-04.webp",
     ],
     github: "https://github.com/zbjgrhr/PIXEL-WORLD",
     liveDemo: "https://pixel-world-silk.vercel.app/",
@@ -149,6 +150,7 @@ export const projects: ProjectArchive[] = [
       "/map-preview/curated/rainy-arcade-01.webp",
       "/map-preview/curated/rainy-arcade-02.webp",
       "/map-preview/curated/rainy-arcade-03.webp",
+      "/map-preview/curated/rainy-arcade-04.webp",
     ],
     liveDemo: "https://grid-wmkf.upma.site/",
     learned: [
@@ -201,6 +203,7 @@ export const projects: ProjectArchive[] = [
       "/map-preview/curated/iwbtz-01.webp",
       "/map-preview/curated/iwbtz-02.webp",
       "/map-preview/curated/iwbtz-03.webp",
+      "/map-preview/curated/iwbtz-04.webp",
     ],
     learned: [
       "High difficulty feels fair only when failure is legible and control returns quickly.",
@@ -282,8 +285,12 @@ export const projects: ProjectArchive[] = [
     outcome:
       "The working extension brings reading, translation, notes, focus time, local documents, and mind maps into one place, without asking readers to leave their source behind.",
     screenshots: [
+      "/portfolio/literature-installed.png",
       "/map-preview/curated/study-assistant-01.webp",
+      "/portfolio/literature-reading-loop.png",
       "/map-preview/curated/study-assistant-02.webp",
+      "/portfolio/literature-saved-library.png",
+      "/portfolio/literature-saved-notes.png",
       "/map-preview/curated/study-assistant-03.webp",
       "/map-preview/curated/study-assistant-04.webp",
     ],

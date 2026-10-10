@@ -164,6 +164,7 @@ export function getProfileCopy(locale: Locale) {
 }
 
 export const publicLinks = {
-  email: "hxz439@alumni.bham.ac.uk",
+  email: "18193156575@163.com",
+  alumniEmail: "hxz439@alumni.bham.ac.uk",
   github: "https://github.com/zbjgrhr",
 } as const;

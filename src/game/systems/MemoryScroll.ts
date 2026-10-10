@@ -1,5 +1,5 @@
 import * as Phaser from "phaser";
-import { COLORS, GAME_WIDTH } from "@/game/config/gameConfig";
+import { COLORS, GAME_HEIGHT, GAME_WIDTH } from "@/game/config/gameConfig";
 import { PIANO_TOP } from "@/game/entities/PianoStage";
 import type { ChapterId, Locale, ProjectId, SegmentKind } from "@/types";
 import { getGameLevel, localize } from "@/data/gameLevels";
@@ -18,6 +18,7 @@ interface Layer {
 export class MemoryScroll {
   private scene: Phaser.Scene;
   private bg!: Phaser.GameObjects.Rectangle;
+  private projectBackdrop: Phaser.GameObjects.Image | null = null;
   private scrollRoot!: Phaser.GameObjects.Container;
   private layers: Layer[] = [];
   private skin: string = "pixel-void";
@@ -49,7 +50,7 @@ export class MemoryScroll {
     this.spawnStars();
 
     const level = getGameLevel(projectId);
-    const sources = Array.from(new Set(level.panels.map((panel) => panel.image)));
+    const sources = Array.from(new Set([level.backdrop, ...level.panels.map((panel) => panel.image)]));
     let queued = 0;
     for (const src of sources) {
       const key = this.imageTextureKey(src);
@@ -63,6 +64,15 @@ export class MemoryScroll {
         this.scene.load.once(Phaser.Loader.Events.COMPLETE, () => resolve());
         if (!this.scene.load.isLoading()) this.scene.load.start();
       });
+    }
+    this.projectBackdrop?.destroy();
+    const backdropKey = this.imageTextureKey(level.backdrop);
+    if (this.scene.textures.exists(backdropKey)) {
+      const image = this.scene.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, backdropKey);
+      const cropTop = Math.round(image.height * (level.backdropCropTop ?? 0));
+      if (cropTop) image.setCrop(0, cropTop, image.width, image.height - cropTop);
+      image.setScale(Math.max(GAME_WIDTH / image.width, GAME_HEIGHT / (image.height - cropTop)));
+      this.projectBackdrop = image.setAlpha(0.78).setDepth(-20);
     }
     this.applyEnvironment(level.environment);
   }
@@ -84,26 +94,19 @@ export class MemoryScroll {
   }
 
   create() {
-    if (this.scene.textures.exists("watercolor-memory-bg")) {
-      this.scene.add
-        .image(GAME_WIDTH / 2, PIANO_TOP / 2, "watercolor-memory-bg")
-        .setDisplaySize(GAME_WIDTH, PIANO_TOP + 40)
-        .setAlpha(0.25)
-        .setDepth(-1);
-    }
     this.bg = this.scene.add
       .rectangle(
         GAME_WIDTH / 2,
         PIANO_TOP / 2,
         GAME_WIDTH,
         PIANO_TOP + 40,
-        COLORS.deepBlue,
-        0.82,
+        0xfffbf4,
+        0.28,
       )
       .setDepth(0);
     this.scrollRoot = this.scene.add.container(0, 0).setDepth(2);
     this.scene.add
-      .rectangle(GAME_WIDTH / 2, PIANO_TOP - 10, GAME_WIDTH, 60, COLORS.deepBlue, 0.35)
+      .rectangle(GAME_WIDTH / 2, PIANO_TOP - 10, GAME_WIDTH, 60, 0xfffbf4, 0.14)
       .setDepth(4);
     this.spawnStars();
   }
@@ -159,7 +162,7 @@ export class MemoryScroll {
         }
       });
     }
-    if (colors[id] !== undefined) this.bg.setFillStyle(colors[id], 0.82);
+    if (colors[id] !== undefined) this.bg.setFillStyle(colors[id], 0.16);
   }
 
   private ensureBaseGrid() {
@@ -262,7 +265,7 @@ export class MemoryScroll {
         GAME_WIDTH - 112,
         panelHeight,
         0xfff7e6,
-        0.94,
+        0.8,
       )
       .setStrokeStyle(1, level.accentNumber, 0.72);
     const rail = this.scene.add.rectangle(
@@ -425,7 +428,7 @@ export class MemoryScroll {
     );
     this.bg.setFillStyle(
       Phaser.Display.Color.GetColor(color.r, color.g, color.b),
-      0.82,
+      0.16,
     );
   }
 

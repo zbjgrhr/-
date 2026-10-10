@@ -62,8 +62,16 @@ export function GameHUD() {
         <i className="game-paper-fragment game-paper-fragment-two" />
         <i className="game-paper-fragment game-paper-fragment-three" />
       </div>
+      {!paused && (
+        <Link href="/" className="game-map-return game-map-return--play" onClick={exitToLevels}>
+          <span aria-hidden>←</span>
+          <span>{locale === "en" ? "Back to Map" : "返回地图"}</span>
+        </Link>
+      )}
       <div
         className={`game-hud game-hud-${level.difficulty}`}
+        id="game-hud"
+        tabIndex={-1}
         data-resonance={resonance}
         style={{ "--level-accent": level.accent } as React.CSSProperties}
         aria-live="polite"
@@ -242,8 +250,8 @@ function PauseOverlay() {
       >
         {locale === "en" ? "Back to Level Select" : "返回选关"}
       </button>
-      <Link href="/explore" className="btn-ghost" onClick={() => setMode("explore")}>
-        {locale === "en" ? "Read the Full Portfolio" : "阅读完整作品集"}
+      <Link href="/" className="btn-ghost" onClick={() => { setPaused(false); setMode("entry"); }}>
+        {locale === "en" ? "Back to Map" : "返回地图"}
       </Link>
     </div>
   );
@@ -293,8 +301,8 @@ function CodaOverlay() {
         >
           {locale === "en" ? "Choose Another Level" : "选择其他关卡"}
         </button>
-        <Link href="/explore" className="btn-ghost" onClick={() => setMode("explore")}>
-          {locale === "en" ? "Open Full Project" : "打开完整项目"}
+        <Link href="/" className="btn-ghost" onClick={() => { setPaused(false); setMode("entry"); }}>
+          {locale === "en" ? "Back to Map" : "返回地图"}
         </Link>
       </div>
     </div>

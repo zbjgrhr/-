@@ -67,12 +67,9 @@ export function EntryGate() {
             <span className="locale-full">{locale === "en" ? "中文" : "EN"}</span>
             <span className="locale-short" aria-hidden>{locale === "en" ? "中" : "EN"}</span>
           </button>
-          <Link href="/explore" className="game-portfolio-cta">
-            <span aria-hidden>↗</span>
-            <span>
-              <small>{locale === "en" ? "Full Project Archive" : "完整项目档案"}</small>
-              <strong>{locale === "en" ? "Read the Full Portfolio" : "阅读完整作品集"}</strong>
-            </span>
+          <Link href="/" className="game-map-return">
+            <span aria-hidden>←</span>
+            <span>{locale === "en" ? "Back to Map" : "返回地图"}</span>
           </Link>
         </div>
       </header>
@@ -162,11 +159,8 @@ export function EntryGate() {
               <div><dt>{locale === "en" ? "Availability" : "开放状态"}</dt><dd>{locale === "en" ? "Unlocked" : "已开放"}</dd></div>
             </dl>
             <button type="button" className="level-start" onClick={startLevel}>
-              <span>
-                <small>{locale === "en" ? "Start Level" : "开始关卡"}</small>
-                <strong>{localize(selected.shortTitle, locale)}</strong>
-              </span>
-              <i aria-hidden>▶</i>
+              {locale === "en" ? "Start: " : "开始："}
+              {selected.id === "pixel-world" ? "PIXEL WORLD" : localize(selected.title, locale)}
             </button>
             <p className="level-start-hint">
               {locale === "en" ? "Headphones recommended · Every level can be selected directly" : "建议佩戴耳机 · 所有关卡均可直接选择"}

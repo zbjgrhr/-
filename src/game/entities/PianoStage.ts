@@ -30,7 +30,7 @@ export class PianoStage {
 
     // Soft blend into memory scroll
     this.scene.add
-      .rectangle(GAME_WIDTH / 2, PIANO_TOP - 20, GAME_WIDTH, 80, COLORS.deepBlue, 0.55)
+      .rectangle(GAME_WIDTH / 2, PIANO_TOP - 20, GAME_WIDTH, 80, 0xfffbf4, 0.15)
       .setDepth(5);
 
     this.scene.add
@@ -39,8 +39,8 @@ export class PianoStage {
         (PIANO_TOP + GAME_HEIGHT) / 2,
         GAME_WIDTH,
         GAME_HEIGHT - PIANO_TOP,
-        0x46475f,
-        0.92,
+        0x193243,
+        0.32,
       )
       .setDepth(6);
 

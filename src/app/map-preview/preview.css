@@ -1,6 +1,4 @@
 .map-preview {
-  --pointer-x: 50%;
-  --pointer-y: 50%;
   --drift-x: 0px;
   --drift-y: 0px;
   --atmosphere: 1;
@@ -12,7 +10,7 @@
   isolation: isolate;
   color: #fffaf4;
   background: #152333;
-  cursor: none;
+  cursor: url("/map-preview/star-cursor.svg") 14 14, auto;
   font-family: Georgia, "Times New Roman", serif;
 }
 
@@ -25,7 +23,7 @@
   inset: -2%;
   background: url("/map-preview/world-original.png") center center / cover no-repeat;
   transform: translate3d(var(--drift-x), var(--drift-y), 0) scale(1.015);
-  transition: transform .5s ease-out;
+  transition: transform .18s ease-out;
   will-change: transform;
 }
 
@@ -95,9 +93,14 @@
 }
 
 .map-preview__pointer-light {
+  inset: 0 auto auto 0;
+  width: 500px;
+  height: 500px;
   opacity: calc(var(--atmosphere) * .8);
-  background: radial-gradient(circle 250px at var(--pointer-x) var(--pointer-y), rgba(255, 253, 221, .16), transparent 72%);
+  background: radial-gradient(circle, rgba(255, 253, 221, .16), transparent 72%);
   mix-blend-mode: screen;
+  transform: translate3d(calc(50vw - 250px), calc(50vh - 250px), 0);
+  will-change: transform;
 }
 
 .map-preview__glint {
@@ -117,27 +120,72 @@
 .map-preview__glint--three { left: 74%; top: 34%; font-size: 21px; animation-delay: -2.7s; }
 .map-preview__glint--four { left: 85%; top: 76%; font-size: 18px; animation-delay: -1s; }
 
-.map-preview__cursor {
+.map-preview__rhythm-portal {
   position: absolute;
-  z-index: 12;
-  left: var(--pointer-x);
-  top: var(--pointer-y);
+  z-index: 9;
+  left: clamp(18px, 2.8vw, 58px);
+  bottom: clamp(26px, 5vh, 58px);
   display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  transform: translate(-50%, -50%) scale(.8);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease, transform .2s ease;
+  justify-items: center;
+  gap: 5px;
+  width: 272px;
+  padding: 2px 7px 5px;
+  color: rgba(255, 253, 241, .96);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: color .2s ease;
 }
-
-.map-preview.has-pointer .map-preview__cursor { opacity: .76; transform: translate(-50%, -50%) scale(1); }
-.map-preview__cursor span { font-family: Georgia, serif; font-size: 18px; color: #fff9d8; text-shadow: 0 0 10px rgba(255, 239, 180, .8); }
+.map-preview__rhythm-eggs {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  height: 75px;
+}
+.map-preview__rhythm-egg {
+  display: block;
+  width: 52px;
+  height: 65px;
+  flex: 0 0 52px;
+  transform: translateY(var(--egg-offset, 0px));
+  animation: rhythm-egg-bounce 2.1s ease-in-out infinite;
+}
+.map-preview__rhythm-egg img { width: 100%; height: auto; filter: drop-shadow(0 4px 5px rgba(11, 29, 44, .32)); }
+.map-preview__rhythm-egg--1 { --egg-offset: 4px; animation-delay: 0s; }
+.map-preview__rhythm-egg--2 { --egg-offset: -10px; animation-delay: -.42s; }
+.map-preview__rhythm-egg--3 { --egg-offset: 1px; animation-delay: -.84s; }
+.map-preview__rhythm-egg--4 { --egg-offset: -14px; animation-delay: -1.26s; }
+.map-preview__rhythm-egg--5 { --egg-offset: 6px; animation-delay: -1.68s; }
+.map-preview__rhythm-egg--1 img { filter: sepia(.48) saturate(2.8) hue-rotate(-35deg) drop-shadow(0 4px 5px rgba(11, 29, 44, .32)); }
+.map-preview__rhythm-egg--2 img { filter: sepia(.48) saturate(2.8) hue-rotate(58deg) drop-shadow(0 4px 5px rgba(11, 29, 44, .32)); }
+.map-preview__rhythm-egg--3 img { filter: sepia(.48) saturate(2.8) hue-rotate(145deg) drop-shadow(0 4px 5px rgba(11, 29, 44, .32)); }
+.map-preview__rhythm-egg--4 img { filter: sepia(.48) saturate(2.8) hue-rotate(220deg) drop-shadow(0 4px 5px rgba(11, 29, 44, .32)); }
+.map-preview__rhythm-egg--5 img { filter: sepia(.48) saturate(2.8) hue-rotate(300deg) drop-shadow(0 4px 5px rgba(11, 29, 44, .32)); }
+@keyframes rhythm-egg-bounce {
+  0%, 68%, 100% { transform: translateY(var(--egg-offset, 0px)) scale(1); }
+  17% { transform: translateY(calc(var(--egg-offset, 0px) - 17px)) scale(1.045); }
+  31% { transform: translateY(calc(var(--egg-offset, 0px) + 2px)) scale(.96, 1.04); }
+}
+.map-preview__rhythm-label {
+  display: grid;
+  width: auto;
+  padding: 2px 13px 4px;
+  border: 1px solid rgba(255, 249, 224, .38);
+  border-radius: 999px;
+  background: rgba(15, 34, 51, .22);
+  backdrop-filter: blur(3px);
+  color: inherit;
+  text-shadow: 0 1px 3px rgba(8, 20, 39, .95), 0 2px 10px rgba(8, 20, 39, .9);
+}
+.map-preview__rhythm-label strong {
+  font: 600 15px/1.25 "Microsoft YaHei", sans-serif;
+  letter-spacing: .16em;
+}
+.map-preview__rhythm-portal:hover,
+.map-preview__rhythm-portal:focus-visible { color: #fffdf2; }
+.map-preview__rhythm-portal:focus-visible { outline: 2px solid rgba(255, 250, 236, .8); outline-offset: 3px; border-radius: 6px; }
 
 .map-preview__header,
 .map-preview__footer,
@@ -216,6 +264,10 @@
 @keyframes map-glint { 0%, 100% { opacity: 0; transform: scale(.55) rotate(0deg); } 42% { opacity: calc(var(--atmosphere) * .9); transform: scale(1) rotate(18deg); } 65% { opacity: calc(var(--atmosphere) * .55); transform: scale(.8) rotate(26deg); } }
 
 @media (max-width: 700px) {
+  .map-preview__rhythm-portal { left: 14px; bottom: max(24px, env(safe-area-inset-bottom)); width: 174px; padding: 2px 3px 5px; }
+  .map-preview__rhythm-eggs { height: 56px; }
+  .map-preview__rhythm-egg { width: 33px; height: 45px; flex-basis: 33px; }
+  .map-preview__rhythm-label strong { font-size: 13px; }
   .map-preview { cursor: auto; min-height: 100dvh; }
   .map-preview__scene { background-position: 48% center; }
   .map-preview__header { padding: 17px; }
@@ -228,10 +280,10 @@
   .map-preview__caption p { max-width: 24em; font-size: 11px; }
   .map-preview__owner-mobile { display: block; margin-top: 10px !important; opacity: .84; }
   .map-preview__controls { margin-top: 17px; max-width: 235px; }
-  .map-preview__cursor { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .map-preview__rhythm-egg { animation: none; }
   .map-preview__scene { transform: none; transition: none; }
   .map-preview__sunlight, .map-preview__mist, .map-preview__sweep, .map-preview__glint, .map-preview__intro-mark, .map-preview__intro-line { animation: none; }
   .map-preview__intro-line { transform: scaleX(1); }

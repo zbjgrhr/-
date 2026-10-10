@@ -129,7 +129,6 @@
 .map-preview__inline-menu:focus-visible { opacity: 1; outline: 2px solid #fff2bd; }
 
 .map-preview.menu-open { cursor: auto; }
-.map-preview.menu-open .map-preview__cursor { display: none; }
 
 .map-preview__menu {
   position: fixed;
@@ -262,6 +261,10 @@
 .map-preview__contact-links button:hover,
 .map-preview__contact-links a:focus-visible,
 .map-preview__contact-links button:focus-visible { color: #322645; background: #fff; outline: 2px solid #aa91cb; }
+.map-preview__contact-links .map-preview__contact-email { display: grid; gap: 5px; }
+.map-preview__contact-email span { display: flex; justify-content: space-between; gap: 12px; }
+.map-preview__contact-email span b { color: #9d7eb5; font: 20px/1 Georgia, serif; }
+.map-preview__contact-email small { color: #75657f; font: 500 12px/1.4 "Courier New", monospace; overflow-wrap: anywhere; }
 .map-preview__qr { display: block; width: 176px; height: 176px; margin-top: 20px; border: 7px solid white; border-radius: 12px; object-fit: contain; }
 
 @keyframes map-menu-fade { from { opacity: 0; } to { opacity: 1; } }

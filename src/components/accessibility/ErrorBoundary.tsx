@@ -1,6 +1,7 @@
 "use client";
 
 import { Component, type ReactNode } from "react";
+import Link from "next/link";
 
 interface Props {
   children: ReactNode;
@@ -22,10 +23,10 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <main className="explore-page">
           <h1>出了点问题。</h1>
-          <p>互动层加载失败，你仍然可以浏览作品集。</p>
-          <a className="btn-primary" href="/explore">
-            直接浏览
-          </a>
+          <p>音游暂时无法加载，你可以返回作品集地图。</p>
+          <Link className="btn-primary" href="/">
+            返回地图
+          </Link>
         </main>
       );
     }

@@ -24,7 +24,7 @@ export function createGameConfig(
     parent,
     width: GAME_WIDTH,
     height: GAME_HEIGHT,
-    backgroundColor: "#54536f",
+    backgroundColor: "#f3f0e9",
     pixelArt: true,
     antialias: false,
     physics: {

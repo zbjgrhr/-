@@ -14,7 +14,7 @@
   padding: 0;
   border: 0;
   background: none;
-  cursor: none;
+  cursor: inherit;
   transform: translate(-50%, -58%);
   filter: drop-shadow(0 11px 8px rgba(15, 35, 44, .6)) drop-shadow(0 0 10px rgba(255, 246, 211, .45));
   animation: creature-arrive .65s cubic-bezier(.18,.8,.28,1.15) both;
@@ -121,8 +121,7 @@
 .encounter-card__close { position: absolute; z-index: 3; right: -9px; top: -9px; width: 25px; height: 25px; border: 1px solid rgba(255,255,255,.78); border-radius: 50%; background: rgba(255, 252, 241, .78); color: #4d4d62; font: 19px/1 Georgia, serif; cursor: pointer; box-shadow: 0 3px 10px rgba(14, 25, 49, .17); }
 .encounter-card__creature { position: absolute; z-index: 2; left: -50px; bottom: -24px; width: 91px; aspect-ratio: 1; pointer-events: none; filter: drop-shadow(0 9px 7px rgba(8, 26, 43, .4)); animation: card-creature-idle 2.6s ease-in-out infinite; }
 
-.map-preview__cursor { z-index: 25; }
-.encounter-card button { cursor: none; }
+.encounter-card button { cursor: inherit; }
 
 .project-detail {
   position: absolute;
@@ -152,11 +151,193 @@
 .project-detail__link { display: inline-block; margin-top: 24px; padding: 12px 19px; border-radius: 100px; background: #445b70; color: white; text-decoration: none; font: 600 13px "Microsoft YaHei", sans-serif; }
 .project-detail__gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; margin-top: 26px; }
 .project-detail__gallery figure { margin: 0; min-width: 0; }
+.project-detail__gallery figure:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .project-detail__gallery a { display: block; min-width: 0; border-radius: 14px; }
 .project-detail__gallery a:focus-visible { outline: 3px solid #8b79b6; outline-offset: 4px; }
 .project-detail__gallery img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; border: 1px solid #e2d9df; border-radius: 14px; }
 .project-detail__gallery figcaption { padding: 9px 3px 2px; color: #6d6c77; font: 500 12px/1.5 "Microsoft YaHei", sans-serif; letter-spacing: .02em; }
 .project-detail__links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* First detail-page review: let the game's own world frame the case study. */
+.project-detail--iwbtz-review {
+  color: #263c56;
+  background:
+    linear-gradient(135deg, rgba(13, 26, 52, .16), rgba(20, 38, 67, .3)),
+    url("/map-preview/curated/iwbtz-04.webp") center / cover fixed;
+  backdrop-filter: none;
+}
+.project-detail--iwbtz-review .project-detail__panel {
+  width: min(1180px, calc(100% - 52px));
+  margin: 26px auto;
+  padding: clamp(22px, 3.5vw, 48px);
+  border: 1px solid rgba(255, 255, 255, .78);
+  border-radius: 30px;
+  background: rgba(248, 247, 255, .38);
+  box-shadow: 0 28px 90px rgba(4, 14, 38, .48), inset 0 1px rgba(255, 255, 255, .7);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+}
+.project-detail--iwbtz-review .project-detail__back {
+  margin-bottom: 30px;
+  padding: 11px 19px;
+  border-color: rgba(230, 219, 180, .78);
+  background: rgba(38, 57, 84, .88);
+  color: #fff9e9;
+  box-shadow: 0 7px 18px rgba(21, 34, 62, .2);
+  transition: transform .18s ease, background .18s ease;
+}
+.project-detail--iwbtz-review .project-detail__back::before { content: "✦"; margin-right: 8px; color: #ffe6a1; }
+.project-detail--iwbtz-review .project-detail__back:hover { transform: translateY(-2px); background: #344f78; }
+.project-detail--iwbtz-review .project-detail__back:focus-visible,
+.project-detail--iwbtz-review .project-detail__link:focus-visible { outline: 3px solid #f4c96b; outline-offset: 3px; }
+.project-detail--iwbtz-review .project-detail__hero { gap: clamp(24px, 4vw, 50px); }
+.project-detail--iwbtz-review .project-detail__hero span { color: #796da8; letter-spacing: .15em; }
+.project-detail--iwbtz-review .project-detail__hero h1 {
+  color: #243857;
+  font-family: Georgia, "Microsoft YaHei", serif;
+  letter-spacing: -.035em;
+  text-shadow: 0 1px rgba(255, 255, 255, .75);
+}
+.project-detail--iwbtz-review .project-detail__hero p { color: #475875; }
+.project-detail--iwbtz-review .project-detail__hero img {
+  max-height: none;
+  border: 5px solid rgba(255, 255, 255, .83);
+  border-radius: 20px;
+  box-shadow: 0 17px 36px rgba(17, 32, 64, .25);
+}
+.project-detail--iwbtz-review .project-detail__grid section {
+  border-color: rgba(255, 255, 255, .78);
+  background: rgba(255, 255, 255, .5);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .5), 0 8px 24px rgba(43, 53, 91, .07);
+  backdrop-filter: blur(8px);
+}
+.project-detail--iwbtz-review .project-detail__grid h2 { color: #645b91; }
+.project-detail--iwbtz-review .project-detail__grid p,
+.project-detail--iwbtz-review .project-detail__grid li { color: #384a66; }
+.project-detail--iwbtz-review .project-detail__gallery { gap: 20px; margin-top: 32px; }
+.project-detail--iwbtz-review .project-detail__gallery figure {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+.project-detail--iwbtz-review .project-detail__gallery a { display: flex; justify-content: center; align-items: flex-start; }
+.project-detail--iwbtz-review .project-detail__gallery img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  border: 0;
+  border-radius: 12px;
+}
+.project-detail--iwbtz-review .project-detail__gallery figcaption { padding: 10px 6px 8px; color: #53627a; }
+.project-detail--iwbtz-review .project-detail__motion img { max-height: none; background: none; }
+.project-detail--iwbtz-review .project-detail__link { background: rgba(48, 68, 100, .93); }
+.project-detail--iwbtz-review .project-detail__link:hover { background: #334f80; }
+
+/* Pixel World keeps the approved glass treatment, with its own playable-world scenery. */
+.project-detail--pixel-world-review {
+  background:
+    linear-gradient(135deg, rgba(24, 36, 71, .13), rgba(16, 48, 76, .26)),
+    url("/portfolio/pixel-world-case-08-playable-worlds.png") center / cover fixed;
+}
+.project-detail--pixel-world-review .project-detail__panel { background: rgba(246, 250, 255, .38); }
+.project-detail--pixel-world-review .project-detail__hero span { color: #7466af; }
+.project-detail--pixel-world-review .project-detail__grid h2 { color: #555e9a; }
+
+/* The mod's cinematic key art sets a warmer, survival-noir atmosphere. */
+.project-detail--preservative-review {
+  background:
+    linear-gradient(135deg, rgba(12, 17, 37, .18), rgba(19, 27, 45, .3)),
+    url("/portfolio/preservative-01-hero.png") center / cover fixed;
+}
+.project-detail--preservative-review .project-detail__panel { background: rgba(249, 246, 245, .4); }
+.project-detail--preservative-review .project-detail__hero > div {
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid rgba(255, 239, 220, .38);
+  border-radius: 19px;
+  background: rgba(20, 29, 48, .64);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+.project-detail--preservative-review .project-detail__hero span { color: #e5b7aa; }
+.project-detail--preservative-review .project-detail__hero h1 { color: #fff4df; text-shadow: 0 2px 10px rgba(0, 0, 0, .32); }
+.project-detail--preservative-review .project-detail__hero p { color: #f6e8dd; }
+.project-detail--preservative-review .project-detail__grid section { background: rgba(255, 252, 248, .55); }
+.project-detail--preservative-review .project-detail__grid h2 { color: #755b70; }
+
+/* Rainy Night Arcade retains the map's glass language over its own rainy lobby. */
+.project-detail--rainy-arcade-review {
+  background:
+    linear-gradient(135deg, rgba(7, 19, 42, .13), rgba(14, 29, 53, .28)),
+    url("/portfolio/rain-arcade-hero.png") center / cover fixed;
+}
+.project-detail--rainy-arcade-review .project-detail__panel { background: rgba(241, 246, 252, .39); }
+.project-detail--rainy-arcade-review .project-detail__hero > div {
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid rgba(244, 231, 204, .36);
+  border-radius: 19px;
+  background: rgba(14, 30, 52, .61);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+.project-detail--rainy-arcade-review .project-detail__hero span { color: #e0bf8e; }
+.project-detail--rainy-arcade-review .project-detail__hero h1 { color: #fff1d8; text-shadow: 0 2px 10px rgba(0, 0, 0, .3); }
+.project-detail--rainy-arcade-review .project-detail__hero p { color: #e8e9eb; }
+.project-detail--rainy-arcade-review .project-detail__grid section { background: rgba(250, 252, 255, .53); }
+.project-detail--rainy-arcade-review .project-detail__grid h2 { color: #566c88; }
+
+/* Auto Tune: airy studio imagery, restrained lavender glass, and readable hero copy. */
+.project-detail--auto-tune-review {
+  background:
+    linear-gradient(130deg, rgba(30, 36, 75, .14), rgba(42, 55, 93, .23)),
+    url("/map-preview/concepts/auto-tune-detail.webp") center / cover fixed;
+}
+.project-detail--auto-tune-review .project-detail__panel { background: rgba(247, 248, 255, .35); }
+.project-detail--auto-tune-review .project-detail__hero > div {
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid rgba(239, 230, 255, .45);
+  border-radius: 19px;
+  background: rgba(37, 48, 85, .63);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+.project-detail--auto-tune-review .project-detail__hero span { color: #d9ccff; }
+.project-detail--auto-tune-review .project-detail__hero h1 { color: #fffafc; text-shadow: 0 2px 10px rgba(7, 19, 48, .35); }
+.project-detail--auto-tune-review .project-detail__hero p { color: #edf0ff; }
+.project-detail--auto-tune-review .project-detail__grid section { background: rgba(255, 255, 255, .48); }
+.project-detail--auto-tune-review .project-detail__grid h2 { color: #66599a; }
+.project-detail--auto-tune-review .project-detail__back,
+.project-detail--auto-tune-review .project-detail__link { background: rgba(69, 72, 125, .9); }
+.project-detail--auto-tune-review .project-detail__back:hover,
+.project-detail--auto-tune-review .project-detail__link:hover { background: #585d9c; }
+
+/* Literature Research Assistant: warm library atmosphere around near-clear glass. */
+.project-detail--study-assistant-review {
+  background:
+    linear-gradient(130deg, rgba(31, 20, 28, .14), rgba(35, 21, 38, .25)),
+    url("/map-preview/concepts/literature-research-assistant-detail.webp") center / cover fixed;
+}
+.project-detail--study-assistant-review .project-detail__panel { background: rgba(252, 248, 244, .35); }
+.project-detail--study-assistant-review .project-detail__hero > div {
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid rgba(250, 222, 184, .42);
+  border-radius: 19px;
+  background: rgba(37, 30, 43, .68);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+.project-detail--study-assistant-review .project-detail__hero span { color: #e7c394; }
+.project-detail--study-assistant-review .project-detail__hero h1 { color: #fff3df; font-size: clamp(36px, 4.5vw, 58px); text-shadow: 0 2px 10px rgba(11, 8, 18, .4); }
+.project-detail--study-assistant-review .project-detail__hero p { color: #f4e9e4; }
+.project-detail--study-assistant-review .project-detail__grid section { background: rgba(255, 252, 247, .52); }
+.project-detail--study-assistant-review .project-detail__grid h2 { color: #785d79; }
+.project-detail--study-assistant-review .project-detail__back,
+.project-detail--study-assistant-review .project-detail__link { background: rgba(71, 54, 75, .91); }
+.project-detail--study-assistant-review .project-detail__back:hover,
+.project-detail--study-assistant-review .project-detail__link:hover { background: #614967; }
 
 @keyframes creature-arrive { from { opacity: 0; transform: translate(-50%, -52%) scale(.55); } to { opacity: 1; transform: translate(-50%, -58%) scale(1); } }
 @keyframes creature-leave { from { opacity: 1; transform: translate(-50%, -58%) scale(1); } to { opacity: 0; transform: translate(-45%, -70%) scale(.72); } }
@@ -193,7 +374,17 @@
   .encounter-card__creature { width: 73px; left: -20px; bottom: -23px; }
   .encounter-card button { cursor: pointer; }
   .project-detail__hero, .project-detail__grid, .project-detail__gallery { grid-template-columns: 1fr; }
+  .project-detail__gallery figure:last-child:nth-child(odd) { grid-column: auto; }
   .project-detail__hero img { grid-row: 1; }
+  .project-detail--iwbtz-review { background-position: center, 57% center; background-attachment: scroll; }
+  .project-detail--pixel-world-review { background-position: center, 53% center; }
+  .project-detail--preservative-review { background-position: center, 60% center; }
+  .project-detail--rainy-arcade-review { background-position: center, 59% center; }
+  .project-detail--auto-tune-review { background-position: center, 52% center; }
+  .project-detail--study-assistant-review { background-position: center, 51% center; }
+  .project-detail--iwbtz-review .project-detail__panel { width: calc(100% - 24px); margin: 12px auto; padding: 20px; border-radius: 22px; }
+  .project-detail--iwbtz-review .project-detail__back { margin-bottom: 23px; }
+  .project-detail--iwbtz-review .project-detail__hero h1 { font-size: clamp(34px, 10vw, 52px); }
 }
 @keyframes encounter-card-mobile { from { opacity: 0; transform: translate(-50%, 16px) scale(.93); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
 
