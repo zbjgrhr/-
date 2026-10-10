@@ -4,23 +4,23 @@ export const projects: ProjectArchive[] = [
   {
     id: "pixel-world",
     title: "Pixel World",
-    oneLiner: "Begin with one creative premise and end with a reviewed specification, cohesive assets, playable levels, local saves, and a complete game you can take offline.",
+    oneLiner: "From a first idea to a world you can actually play: ten agents help shape the plan, while the creator keeps the final say.",
     category: "Multi-Agent Creation System · Playable AI Product",
     period: "Sep 2025–Feb 2026 · Independent Product",
     status: "Live · Iterating",
     featured: true,
     context:
-      "Pixel World treats game generation as a complete production pipeline, not a single prompt. Creators first define the premise and boundaries. Ten specialist agents then plan and cross-review the work, while one approved GameSpec drives the assets, levels, runtime rules, saves, and final delivery.",
+      "Pixel World follows an idea beyond the first prompt. The creator sets its story and boundaries; ten specialist agents develop and review a shared GameSpec. Once approved, that specification guides the art, levels, runtime, saves, and export.",
     problem:
       "A generated game must keep its story, mechanics, art, levels, assets, costs, and runtime rules in sync. Creators also need to see conflicts, approve high-cost generation, retry failed tasks individually, and retain ownership of the result.",
     role:
-      "I independently led product design and full-stack development: user research, GameSpec V3, agent roles and review contracts, model-platform routing, asset orchestration, interface design, a custom 2D runtime, local persistence, and offline export.",
+      "I designed and built the product end to end, from user research and the agent review flow to model routing, asset generation, the 2D runtime, local saves, and offline export.",
     process: [
-      "Turn the title, story, level count, and non-negotiable rules into an editable GameSpec V3.",
-      "Ten agents collaborate across direction, narrative, mechanics, art, levels, integration, consistency, engine checks, revision, and asset coordination.",
-      "Cross-review before generation, expose blocking issues, and wait for creator approval before spending credits.",
-      "Generate assets across multiple model platforms while locking each project to one consistent visual model.",
-      "Let the approved spec drive a playable runtime, then validate saving, reopening, and offline ZIP export.",
+      "Shape the title, story, level count, and firm rules into an editable GameSpec V3.",
+      "Let ten agents plan across narrative, mechanics, art, levels, integration, and quality checks.",
+      "Show conflicts before generation and ask for the creator's approval before spending credits.",
+      "Generate assets across model platforms while keeping one visual direction within each project.",
+      "Build a playable level from the approved spec, then test saving, reopening, and offline ZIP export.",
     ],
     keyDecisions: [
       "Agent output remains a proposal until the creator approves it.",
@@ -39,12 +39,11 @@ export const projects: ProjectArchive[] = [
       "Turn generated rules and images into a stable keyboard-and-touch game.",
     ],
     outcome:
-      "The generated world takes over the product cover and becomes a playable level. The game can be saved locally or exported as an offline ZIP.",
+      "The approved world becomes both the product's cover and a playable level. Creators can save their game locally or take it away as an offline ZIP.",
     screenshots: [
-      "/portfolio/pixel-world-v5-platform-overview.png",
-      "/portfolio/pixel-world-v5-agent-studio.png",
-      "/portfolio/pixel-world-v5-asset-system.png",
-      "/portfolio/pixel-world-v5-gameplay-level-1.png",
+      "/map-preview/curated/pixel-world-01.webp",
+      "/map-preview/curated/pixel-world-02.webp",
+      "/map-preview/curated/pixel-world-03.webp",
     ],
     github: "https://github.com/zbjgrhr/PIXEL-WORLD",
     liveDemo: "https://pixel-world-silk.vercel.app/",
@@ -62,22 +61,22 @@ export const projects: ProjectArchive[] = [
   {
     id: "preservative",
     title: "Preservative",
-    oneLiner: "A published Project Zomboid mod that turns food preservation into a configurable risk–reward system with visible poisoning and treatment feedback.",
+    oneLiner: "A Project Zomboid mod that helps food last longer without making survival free of consequence.",
     category: "Game Systems · Published Steam Workshop Mod",
     period: "Sep–Oct 2026 · Independent Mod",
     status: "Published · Build 42",
     featured: true,
     context:
-      "Preservative extends Project Zomboid's food-survival loop. A bottle can protect food in inventories, nested containers, vehicle storage, refrigerators, freezers, or a configurable ground radius; a separate global setting can tune spoilage across the world.",
+      "Preservative adds another choice to Project Zomboid's food-survival loop. A bottle can protect food in inventories, vehicles, cold storage, and a configurable area on the ground. A separate world setting adjusts spoilage more broadly.",
     problem:
       "Preservation can easily erase survival pressure. The system needed to remain useful without becoming a free shortcut, communicate hidden time and efficiency rules, and turn accidental consumption into a readable, treatable risk.",
     role:
-      "I independently designed, implemented, tested, documented, localized, branded, and published the mod, then maintained its Steam Workshop page and player-facing configuration guidance.",
+      "I designed and built the mod, tested its rules, wrote the Chinese and English guidance, created its visual identity, and published it on Steam Workshop. I continue to maintain its page and configuration notes.",
     process: [
-      "Translate a real survival pain point into local-container and global-preservation rules.",
-      "Expose efficiency, duration, spawn rate, refrigeration support, poisoning, and treatment guidance as sandbox settings.",
-      "Add hover information, a red status icon, a six-hour countdown, and explicit antidote feedback.",
-      "Publish a bilingual Workshop page and iterate against player questions and use.",
+      "Turn a familiar survival problem into local-container and world-wide preservation rules.",
+      "Make strength, duration, spawn rate, refrigeration, and poisoning configurable in sandbox settings.",
+      "Show remaining protection and danger where players need them: on hover, in status icons, and through a six-hour treatment countdown.",
+      "Publish bilingual guidance and refine it in response to player questions.",
     ],
     keyDecisions: [
       "Consume duration only while food is actually being protected.",
@@ -92,11 +91,12 @@ export const projects: ProjectArchive[] = [
       "Communicate poisoning urgency without replacing the game's visual language.",
     ],
     outcome:
-      "The released mod reached 4,431 unique visitors, 1,480 current subscribers, and 182 favorites, with discussion and comment threads providing real post-launch feedback.",
+      "The released mod reached 4,431 unique visitors, 1,480 current subscribers, and 182 favorites. Workshop discussions and comments now inform its ongoing maintenance.",
     screenshots: [
-      "/portfolio/preservative-01-concept-approved.png",
-      "/portfolio/preservative-02-workshop.png",
-      "/portfolio/preservative-03-sandbox.png",
+      "/map-preview/curated/preservative-01.webp",
+      "/map-preview/curated/preservative-02.webp",
+      "/map-preview/curated/preservative-03.webp",
+      "/map-preview/curated/preservative-04.webp",
     ],
     liveDemo: "https://steamcommunity.com/sharedfiles/filedetails/?id=3814649025",
     learned: [
@@ -113,23 +113,23 @@ export const projects: ProjectArchive[] = [
   {
     id: "rainy-arcade",
     title: "Rainy Night Arcade",
-    oneLiner: "A narrative arcade that shifts between genres while quietly turning player behavior into a locally stored, exportable experience report.",
+    oneLiner: "Two very different stories live inside one rain-soaked arcade, with optional, locally stored play reports to support iteration.",
     category: "Narrative Game Design · Local Player Analytics",
     period: "Jun–Sep 2026 · Independent Game",
     status: "v0.7.0 · Two Complete Worlds",
     featured: true,
     context:
-      "Rainy Night Arcade connects different worlds through one late-night frame. Block City combines path repair, object recognition, evidence checking, and spatial assembly. Rain City combines ticket reconstruction, watch repair, rule-based reasoning, failure loops, and departure.",
+      "A late-night arcade holds the worlds together without asking them to feel alike. In Block City, players piece a home back together through roads, objects, and memories. In Rain City, a broken ticket and an unreliable set of rules turn observation into the way out.",
     problem:
       "The game must preserve emotional continuity as its mechanics change, while leaving useful evidence for playtest iteration. The entire project also needs to remain statically deployable and playable offline, with no account or server required.",
     role:
-      "I led the game design, world and narrative structure, puzzle systems, and interaction flow. I also set the visual direction, integrated audio, verified implementation, ran regression checks, and designed and built the local analytics layer for v0.7.",
+      "I led the narrative, puzzle, and interaction design; set the visual direction; integrated audio; and tested the game. For v0.7, I also designed and built the local play-report system.",
     process: [
-      "Use one rainy-night arcade to frame every cabinet, while giving each world its own emotional question and interaction language.",
-      "Block City begins by reconnecting a road, then reconstructs a home through objects, memories, and spatial clues.",
-      "Rain City revolves around false rules, looping time, and a torn ticket. Observation is the only way out.",
-      "Store only anonymous counts, stage entries, hints, retries, duration, and completion status in localStorage.",
-      "Generate a four-dimensional entertainment profile, while letting the developer page aggregate anonymous JSON files entirely on-device.",
+      "Give each cabinet a distinct emotional question and way of playing, within one shared rainy-night frame.",
+      "Build Block City around repaired roads, remembered objects, and spatial clues.",
+      "Let Rain City's false rules, looping time, and torn ticket reward careful observation.",
+      "Keep anonymous counts, stage entries, hints, retries, duration, and completion status in localStorage.",
+      "Let players export a four-dimensional play profile; let developers combine anonymous reports on their own device.",
     ],
     keyDecisions: [
       "State the completed scope clearly: Block City and Rain City are playable; Library City and Sea-Island City remain planned.",
@@ -144,12 +144,11 @@ export const projects: ProjectArchive[] = [
       "Draw useful feedback from local behavioral signals without overreaching into pseudo-psychological assessment.",
     ],
     outcome:
-      "An offline-ready, two-world narrative game with persistent progress, complete audio, 22 regression checks, optional player profiles, and a developer observatory that can import multiple anonymous reports.",
+      "Block City and Rain City are playable offline, with saved progress, complete audio, and 22 regression checks. Players may export their own report; the developer view can compare anonymous reports locally.",
     screenshots: [
-      "/portfolio/rain-arcade-hero.png",
-      "/portfolio/rain-arcade-hall.png",
-      "/portfolio/rain-player-profile.png",
-      "/portfolio/rain-developer-analytics.png",
+      "/map-preview/curated/rainy-arcade-01.webp",
+      "/map-preview/curated/rainy-arcade-02.webp",
+      "/map-preview/curated/rainy-arcade-03.webp",
     ],
     liveDemo: "https://grid-wmkf.upma.site/",
     learned: [
@@ -166,23 +165,23 @@ export const projects: ProjectArchive[] = [
   {
     id: "iwbtz",
     title: "I Wanna Be the Zomboy",
-    oneLiner: "A hardcore platformer that combines traps, bosses, and character customization—turning “refusing to be defined” into a series of obstacles the player crosses firsthand.",
+    oneLiner: "A demanding platformer where traps, boss battles, and a changeable hero carry a story about refusing other people's labels.",
     category: "Game Design · Hardcore 2D Platformer",
     period: "Apr–Sep 2025 · Master’s Graduation Project",
     status: "Playable Prototype · 7 Levels + 4 Boss Battles",
     featured: true,
     context:
-      "Inspired by I Wanna Be the Guy and Plants vs. Zombies, the project traces a path through childhood, school, social pressure, and self-acceptance. Each jump carries both a mechanical challenge and an emotional metaphor, while DYOC lets players recombine the protagonist’s appearance.",
+      "Inspired by I Wanna Be the Guy and Plants vs. Zombies, this graduation project moves through childhood, school, social pressure, and self-acceptance. The challenge is deliberately sharp, but the story is personal: the player can rebuild the hero's appearance through DYOC rather than accept a fixed identity.",
     problem:
       "A hardcore platformer depends on precise control, readable failure, and a fair restart rhythm. The project also explores how generative AI can expand character variation without making the game dependent on a network connection.",
     role:
-      "I led the game concept, narrative and level planning, boss behaviors, progression systems, and dynamic difficulty. I implemented the game in GameMaker, integrated an AI-assisted DYOC workflow, organized playtests, and drove iteration.",
+      "I shaped the concept, story, levels, boss behavior, progression, and difficulty. I built the game in GameMaker, added AI-assisted DYOC, organized playtests, and used the findings to revise the experience.",
     process: [
-      "Connect seven standard levels into a narrative arc from external labels to self-acceptance.",
-      "Design four boss battles, adding a new attack language each time health drops by 25%.",
-      "Implement platforms, room transitions, saves, settings, audio, weather particles, and interface systems.",
-      "Give DYOC both a fully random local path and an online AI path, with automatic fallback to local generation when offline.",
-      "Shorten text after playtesting, move essential narrative into the main levels, and make the tutorial more relevant to the core mechanics.",
+      "Carry a story of outside labels and self-acceptance through seven standard levels.",
+      "Build four bosses whose attack patterns grow whenever their health falls by another 25%.",
+      "Implement movement, rooms, saves, settings, audio, weather effects, and the interface in GameMaker.",
+      "Offer both local randomization and online AI for DYOC, with a local fallback when offline.",
+      "After playtesting, shorten the text, move essential story beats into the levels, and tighten the tutorial.",
     ],
     keyDecisions: [
       "Treat restart speed and attack readability as part of difficulty design.",
@@ -197,12 +196,11 @@ export const projects: ProjectArchive[] = [
       "Make AI-generated parts compatible with the existing character-asset library.",
     ],
     outcome:
-      "A playable graduation-project prototype with seven standard levels, four boss battles, multiple themed environments, saved character parts, and AI-assisted customization—with character generation still available offline.",
+      "The playable graduation prototype has seven standard levels, four bosses, varied environments, and saved character parts. Character creation still works without a network connection.",
     screenshots: [
-      "/portfolio/iwbtz-menu.png",
-      "/portfolio/iwbtz-stage-select.png",
-      "/portfolio/iwbtz-level-city.png",
-      "/portfolio/iwbtz-dyoc-result.png",
+      "/map-preview/curated/iwbtz-01.webp",
+      "/map-preview/curated/iwbtz-02.webp",
+      "/map-preview/curated/iwbtz-03.webp",
     ],
     learned: [
       "High difficulty feels fair only when failure is legible and control returns quickly.",
@@ -218,21 +216,21 @@ export const projects: ProjectArchive[] = [
   {
     id: "auto-tune",
     title: "Auto Tune",
-    oneLiner: "A Manifest V3 extension that presents both the mechanics and the limits of browser-based social media automation honestly.",
+    oneLiner: "A browser extension prototype that makes posting across three platforms easier, while keeping its limits plain to see.",
     category: "Browser Automation · Cross-Platform Prototype",
     period: "Jun–Sep 2026 · Independent Project",
     status: "Working Prototype · Chrome / Edge",
     context:
-      "Auto Tune explores how one extension can support X, Facebook, and Instagram while keeping platform-specific page logic inside separate adapters. It supports editable random drafts in Chinese and English, posting from the current tab, local state, and delayed automatic replies on X only.",
+      "Auto Tune brings X, Facebook, and Instagram into one extension without pretending their editors work the same way. Drafts remain editable in Chinese or English, posting acts on the current tab, and delayed automatic replies are available only on X.",
     problem:
       "Each platform has a different editor and page lifecycle. If the copy promises more than the software can do, the automation itself becomes a risk.",
     role:
-      "I defined the product boundaries and built the extension architecture, shared state, platform adapters, local persistence, bilingual controls, and implementation tests.",
+      "I defined what the tool should—and should not—promise, then built its shared extension core, platform adapters, local state, bilingual controls, and tests.",
     process: [
-      "Build a shared extension core while isolating each platform’s DOM selectors and activation rules.",
-      "Generate editable random drafts in Chinese or English from the control panel.",
-      "Let START detect the current supported tab and complete the post.",
-      "Limit AUTO REPLY to X, using fixed text and a random delay of 1–30 seconds.",
+      "Share the extension's core logic while keeping each platform's page selectors in its own adapter.",
+      "Show editable Chinese or English drafts before any action is taken.",
+      "Use START to identify the current supported tab and submit the post.",
+      "Keep AUTO REPLY specific to X, with fixed text and a random delay of 1–30 seconds.",
     ],
     keyDecisions: [
       "Clearly separate START from AUTO REPLY so the product never implies that every platform supports automatic replies.",
@@ -242,11 +240,11 @@ export const projects: ProjectArchive[] = [
     technology: ["Chrome Extension MV3", "JavaScript", "Content scripts", "Service worker", "DOM adapters", "Local browser storage"],
     challenges: ["Platform DOM changes", "Editable-region detection", "Synchronization between background and page state", "Define responsible product boundaries for automation"],
     outcome:
-      "A working Chrome and Edge prototype showing that cross-platform posting logic can be shared, while clearly labeling delayed replies as an X-only feature.",
+      "The Chrome and Edge prototype shares posting logic across three sites, with delayed replies clearly marked as an X-only feature.",
     screenshots: [
-      "/portfolio/auto-tune-control-panel.png",
-      "/portfolio/auto-tune-adapters.png",
-      "/portfolio/auto-tune-x-reply.png",
+      "/map-preview/curated/auto-tune-01.webp",
+      "/map-preview/curated/auto-tune-02.webp",
+      "/map-preview/curated/auto-tune-03.webp",
     ],
     github: "https://github.com/zbjgrhr/Social-Media_Auto-Reply",
     learned: [
@@ -257,21 +255,21 @@ export const projects: ProjectArchive[] = [
   {
     id: "study-assistant",
     title: "Literature Research Assistant",
-    oneLiner: "A cross-browser workspace that keeps translation, highlighting, notes, local documents, mind maps, and focus timing beside the source material.",
+    oneLiner: "A reading companion that keeps translations, highlights, notes, and mind maps close to the page that gave rise to them.",
     category: "Browser Product · Research Workflow",
     period: "Independent Project",
     status: "Working Extension · Chrome / Edge / Firefox",
     context:
-      "Literature review is easily fragmented across translators, note apps, timers, document readers, and mind-mapping tools. This extension brings the workflow into an isolated panel while preserving the relationship between every saved item and its source page.",
+      "Research rarely happens in one tab: a sentence is translated, a passage is marked, a note is written, and its source is easily lost. This extension keeps those actions beside the page in one isolated panel, with saved work linked back to where it began.",
     problem:
       "Highlights must survive refreshes and asynchronous DOM changes without breaking the host page. The same workflow also needs cross-browser support for local PDF, DOCX, HTML, and TXT files.",
     role:
-      "I led product definition, information architecture, extension development, highlight recovery, the local document reader, translation routing, and compatibility design.",
+      "I defined the reading workflow and built the extension, including its information architecture, highlight recovery, local document reader, translation routing, and cross-browser support.",
     process: [
-      "Bring text selection, translation, highlighting, phrase collection, notes, and a timer into one Shadow DOM panel.",
-      "Save page-linked data locally and restore annotations through DOM paths with text-based fallback.",
-      "Watch for delayed page changes, then retry highlight restoration.",
-      "Provide local readers for PDF, DOCX, HTML, and TXT, plus page-linked mind maps.",
+      "Place selection, translation, highlights, saved phrases, notes, and a timer in one Shadow DOM panel.",
+      "Save annotations locally with their source page, then restore them by DOM path or matching text.",
+      "Watch for pages that change after loading and retry highlight restoration when needed.",
+      "Support local PDF, DOCX, HTML, and TXT reading alongside page-linked mind maps.",
     ],
     keyDecisions: [
       "Isolate interface styles with Shadow DOM.",
@@ -282,16 +280,12 @@ export const projects: ProjectArchive[] = [
     technology: ["Chrome / Edge / Firefox extensions", "Manifest V3", "Shadow DOM", "DOM Range", "MutationObserver", "PDF.js", "Mammoth", "Local storage"],
     challenges: ["Restore highlights after nodes are replaced.", "Prevent CSS and stacking-context conflicts.", "Unify local and remote page identity.", "Maintain cross-browser builds."],
     outcome:
-      "A practical research-reading companion that connects reading, translation, annotation, phrase collection, notes, focus time, local documents, and knowledge structures—without making readers leave the source.",
+      "The working extension brings reading, translation, notes, focus time, local documents, and mind maps into one place, without asking readers to leave their source behind.",
     screenshots: [
-      "/portfolio/literature-workspace.png",
-      "/portfolio/literature-reading-loop.png",
-      "/portfolio/literature-installed.png",
-      "/portfolio/literature-search.png",
-      "/portfolio/literature-saved-library.png",
-      "/portfolio/literature-saved-notes.png",
-      "/portfolio/literature-translation-highlight.png",
-      "/portfolio/literature-mind-map.png",
+      "/map-preview/curated/study-assistant-01.webp",
+      "/map-preview/curated/study-assistant-02.webp",
+      "/map-preview/curated/study-assistant-03.webp",
+      "/map-preview/curated/study-assistant-04.webp",
     ],
     github: "https://github.com/zbjgrhr/web-translate-highlight-mind-map-notes-timer",
     learned: [

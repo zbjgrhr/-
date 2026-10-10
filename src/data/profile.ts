@@ -40,18 +40,18 @@ interface ProfileCopy {
 const profileCopy: Record<Locale, ProfileCopy> = {
   en: {
     role: "Game Design × AI Products",
-    headline: "I design worlds, rules, and AI workflows—and make them places people can truly enter.",
+    headline: "I make the worlds I imagine playable, and the tools I build useful.",
     summary:
-      "What matters to me is whether a project can be played, understood, and used by people beyond the team that built it.",
+      "I work across game design and AI products. Whether it's a level, a rule, or a browser tool, I want someone outside the project to understand it and make it their own.",
     proofLabel: "Evidence in the Work",
     experienceLabel: "Selected Experience",
     experienceIntro:
-      "My experience in cultural products, community operations, and media production keeps my independent games and AI systems grounded in real audiences, real collaboration, and real delivery constraints.",
+      "Before these independent projects, I worked with museum visitors, community members, and media audiences. Those encounters still shape how I design and deliver interactive work.",
     availability: "Open to opportunities in game design, AI products, and interactive experiences.",
     focus: "Game Systems · AI Product Design · Interactive Prototyping · User Research",
     capabilityLabel: "One Practice, Four Perspectives",
     capabilityIntro:
-      "I connect game design and product thinking through working prototypes. Research, systems implementation, and user operations all serve one goal: letting the work speak for itself in use.",
+      "I move between research, rules, prototypes, and the people who use them. Each perspective helps me see what the others miss.",
     capabilities: [
       { title: "Game Design", skills: ["Systems Design", "Level Design", "Narrative Design", "Boss Mechanics", "Balance", "Playtest Iteration"] },
       { title: "AI Products", skills: ["Multi-Agent Workflows", "Product Architecture", "Prompt Systems", "Model Routing", "Human Approval", "Evaluation"] },
@@ -107,18 +107,18 @@ const profileCopy: Record<Locale, ProfileCopy> = {
   },
   zh: {
     role: "游戏策划 × AI 产品",
-    headline: "我设计世界、规则和 AI 工作流，也让人真正走进去。",
+    headline: "让想象中的世界可以游玩，让做出来的工具真正好用。",
     summary:
-      "我更在意作品能不能被玩起来、被看懂，也能被团队之外的人用上。",
+      "我在游戏策划与 AI 产品之间工作。无论是一关游戏、一套规则，还是一个浏览器工具，我都希望第一次接触它的人能看懂、上手，并按自己的方式使用。",
     proofLabel: "作品中的证据",
     experienceLabel: "精选经历",
     experienceIntro:
-      "文化产品、社群运营和媒体制作的经历，让我的独立游戏和 AI 系统始终面对真实受众、协作关系和交付约束。",
+      "做独立项目以前，我面对过博物馆观众、社群成员和媒体受众。那些具体的人和现场，至今仍影响我设计互动作品的方式。",
     availability: "关注游戏策划、AI 产品与互动体验相关机会。",
     focus: "游戏系统 · AI 产品设计 · 互动原型 · 用户研究",
     capabilityLabel: "一条实践，四个观察角度",
     capabilityIntro:
-      "我用可运行原型连接游戏策划与产品思维；研究、系统实现和用户运营，都指向同一件事：让作品在使用中自己说话。",
+      "研究、规则、原型和真实使用者，是我看同一个问题的不同角度。换一个角度，往往就能看到上一眼遗漏的东西。",
     capabilities: [
       { title: "游戏策划", skills: ["系统设计", "关卡设计", "叙事设计", "Boss 机制", "数值平衡", "试玩迭代"] },
       { title: "AI 产品", skills: ["多 Agent 工作流", "产品架构", "提示系统", "模型路由", "人工审批", "效果评估"] },

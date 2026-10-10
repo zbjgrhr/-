@@ -3,8 +3,8 @@ export const zh = {
   brandZh: "共鸣档案",
   name: "Huaxin Zhang",
   nameZh: "张铧心",
-  tagline: "把复杂流程做成能上手、能验证的作品。",
-  profile: "游戏策划 × AI 产品设计。用用户研究、系统策划和可运行原型，把一句设想推进到能交付的作品。",
+  tagline: "做可以走进去的游戏，也做愿意再打开的工具。",
+  profile: "我设计游戏与 AI 产品，也亲手做原型，看看一个想法到了真实使用者手里会是什么样子。",
   coreAreas: [
     "游戏系统与关卡策划",
     "AI Agent 工作流",
@@ -20,7 +20,7 @@ export const zh = {
     reducedMotion: "减少动效",
     howToPlay: "如何游玩",
     credits: "制作名单",
-    hint: "五个项目就是五个独立关卡，从一开始全部开放。",
+    hint: "五段由作品延伸出的乐章，从一开始全部开放。",
   },
   howToPlay: {
     title: "如何游玩",
@@ -85,7 +85,7 @@ export const zh = {
   },
   explore: {
     title: "精选作品",
-    subtitle: "六个项目，六种把创意做成产品的方法。",
+    subtitle: "六个项目，各有自己的问题、规则和进入世界的方式。",
     about: "关于",
     projects: "项目",
     contact: "联系",
@@ -99,8 +99,8 @@ export const zh = {
     portfolioPath: "/downloads/Zhang_Huaxin_Creative_Portfolio.pdf",
   },
   coda: {
-    title: "一起做点有意义的事",
-    line: "如果这段体验让你想聊点什么，欢迎继续找我。",
+    title: "要不要一起做点什么？",
+    line: "如果某个项目让你停留了一会儿，告诉我是哪一个，也告诉我为什么。",
     replay: "再演奏一次",
     explore: "浏览项目",
     autoplay: "开启自动演奏",

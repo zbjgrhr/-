@@ -88,9 +88,9 @@ export const en: ContentShape = {
   brandZh: "共鸣档案",
   name: "Huaxin Zhang",
   nameZh: "张铧心",
-  tagline: "I turn complex workflows into products people can use and validate.",
+  tagline: "Games to step into. Tools to reach for again.",
   profile:
-    "Game designer × AI product builder. I use user research, systems design, and working prototypes to turn an initial idea into something ready to ship.",
+    "I design games and AI products, then build prototypes that reveal how they feel in real hands.",
   coreAreas: [
     "Game Systems & Level Design",
     "AI Agent Workflows",
@@ -106,7 +106,7 @@ export const en: ContentShape = {
     reducedMotion: "Reduce Motion",
     howToPlay: "How to Play",
     credits: "Credits",
-    hint: "Five projects, five standalone levels—all unlocked from the start.",
+    hint: "Five musical chapters inspired by the work—all open from the start.",
   },
   howToPlay: {
     title: "How to Play",
@@ -173,7 +173,7 @@ export const en: ContentShape = {
   },
   explore: {
     title: "Selected Work",
-    subtitle: "Six projects. Six ways of turning ideas into products.",
+    subtitle: "Six projects, each with its own question, rules, and way into the world.",
     about: "About",
     projects: "Projects",
     contact: "Contact",
@@ -187,8 +187,8 @@ export const en: ContentShape = {
     portfolioPath: "/downloads/Zhang_Huaxin_Creative_Portfolio.pdf",
   },
   coda: {
-    title: "Let’s Make Something Meaningful",
-    line: "If this experience gives you something to talk about, I’d love to hear from you.",
+    title: "Shall We Make Something Together?",
+    line: "If a project stayed with you, tell me which one—and why.",
     replay: "Play Again",
     explore: "Explore Projects",
     autoplay: "Enable Autoplay",

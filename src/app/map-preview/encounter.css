@@ -151,9 +151,11 @@
 .project-detail__grid ul { margin: 0; padding-left: 20px; }
 .project-detail__link { display: inline-block; margin-top: 24px; padding: 12px 19px; border-radius: 100px; background: #445b70; color: white; text-decoration: none; font: 600 13px "Microsoft YaHei", sans-serif; }
 .project-detail__gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; margin-top: 26px; }
+.project-detail__gallery figure { margin: 0; min-width: 0; }
 .project-detail__gallery a { display: block; min-width: 0; border-radius: 14px; }
 .project-detail__gallery a:focus-visible { outline: 3px solid #8b79b6; outline-offset: 4px; }
 .project-detail__gallery img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; border: 1px solid #e2d9df; border-radius: 14px; }
+.project-detail__gallery figcaption { padding: 9px 3px 2px; color: #6d6c77; font: 500 12px/1.5 "Microsoft YaHei", sans-serif; letter-spacing: .02em; }
 .project-detail__links { display: flex; gap: 10px; flex-wrap: wrap; }
 
 @keyframes creature-arrive { from { opacity: 0; transform: translate(-50%, -52%) scale(.55); } to { opacity: 1; transform: translate(-50%, -58%) scale(1); } }

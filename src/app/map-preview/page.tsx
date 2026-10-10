@@ -43,7 +43,33 @@ const creatureImages: Record<string, string> = {
 const conceptName = (id: string) => id === "study-assistant" ? "literature-research-assistant" : id;
 const conceptCard = (id: string) => `/map-preview/concepts/${conceptName(id)}-card.webp`;
 const conceptDetail = (id: string) => `/map-preview/concepts/${conceptName(id)}-detail.webp`;
-const galleryImage = (src: string) => src.replace("/portfolio/", "/map-preview/gallery/").replace(/\.[^.]+$/, ".webp");
+const galleryImage = (src: string) => src.startsWith("/map-preview/curated/") ? src : src.replace("/portfolio/", "/map-preview/gallery/").replace(/\.[^.]+$/, ".webp");
+const galleryCaptions: Record<string, { zh: string[]; en: string[] }> = {
+  "pixel-world": {
+    zh: ["从创意出发，交给十个 Agent 分工复核", "同一套生成流程，展开不同的可玩世界", "让关卡与游戏画面真正跑起来"],
+    en: ["An idea enters a ten-agent review", "One process, different playable worlds", "Levels and game scenes brought to life"],
+  },
+  preservative: {
+    zh: ["把保鲜规则交还给沙盒设置", "在物品信息里看清保护效果", "误食风险与治疗提示同时可见", "模组在游戏中的实际场景"],
+    en: ["Preservation rules in sandbox settings", "Protection details at the point of use", "Poisoning risk and treatment in view", "The mod in its game world"],
+  },
+  "rainy-arcade": {
+    zh: ["《积木城》：从道路和记忆里拼回一个家", "《雨城》：在不可靠的规则中找出口", "只留在本地的游玩记录与分析"],
+    en: ["Block City: rebuilding a home from roads and memories", "Rain City: finding a way through unreliable rules", "Play reports and analysis kept on-device"],
+  },
+  iwbtz: {
+    zh: ["一张图里，看见不同关卡的世界", "Boss 战的攻击模式与躲避节奏", "明亮与阴暗并置的关卡环境"],
+    en: ["Distinct worlds across the levels", "Attack patterns and timing in a boss fight", "Light and shadow across the game's environments"],
+  },
+  "auto-tune": {
+    zh: ["当前页面旁的发帖控制面板", "不同平台，各自清楚的操作入口", "延迟自动回复的独立设置"],
+    en: ["The posting panel beside the current page", "Clear controls for different platforms", "Separate settings for delayed replies"],
+  },
+  "study-assistant": {
+    zh: ["阅读时，工具留在原文旁边", "检索与阅读可以接着完成", "高亮和翻译不必切换页面", "把线索整理成思维导图"],
+    en: ["Reading tools beside the source", "Search and reading in one flow", "Highlight and translate without changing pages", "Turning notes into a mind map"],
+  },
+};
 
 function shuffledProjectIds(previous?: string) {
   const ids = projects.map((project) => project.id);
@@ -449,9 +475,12 @@ export default function MapPreviewPage() {
             </div>
             <div className="project-detail__gallery">
               {activeProject.screenshots.map((src, index) => (
-                <a key={src} href={src} target="_blank" rel="noreferrer" aria-label={(locale === "zh" ? "查看原图 " : "Open original image ") + (index + 1)}>
-                  <Image src={galleryImage(src)} alt={activeProject.title + " 项目图片 " + (index + 1)} width={960} height={540} loading="lazy" unoptimized />
-                </a>
+                <figure key={src}>
+                  <a href={src} target="_blank" rel="noreferrer" aria-label={(locale === "zh" ? "放大查看图片 " : "Open image ") + (index + 1)}>
+                    <Image src={galleryImage(src)} alt={activeProject.title + " 项目图片 " + (index + 1)} width={960} height={540} loading="lazy" unoptimized />
+                  </a>
+                  <figcaption>{galleryCaptions[activeProject.id]?.[locale][index]}</figcaption>
+                </figure>
               ))}
             </div>
             <div className="project-detail__links">
@@ -553,7 +582,7 @@ export default function MapPreviewPage() {
                 <section className="map-preview__menu-detail">
                   <span>01</span>
                   <h2>{locale === "zh" ? "关于我" : "ABOUT"} <small>{locale === "zh" ? "ABOUT" : "张铧心"}</small></h2>
-                  <p>{locale === "zh" ? "我设计世界、规则和 AI 工作流，也让人真正走进去。关注游戏系统、AI 产品设计、互动原型与用户研究。" : "I design worlds, rules, and AI workflows that people can actually explore. My focus spans game systems, AI product design, interactive prototypes, and user research."}</p>
+                  <p>{locale === "zh" ? "我喜欢把一个念头做成可以亲自走进去的世界，也喜欢把复杂的工具做得顺手。游戏策划、AI 产品、互动原型与用户研究，是我持续往返的几条路。" : "I like turning an idea into a world someone can enter, and making complicated tools feel natural to use. Game design, AI products, interactive prototypes, and user research are the paths I keep crossing."}</p>
                 </section>
               )}
 
@@ -561,7 +590,7 @@ export default function MapPreviewPage() {
                 <section className="map-preview__menu-detail">
                   <span>02</span>
                   <h2>{locale === "zh" ? "联系我" : "CONTACT"} <small>{locale === "zh" ? "CONTACT" : "联系我"}</small></h2>
-                  <p>{locale === "zh" ? "想聊游戏策划、AI 产品或互动体验？欢迎联系我。" : "Interested in game design, AI products, or interactive experiences? Let’s talk."}</p>
+                  <p>{locale === "zh" ? "如果你对某个项目好奇，或想一起做点什么，欢迎给我写信。" : "Curious about a project, or thinking of making something together? I'd be glad to hear from you."}</p>
                   <div className="map-preview__contact-links">
                     <a href={"mailto:" + publicLinks.email}>{locale === "zh" ? "发送邮件 ↗" : "Send email ↗"}</a>
                     <a href={publicLinks.github} target="_blank" rel="noreferrer">{locale === "zh" ? "查看 GitHub ↗" : "View GitHub ↗"}</a>

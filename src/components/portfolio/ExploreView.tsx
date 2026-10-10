@@ -147,8 +147,8 @@ export function ExploreView() {
         </div>
         <div>
           <p>INTERACTIVE MODE / 互动模式</p>
-          <h2>{locale === "en" ? "Don’t just read the projects—play them." : "不只阅读项目，也亲自演奏它们。"}</h2>
-          <span>{locale === "en" ? "Six projects · Five playable arrangements · Every current level unlocked" : "六个项目 · 五种可玩编曲 · 现有全部关卡开放"}</span>
+          <h2>{locale === "en" ? "There's another way through these projects: follow the music." : "这些项目还有另一条入口：跟着音乐走。"}</h2>
+          <span>{locale === "en" ? "Six projects · Five musical chapters · Every chapter open" : "六个项目 · 五段音乐旅程 · 全部乐章开放"}</span>
         </div>
         <Link href="/play" className="rhythm-invitation-button" onClick={() => setMode("entry")}>
           <span>{locale === "en" ? "Play the Portfolio" : "进入演奏作品集"}</span>
@@ -383,7 +383,7 @@ export function ExploreView() {
       <section className="contact-section" id="contact" aria-labelledby="contact-heading">
         <p className="section-index">03 / {content.explore.contact}</p>
         <h2 id="contact-heading">
-          {locale === "en" ? "Turn a complex idea into a clear, usable product." : "让一个复杂想法，变成清晰可用的作品。"}
+          {locale === "en" ? "Have an idea worth trying together?" : "如果有个想法想一起试试，欢迎来聊。"}
         </h2>
         <p>{profile.availability}</p>
         <div className="contact-links">
