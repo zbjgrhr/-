@@ -5,7 +5,7 @@ import "./game-v2.css";
 import "./explore-watercolor.css";
 
 export const metadata: Metadata = {
-  title: "Huaxin Zhang — Game Designer & AI Product Builder",
+  title: "interactive portfolio个人互动作品集",
   description:
     "Huaxin Zhang's interactive portfolio — game systems, narrative design, multi-agent AI products, and working prototypes.",
   keywords: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "Phaser",
   ],
   openGraph: {
-    title: "Huaxin Zhang — Interactive Portfolio",
+    title: "interactive portfolio个人互动作品集",
     description:
       "Game systems, narrative design, multi-agent AI products, and working prototypes.",
     type: "website",
