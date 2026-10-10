@@ -15,6 +15,18 @@
 
 .map-preview__identity { gap: clamp(13px, 1.4vw, 25px); min-width: 0; }
 .map-preview__header-right { gap: clamp(20px, 2.3vw, 38px); }
+.map-preview__locale {
+  padding: 7px 2px;
+  border: 0;
+  background: none;
+  color: rgba(255, 248, 229, .78);
+  font: 600 12px/1.2 "Microsoft YaHei", sans-serif;
+  letter-spacing: .08em;
+  text-shadow: 0 1px 8px rgba(8, 21, 41, .82);
+  cursor: pointer;
+}
+.map-preview__locale:hover,
+.map-preview__locale:focus-visible { color: #fff; outline: none; text-decoration: underline; text-underline-offset: 5px; }
 .map-preview__owner {
   padding: 0;
   border: 0;
@@ -268,6 +280,7 @@
   .map-preview__logo-lockup { width: min(270px, calc(100vw - 105px)); }
   .map-preview__owner { padding-left: 0; font-size: 12px; letter-spacing: .04em; }
   .map-preview__header-right { width: 100%; justify-content: space-between; align-items: center; padding-left: 4px; }
+  .map-preview__locale { order: 2; }
   .map-preview__clock { min-width: 0; text-align: left; }
   .map-preview__clock span { font-size: 9px; }
   .map-preview__clock strong { font-size: 10px; }

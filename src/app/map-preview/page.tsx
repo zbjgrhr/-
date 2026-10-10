@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { projects } from "@/data/projects";
+import { localizeProject } from "@/data/projectTranslations";
 import { publicLinks } from "@/data/profile";
+import { useUiStore } from "@/store/uiStore";
 import "./preview.css";
 import "./menu-overlay.css";
 import "./capture.css";
@@ -15,10 +17,20 @@ type CapturePoint = { key: number; x: number; y: number; throwX: number; throwY:
 type SpawnPoint = { x: number; y: number };
 type Encounter = { projectId: string; point: SpawnPoint; key: number; createdAt: number; leavingAt?: number };
 
-const spawnPoints: SpawnPoint[] = [
-  { x: .27, y: .58 }, { x: .37, y: .69 }, { x: .49, y: .53 },
-  { x: .63, y: .67 }, { x: .73, y: .48 }, { x: .45, y: .75 },
-];
+function randomSpawnPoint(occupied: SpawnPoint[]): SpawnPoint | null {
+  const sideMargin = window.innerWidth < 650 ? .2 : .11;
+  const candidates: { point: SpawnPoint; distance: number }[] = [];
+  for (let attempt = 0; attempt < 80; attempt++) {
+    const point = {
+      x: sideMargin + Math.random() * (1 - sideMargin * 2),
+      y: .28 + Math.random() * .5,
+    };
+    const distance = occupied.length ? Math.min(...occupied.map((other) => Math.hypot((point.x - other.x) * 1.45, point.y - other.y))) : 1;
+    if (distance > .19) candidates.push({ point, distance });
+  }
+  candidates.sort((a, b) => b.distance - a.distance);
+  return candidates[Math.floor(Math.random() * Math.min(6, candidates.length))]?.point || null;
+}
 const creatureImages: Record<string, string> = {
   "pixel-world": "/map-preview/pixel-world-creature-concept-01.png",
   preservative: "/map-preview/preservative-creature.png",
@@ -28,14 +40,10 @@ const creatureImages: Record<string, string> = {
   "study-assistant": "/map-preview/literature-research-assistant-creature.png",
 };
 
-const conceptImages: Record<string, string> = {
-  "pixel-world": "/portfolio/pixel-world-concept-cover.png",
-  preservative: "/map-preview/concepts/preservative.png",
-  "rainy-arcade": "/map-preview/concepts/rainy-arcade.png",
-  iwbtz: "/map-preview/concepts/iwbtz.png",
-  "auto-tune": "/map-preview/concepts/auto-tune.png",
-  "study-assistant": "/map-preview/concepts/literature-research-assistant.png",
-};
+const conceptName = (id: string) => id === "study-assistant" ? "literature-research-assistant" : id;
+const conceptCard = (id: string) => `/map-preview/concepts/${conceptName(id)}-card.webp`;
+const conceptDetail = (id: string) => `/map-preview/concepts/${conceptName(id)}-detail.webp`;
+const galleryImage = (src: string) => src.replace("/portfolio/", "/map-preview/gallery/").replace(/\.[^.]+$/, ".webp");
 
 function shuffledProjectIds(previous?: string) {
   const ids = projects.map((project) => project.id);
@@ -49,12 +57,13 @@ function shuffledProjectIds(previous?: string) {
 
 const discoveryKey = "interactive-portfolio-discovered";
 const weekdays = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+const englishWeekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-function formatLocalDate(value: Date) {
+function formatLocalDate(value: Date, locale: "zh" | "en") {
   const year = value.getFullYear();
   const month = String(value.getMonth() + 1).padStart(2, "0");
   const day = String(value.getDate()).padStart(2, "0");
-  return year + "." + month + "." + day + " · " + weekdays[value.getDay()];
+  return year + "." + month + "." + day + " · " + (locale === "zh" ? weekdays[value.getDay()] : englishWeekdays[value.getDay()]);
 }
 
 function formatLocalTime(value: Date) {
@@ -105,6 +114,28 @@ export default function MapPreviewPage() {
   const [feedback, setFeedback] = useState("");
   const [cardOpen, setCardOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
+  const locale = useUiStore((state) => state.locale);
+  const setLocale = useUiStore((state) => state.setLocale);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("resonance-locale");
+    setLocale(saved === "en" ? "en" : "zh");
+  }, [setLocale]);
+
+  useEffect(() => {
+    if (!ready) return;
+    for (const project of projects) {
+      const image = new window.Image();
+      image.src = conceptCard(project.id);
+    }
+  }, [ready]);
+
+  useEffect(() => {
+    const hovered = encounters.find((item) => item.key === hoveredKey);
+    if (!hovered) return;
+    const image = new window.Image();
+    image.src = conceptDetail(hovered.projectId);
+  }, [hoveredKey, encounters]);
 
   useEffect(() => {
     const introTimer = window.setTimeout(() => setReady(true), 1450);
@@ -155,14 +186,13 @@ export default function MapPreviewPage() {
         }
       }
       const occupiedIds = new Set(next.map((item) => item.projectId));
-      const occupiedPoints = new Set(next.map((item) => item.point));
       const availableIds = shuffledProjectIds().filter((id) => !occupiedIds.has(id));
-      const availablePoints = spawnPoints.filter((point) => !occupiedPoints.has(point));
       // Keep at least four visible encounters; a fifth appears before the oldest leaves.
       const targetCount = current.length === 0 ? 4 : 5;
-      while (next.filter((item) => !item.leavingAt).length < targetCount && availableIds.length && availablePoints.length) {
+      while (next.filter((item) => !item.leavingAt).length < targetCount && availableIds.length) {
         const projectId = availableIds.pop()!;
-        const point = availablePoints.splice(Math.floor(Math.random() * availablePoints.length), 1)[0];
+        const point = randomSpawnPoint(next.filter((item) => !item.leavingAt).map((item) => item.point));
+        if (!point) break;
         next.push({ projectId, point, key: ++spawnKey.current, createdAt: now });
       }
       return next;
@@ -207,7 +237,7 @@ export default function MapPreviewPage() {
         setCardOpen(true);
         window.dispatchEvent(new CustomEvent("portfolio:project-discovered", { detail: capture.target.projectId }));
       } else {
-        setFeedback("很遗憾，你没抓住，再抓一次~");
+        setFeedback(locale === "zh" ? "很遗憾，你没抓住，再抓一次~" : "It slipped away — try again!");
       }
     }, capture.hit ? 1400 : 900);
     const finish = window.setTimeout(() => {
@@ -221,7 +251,7 @@ export default function MapPreviewPage() {
       window.clearTimeout(impact);
       window.clearTimeout(finish);
     };
-  }, [capture]);
+  }, [capture, locale]);
 
   const showCapture = (x: number, y: number, preferred?: Encounter) => {
     if (capture || cardOpen || detailOpen) return;
@@ -308,9 +338,11 @@ export default function MapPreviewPage() {
   const encounter = selectedEncounter;
   const hoveredEncounter = encounters.find((item) => item.key === hoveredKey && !item.leavingAt);
   const hoveredProject = projects.find((project) => project.id === hoveredEncounter?.projectId);
-  const hoveredConcept = hoveredProject && conceptImages[hoveredProject.id];
+  const hoveredConcept = hoveredProject && conceptCard(hoveredProject.id);
   const activeProject = projects.find((project) => project.id === encounter?.projectId);
-  const activeConcept = activeProject && (conceptImages[activeProject.id] || activeProject.screenshots[0]);
+  const activeCopy = activeProject && localizeProject(activeProject, locale);
+  const activeConcept = activeProject && conceptCard(activeProject.id);
+  const activeDetailImage = activeProject && conceptDetail(activeProject.id);
 
   return (
     <main
@@ -321,7 +353,7 @@ export default function MapPreviewPage() {
       onClick={clickMap}
       onKeyDown={keyMap}
       tabIndex={0}
-      aria-label="个人互动作品集探索地图"
+      aria-label={locale === "zh" ? "个人互动作品集探索地图" : "Interactive portfolio world map"}
     >
       <div className="map-preview__scene" aria-hidden="true" />
       <div className="map-preview__color" aria-hidden="true" />
@@ -393,7 +425,7 @@ export default function MapPreviewPage() {
       {cardOpen && !detailOpen && encounter && activeProject && activeConcept && (
         <div className="encounter-card" style={{ "--creature-x": encounter.point.x * 100 + "%", "--creature-y": encounter.point.y * 100 + "%" } as CSSProperties}>
           <button className="encounter-card__close" type="button" aria-label="关闭项目卡" onClick={closeCard}>×</button>
-          <button className="encounter-card__main" type="button" onClick={() => setDetailOpen(true)} aria-label={"查看 " + activeProject.title + " 项目详情"}>
+          <button className="encounter-card__main" type="button" onClick={() => setDetailOpen(true)} aria-label={(locale === "zh" ? "查看 " : "Open ") + activeProject.title + (locale === "zh" ? " 项目详情" : " project details")}>
             <Image src={activeConcept} alt={activeProject.title + " 项目图片"} width={560} height={320} unoptimized />
             <span className="encounter-card__text"><strong>{activeProject.title.toUpperCase()}</strong></span>
           </button>
@@ -401,28 +433,30 @@ export default function MapPreviewPage() {
         </div>
       )}
 
-      {detailOpen && activeProject && activeConcept && (
+      {detailOpen && activeProject && activeCopy && activeDetailImage && (
         <div className="project-detail" role="dialog" aria-modal="true" aria-label={activeProject.title + " 项目详情"}>
           <div className="project-detail__panel">
-            <button className="project-detail__back" type="button" onClick={closeCard}>← 返回地图</button>
+            <button className="project-detail__back" type="button" onClick={closeCard}>{locale === "zh" ? "← 返回地图" : "← Back to map"}</button>
             <div className="project-detail__hero">
-              <div><span>{activeProject.category}</span><h1>{activeProject.title}</h1><p>{activeProject.oneLiner}</p></div>
-              <Image src={activeConcept} alt={activeProject.title + " 项目图片"} width={960} height={550} unoptimized />
+              <div><span>{activeCopy.category}</span><h1>{activeCopy.title}</h1><p>{activeCopy.oneLiner}</p></div>
+              <Image src={activeDetailImage} alt={activeProject.title + " 项目图片"} width={1280} height={720} unoptimized priority />
             </div>
             <div className="project-detail__grid">
-              <section><h2>项目背景</h2><p>{activeProject.context}</p></section>
-              <section><h2>我的角色</h2><p>{activeProject.role}</p></section>
-              <section><h2>设计与实现</h2><ul>{activeProject.process.map((step) => <li key={step}>{step}</li>)}</ul></section>
-              <section><h2>结果</h2><p>{activeProject.outcome}</p></section>
+              <section><h2>{locale === "zh" ? "项目背景" : "Context"}</h2><p>{activeCopy.context}</p></section>
+              <section><h2>{locale === "zh" ? "我的角色" : "My Role"}</h2><p>{activeCopy.role}</p></section>
+              <section><h2>{locale === "zh" ? "设计与实现" : "Design & Implementation"}</h2><ul>{activeCopy.process.map((step) => <li key={step}>{step}</li>)}</ul></section>
+              <section><h2>{locale === "zh" ? "结果" : "Outcome"}</h2><p>{activeCopy.outcome}</p></section>
             </div>
             <div className="project-detail__gallery">
-              {activeProject.screenshots.filter((src) => src !== activeConcept).map((src, index) => (
-                <Image key={src} src={src} alt={activeProject.title + " 项目图片 " + (index + 2)} width={960} height={540} />
+              {activeProject.screenshots.map((src, index) => (
+                <a key={src} href={src} target="_blank" rel="noreferrer" aria-label={(locale === "zh" ? "查看原图 " : "Open original image ") + (index + 1)}>
+                  <Image src={galleryImage(src)} alt={activeProject.title + " 项目图片 " + (index + 1)} width={960} height={540} loading="lazy" unoptimized />
+                </a>
               ))}
             </div>
             <div className="project-detail__links">
-              {activeProject.liveDemo && <a className="project-detail__link" href={activeProject.liveDemo} target="_blank" rel="noreferrer">查看在线项目 ↗</a>}
-              {activeProject.github && <a className="project-detail__link" href={activeProject.github} target="_blank" rel="noreferrer">查看项目代码 ↗</a>}
+              {activeProject.liveDemo && <a className="project-detail__link" href={activeProject.liveDemo} target="_blank" rel="noreferrer">{locale === "zh" ? "查看在线项目 ↗" : "Open live project ↗"}</a>}
+              {activeProject.github && <a className="project-detail__link" href={activeProject.github} target="_blank" rel="noreferrer">{locale === "zh" ? "查看项目代码 ↗" : "View source code ↗"}</a>}
             </div>
           </div>
         </div>
@@ -446,9 +480,15 @@ export default function MapPreviewPage() {
           <span className="map-preview__owner">张铧心</span>
         </div>
         <div className="map-preview__header-right">
+          <button
+            className="map-preview__locale"
+            type="button"
+            onClick={() => setLocale(locale === "zh" ? "en" : "zh")}
+            aria-label={locale === "zh" ? "Switch to English" : "切换到中文"}
+          >{locale === "zh" ? "EN" : "中文"}</button>
           <time className="map-preview__clock" dateTime={localTime?.toISOString()}>
-            <span>本地时间</span>
-            <strong>{localTime ? formatLocalDate(localTime) : "----.--.--"}</strong>
+            <span>{locale === "zh" ? "本地时间" : "LOCAL TIME"}</span>
+            <strong>{localTime ? formatLocalDate(localTime, locale) : "----.--.--"}</strong>
             <b>{localTime ? formatLocalTime(localTime) : "--:--:--"}</b>
           </time>
           <button
@@ -467,16 +507,16 @@ export default function MapPreviewPage() {
       <footer className="map-preview__footer">
         <div className="map-preview__progress" aria-live="polite">
           {discoveredCount === 0 ? (
-            <>已发现 <strong>0/{projects.length}</strong> 个项目 · 寻找地图上的 Pokémon</>
+            <>{locale === "zh" ? <>已发现 <strong>0/{projects.length}</strong> 个项目 · 寻找地图上的 Pokémon</> : <><strong>0/{projects.length}</strong> projects found · Find the Pokémon on the map</>}</>
           ) : discoveredCount < projects.length ? (
-            <>已发现 <strong>{discoveredCount}/{projects.length}</strong> 个项目 · 继续捕捉 Pokémon</>
+            <>{locale === "zh" ? <>已发现 <strong>{discoveredCount}/{projects.length}</strong> 个项目 · 继续捕捉 Pokémon</> : <><strong>{discoveredCount}/{projects.length}</strong> projects found · Keep catching Pokémon</>}</>
           ) : (
             <>
-              <strong>{projects.length}/{projects.length}</strong> 个项目已发现，点击右上角
+              <strong>{projects.length}/{projects.length}</strong> {locale === "zh" ? "个项目已发现，点击右上角" : "projects found · Open"}
               <button type="button" className="map-preview__inline-menu" aria-label="打开目录" onClick={openMenu}>
                 <NineDots size={21} />
               </button>
-              查看其他功能。
+              {locale === "zh" ? "查看其他功能。" : "for more."}
             </>
           )}
         </div>
@@ -498,13 +538,13 @@ export default function MapPreviewPage() {
               {menuView === "index" && (
                 <nav className="map-preview__menu-list" aria-label="作品集目录">
                   <button type="button" className="map-preview__menu-card" onClick={() => setMenuView("about")}>
-                    <span>01</span><strong>关于我 <small>ABOUT</small></strong><em>张铧心 · 游戏策划 × AI 产品</em><b aria-hidden="true">↗</b>
+                    <span>01</span><strong>{locale === "zh" ? "关于我" : "ABOUT"} <small>{locale === "zh" ? "ABOUT" : "张铧心"}</small></strong><em>{locale === "zh" ? "张铧心 · 游戏策划 × AI 产品" : "Huaxin Zhang · Game Design × AI Product"}</em><b aria-hidden="true">↗</b>
                   </button>
                   <button type="button" className="map-preview__menu-card" onClick={() => setMenuView("contact")}>
-                    <span>02</span><strong>联系我 <small>CONTACT</small></strong><em>邮箱 · GitHub · 微信</em><b aria-hidden="true">↗</b>
+                    <span>02</span><strong>{locale === "zh" ? "联系我" : "CONTACT"} <small>{locale === "zh" ? "CONTACT" : "联系我"}</small></strong><em>{locale === "zh" ? "邮箱 · GitHub · 微信" : "Email · GitHub · WeChat"}</em><b aria-hidden="true">↗</b>
                   </button>
                   <Link className="map-preview__menu-card" href="/play">
-                    <span>03</span><strong>音游体验 <small>RHYTHM EXPERIENCE</small></strong><em>用另一种方式进入我的作品集</em><b aria-hidden="true">↗</b>
+                    <span>03</span><strong>{locale === "zh" ? "音游体验" : "RHYTHM EXPERIENCE"} <small>{locale === "zh" ? "RHYTHM EXPERIENCE" : "音游体验"}</small></strong><em>{locale === "zh" ? "用另一种方式进入我的作品集" : "Explore my work through rhythm"}</em><b aria-hidden="true">↗</b>
                   </Link>
                 </nav>
               )}
@@ -512,22 +552,22 @@ export default function MapPreviewPage() {
               {menuView === "about" && (
                 <section className="map-preview__menu-detail">
                   <span>01</span>
-                  <h2>关于我 <small>ABOUT</small></h2>
-                  <p>我设计世界、规则和 AI 工作流，也让人真正走进去。关注游戏系统、AI 产品设计、互动原型与用户研究。</p>
+                  <h2>{locale === "zh" ? "关于我" : "ABOUT"} <small>{locale === "zh" ? "ABOUT" : "张铧心"}</small></h2>
+                  <p>{locale === "zh" ? "我设计世界、规则和 AI 工作流，也让人真正走进去。关注游戏系统、AI 产品设计、互动原型与用户研究。" : "I design worlds, rules, and AI workflows that people can actually explore. My focus spans game systems, AI product design, interactive prototypes, and user research."}</p>
                 </section>
               )}
 
               {menuView === "contact" && (
                 <section className="map-preview__menu-detail">
                   <span>02</span>
-                  <h2>联系我 <small>CONTACT</small></h2>
-                  <p>想聊游戏策划、AI 产品或互动体验？欢迎联系我。</p>
+                  <h2>{locale === "zh" ? "联系我" : "CONTACT"} <small>{locale === "zh" ? "CONTACT" : "联系我"}</small></h2>
+                  <p>{locale === "zh" ? "想聊游戏策划、AI 产品或互动体验？欢迎联系我。" : "Interested in game design, AI products, or interactive experiences? Let’s talk."}</p>
                   <div className="map-preview__contact-links">
-                    <a href={"mailto:" + publicLinks.email}>发送邮件 ↗</a>
-                    <a href={publicLinks.github} target="_blank" rel="noreferrer">查看 GitHub ↗</a>
-                    <button type="button" aria-expanded={showQr} onClick={() => setShowQr((current) => !current)}>微信二维码 ↗</button>
+                    <a href={"mailto:" + publicLinks.email}>{locale === "zh" ? "发送邮件 ↗" : "Send email ↗"}</a>
+                    <a href={publicLinks.github} target="_blank" rel="noreferrer">{locale === "zh" ? "查看 GitHub ↗" : "View GitHub ↗"}</a>
+                    <button type="button" aria-expanded={showQr} onClick={() => setShowQr((current) => !current)}>{locale === "zh" ? "微信二维码 ↗" : "WeChat QR ↗"}</button>
                   </div>
-                  {showQr && <Image className="map-preview__qr" src="/contact/wechat-qr.jpg" alt="微信二维码" width={176} height={176} />}
+                  {showQr && <Image className="map-preview__qr" src="/contact/wechat-qr.jpg" alt="微信二维码" width={176} height={176} unoptimized />}
                 </section>
               )}
             </div>
