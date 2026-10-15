@@ -1,4 +1,5 @@
 /* Zero-dependency local server for the statically exported portfolio in /out. */
+/* eslint-disable @typescript-eslint/no-require-imports -- This server uses CommonJS intentionally. */
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");

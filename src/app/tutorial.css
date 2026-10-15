@@ -1,0 +1,36 @@
+.portfolio-tutorial{position:fixed;inset:0;z-index:9999;color:#fffaf0;font-family:"Microsoft YaHei",sans-serif;cursor:pointer;isolation:isolate}
+.portfolio-tutorial::before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(180deg,rgba(8,24,42,.08) 0%,transparent 48%,rgba(7,22,39,.8) 100%);pointer-events:none}
+.portfolio-tutorial__caption{position:absolute;z-index:3;left:clamp(24px,4.2vw,72px);right:clamp(24px,4.2vw,72px);bottom:clamp(25px,4.5vh,60px);max-width:900px;text-shadow:0 2px 12px #081827}
+.portfolio-tutorial__caption>span,.portfolio-tutorial__finish>span{display:block;color:#f4d99f;font:600 clamp(12px,1vw,16px)/1.4 Georgia,"Microsoft YaHei",serif;letter-spacing:.16em}
+.portfolio-tutorial__caption h2{margin:13px 0 7px;font:500 clamp(23px,2.5vw,42px)/1.33 Georgia,"Microsoft YaHei",serif}
+.portfolio-tutorial__caption p{margin:0;color:#fff7e6;font-size:clamp(13px,1vw,17px);line-height:1.65}
+.portfolio-tutorial__caption small{display:block;margin-top:16px;color:#f5dfb1;font-size:12px;letter-spacing:.08em;animation:tutorial-prompt 2.2s ease-in-out infinite}
+.portfolio-tutorial--step-3 .portfolio-tutorial__caption{left:auto;text-align:right}
+.portfolio-tutorial__skip{position:absolute;z-index:4;right:clamp(22px,3vw,50px);top:clamp(18px,3vw,38px);padding:8px 16px;border:1px solid rgba(255,248,226,.65);border-radius:999px;background:rgba(11,31,50,.42);color:#fff7e9;font:500 12px "Microsoft YaHei",sans-serif;cursor:pointer}
+.portfolio-tutorial__skip:hover,.portfolio-tutorial__skip:focus-visible{background:rgba(34,65,82,.78);outline:2px solid #f4d99f;outline-offset:2px}
+.portfolio-tutorial__outline{position:fixed;z-index:2;border:2px solid rgba(255,243,192,.95);border-radius:18px;box-shadow:0 0 0 7px rgba(255,237,170,.16),0 0 26px rgba(255,235,168,.82);pointer-events:none}
+.portfolio-tutorial__ripple{position:fixed;z-index:2;width:24px;height:24px;border:2px solid #fff4c9;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;animation:tutorial-ripple 2.8s ease-out infinite}
+.portfolio-tutorial__hand{position:fixed;z-index:3;width:90px;height:109px;object-fit:contain;pointer-events:none;filter:drop-shadow(0 4px 8px rgba(7,20,37,.64));animation:tutorial-hand 2.8s cubic-bezier(.4,0,.2,1) infinite}
+.portfolio-tutorial--step-6 .portfolio-tutorial__caption{max-width:300px;left:clamp(24px,3vw,52px);bottom:clamp(30px,5vh,54px)}
+.portfolio-tutorial--step-6 .portfolio-tutorial__caption h2{font-size:clamp(23px,1.8vw,29px)}
+.portfolio-tutorial--step-6 .portfolio-tutorial__caption p{font-size:13px}
+.portfolio-tutorial--step-6 .portfolio-tutorial__hand{animation-name:tutorial-hand-rhythm}
+.portfolio-tutorial__rhythm-stage{position:absolute;z-index:0;inset:0;overflow:hidden;background:#4c9bc2}
+.portfolio-tutorial__rhythm-screen{position:absolute;width:min(100vw,177.7778vh);height:min(100vh,56.25vw);left:50%;top:50%;transform:translate(-50%,-50%)}
+.portfolio-tutorial__rhythm-screen>img{object-fit:fill}
+.portfolio-tutorial__rhythm-before{animation:tutorial-real-note-frames 2.8s steps(1,end) infinite}
+.portfolio-tutorial__rhythm-key{position:absolute;left:49.2%;top:89.3%;width:11%;height:8%;transform:translateX(-50%);border:3px solid #ffe8aa;border-radius:20px;background:rgba(255,224,145,.18);box-shadow:0 0 22px #ffebad, inset 0 0 16px rgba(255,250,211,.48);animation:tutorial-key-tap 2.8s ease-in-out infinite}
+.portfolio-tutorial__rhythm-key--space{width:14%}
+.portfolio-tutorial__rhythm-return{position:absolute;left:83.5%;top:10.9%;width:5.8%;height:4.3%}
+@keyframes tutorial-real-note-frames{0%,42%{opacity:1}43%,100%{opacity:0}}
+.portfolio-tutorial__finish{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;background:rgba(8,27,45,.48);text-shadow:0 2px 12px #081827}
+.portfolio-tutorial__finish h2{margin:20px 0 27px;font:500 clamp(28px,3.5vw,52px)/1.3 Georgia,"Microsoft YaHei",serif}
+.portfolio-tutorial__finish button{padding:14px 36px;border:1px solid #f8ddaa;border-radius:999px;background:#f0d59d;color:#19344d;font:600 17px "Microsoft YaHei",sans-serif;cursor:pointer;box-shadow:0 9px 28px rgba(5,17,33,.35)}
+.portfolio-tutorial__finish button:hover,.portfolio-tutorial__finish button:focus-visible{background:#fff0bd;outline:2px solid #fff;outline-offset:4px}
+@keyframes tutorial-hand{0%,12%{opacity:0;transform:translate(22px,25px) rotate(10deg) scale(.96)}22%,42%{opacity:1;transform:translate(0,0) rotate(0) scale(1)}51%{transform:translate(-4px,-6px) rotate(-5deg) scale(.91)}61%{transform:translate(0,0) rotate(0) scale(1)}78%{opacity:1;transform:translate(16px,18px) rotate(7deg)}90%,100%{opacity:0;transform:translate(22px,25px) rotate(10deg)}}
+@keyframes tutorial-hand-rhythm{0%,12%{opacity:0;transform:translate(0,-18px) rotate(176deg) scale(.96)}22%,42%{opacity:1;transform:translate(0,0) rotate(180deg)}51%{transform:translate(0,9px) rotate(180deg) scale(.92)}61%{transform:translate(0,0) rotate(180deg)}78%{opacity:1;transform:translate(0,-12px) rotate(176deg)}90%,100%{opacity:0;transform:translate(0,-18px) rotate(176deg)}}
+@keyframes tutorial-ripple{0%,48%{opacity:0;scale:.25}52%{opacity:1;scale:.55}74%,100%{opacity:0;scale:2.8}}
+@keyframes tutorial-prompt{50%{opacity:.48}}
+@keyframes tutorial-key-tap{0%,42%,70%,100%{transform:translateX(-50%);filter:none}52%,60%{transform:translateX(-50%) translateY(7px) scaleY(.94);filter:brightness(1.12)}}
+@media(max-width:650px){.portfolio-tutorial__caption{bottom:26px}.portfolio-tutorial__caption h2{font-size:22px}.portfolio-tutorial__caption p{font-size:12px}.portfolio-tutorial__skip{top:12px;right:12px}.portfolio-tutorial__hand{width:72px;height:87px}.portfolio-tutorial--step-6 .portfolio-tutorial__caption{bottom:auto;top:72px}}
+@media(prefers-reduced-motion:reduce){.portfolio-tutorial__hand,.portfolio-tutorial__ripple,.portfolio-tutorial__caption small,.portfolio-tutorial__rhythm-key{animation:none}.portfolio-tutorial__rhythm-before,.portfolio-tutorial__ripple{display:none}}

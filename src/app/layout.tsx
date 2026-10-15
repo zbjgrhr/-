@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { LocaleBootstrap } from "@/components/accessibility/LocaleBootstrap";
+import { PortfolioTutorial } from "@/components/tutorial/PortfolioTutorial";
 import "./globals.css";
 import "./game-v2.css";
 import "./explore-watercolor.css";
+import "./tutorial.css";
 
 export const metadata: Metadata = {
   title: "interactive portfolio个人互动作品集",
@@ -31,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body><LocaleBootstrap />{children}</body>
+      <body><LocaleBootstrap />{children}<PortfolioTutorial /></body>
     </html>
   );
 }

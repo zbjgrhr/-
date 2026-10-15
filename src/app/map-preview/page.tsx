@@ -16,6 +16,7 @@ type MenuView = "index" | "about" | "contact";
 type CapturePoint = { key: number; x: number; y: number; throwX: number; throwY: number; midX: number; midY: number; hit: boolean; target?: Encounter };
 type SpawnPoint = { x: number; y: number };
 type Encounter = { projectId: string; point: SpawnPoint; key: number; createdAt: number; leavingAt?: number };
+const tutorialEncounter: Encounter = { projectId: "pixel-world", point: { x: .52, y: .43 }, key: -100, createdAt: 0 };
 
 function randomSpawnPoint(occupied: SpawnPoint[]): SpawnPoint | null {
   const sideMargin = window.innerWidth < 650 ? .2 : .11;
@@ -179,6 +180,7 @@ export default function MapPreviewPage() {
   const [feedback, setFeedback] = useState("");
   const [cardOpen, setCardOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [tutorialMode, setTutorialMode] = useState(false);
   const locale = useUiStore((state) => state.locale);
   const setLocale = useUiStore((state) => state.setLocale);
   const setMode = useUiStore((state) => state.setMode);
@@ -249,7 +251,7 @@ export default function MapPreviewPage() {
   }, []);
 
   useEffect(() => {
-    if (!ready || menuOpen || cardOpen || detailOpen || capture) return;
+    if (!ready || tutorialMode || menuOpen || cardOpen || detailOpen || capture) return;
     const rotate = () => setEncounters((current) => {
       const now = Date.now();
       const next = current.filter((item) => !item.leavingAt || now - item.leavingAt < 550);
@@ -276,7 +278,7 @@ export default function MapPreviewPage() {
     rotate();
     const timer = window.setInterval(rotate, 1250);
     return () => window.clearInterval(timer);
-  }, [ready, menuOpen, cardOpen, detailOpen, capture, hoveredKey]);
+  }, [ready, tutorialMode, menuOpen, cardOpen, detailOpen, capture, hoveredKey]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -311,7 +313,7 @@ export default function MapPreviewPage() {
         setFeedback("");
         setSelectedEncounter(capture.target);
         setCardOpen(true);
-        window.dispatchEvent(new CustomEvent("portfolio:project-discovered", { detail: capture.target.projectId }));
+        if (!tutorialMode) window.dispatchEvent(new CustomEvent("portfolio:project-discovered", { detail: capture.target.projectId }));
       } else {
         setFeedback(locale === "zh" ? "很遗憾，你没抓住，再抓一次~" : "It slipped away — try again!");
       }
@@ -327,7 +329,7 @@ export default function MapPreviewPage() {
       window.clearTimeout(impact);
       window.clearTimeout(finish);
     };
-  }, [capture, locale]);
+  }, [capture, locale, tutorialMode]);
 
   const showCapture = (x: number, y: number, preferred?: Encounter) => {
     if (capture || cardOpen || detailOpen) return;
@@ -355,7 +357,50 @@ export default function MapPreviewPage() {
     });
   };
 
+  useEffect(() => {
+    const handleTutorial = (event: Event) => {
+      const action = (event as CustomEvent<string>).detail;
+      if (action === "setup" || action === "map") {
+        setTutorialMode(true);
+        setReady(true);
+        setCapture(null);
+        setSelectedEncounter(null);
+        setCardOpen(false);
+        setDetailOpen(false);
+        setMenuOpen(false);
+        setEncounters([tutorialEncounter]);
+      } else if (action === "card" || action === "detail") {
+        setTutorialMode(true);
+        setReady(true);
+        setSelectedEncounter(tutorialEncounter);
+        setCardOpen(true);
+        setDetailOpen(action === "detail");
+        setMenuOpen(false);
+      } else if (action === "capture") {
+        const bounds = stageRef.current?.getBoundingClientRect();
+        if (bounds) showCapture(bounds.width * tutorialEncounter.point.x, bounds.height * tutorialEncounter.point.y, tutorialEncounter);
+      } else if (action === "detail") {
+        setDetailOpen(true);
+      } else if (action === "menu") {
+        setTutorialMode(true);
+        setReady(true);
+        setMenuView("index");
+        setMenuOpen(true);
+      } else if (action === "end") {
+        setTutorialMode(false);
+        setMenuOpen(false);
+        setCardOpen(false);
+        setDetailOpen(false);
+        setSelectedEncounter(null);
+        setEncounters([]);
+      }
+    };
+    window.addEventListener("portfolio:tutorial", handleTutorial);
+    return () => window.removeEventListener("portfolio:tutorial", handleTutorial);
+  });
+
   const clickMap = (event: React.MouseEvent<HTMLElement>) => {
+    if (tutorialMode) return;
     if (!ready || menuOpen || (event.target as HTMLElement).closest(".map-preview__header, .map-preview__footer, .map-preview__menu, .map-preview__rhythm-portal, .map-preview__creature, .encounter-card, .project-detail")) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     showCapture(event.clientX - bounds.left, event.clientY - bounds.top);
@@ -645,6 +690,9 @@ export default function MapPreviewPage() {
                   </button>
                   <button type="button" className="map-preview__menu-card" onClick={() => setMenuView("contact")}>
                     <span>02</span><strong>{locale === "zh" ? "联系我" : "CONTACT"} <small>{locale === "zh" ? "CONTACT" : "联系我"}</small></strong><em>{locale === "zh" ? "邮箱 · GitHub · 微信" : "Email · GitHub · WeChat"}</em><b aria-hidden="true">↗</b>
+                  </button>
+                  <button type="button" className="map-preview__menu-card" onClick={() => { closeMenu(); window.dispatchEvent(new Event("portfolio:tutorial-replay")); }}>
+                    <span>03</span><strong>{locale === "zh" ? "重看教程" : "REPLAY GUIDE"} <small>{locale === "zh" ? "GUIDE" : "教程"}</small></strong><em>{locale === "zh" ? "操作指引" : "How to explore"}</em><b aria-hidden="true">↗</b>
                   </button>
                 </nav>
               )}
