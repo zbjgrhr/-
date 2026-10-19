@@ -158,6 +158,72 @@
 .project-detail__gallery figcaption { padding: 9px 3px 2px; color: #6d6c77; font: 500 12px/1.5 "Microsoft YaHei", sans-serif; letter-spacing: .02em; }
 .project-detail__links { display: flex; gap: 10px; flex-wrap: wrap; }
 
+.project-detail__preview {
+  --preview-ink: #263d61;
+  --preview-edge: #a8b8d2;
+  --preview-accent: #6171ad;
+  --preview-glow: rgba(177, 188, 239, .28);
+  position: relative;
+  margin: 0 0 36px;
+  padding: clamp(17px, 2.4vw, 30px);
+  border: 1px solid var(--preview-edge);
+  border-radius: 24px;
+  color: var(--preview-ink);
+  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(241,245,255,.78));
+  box-shadow: 0 18px 50px rgba(22, 39, 68, .18), inset 0 1px rgba(255,255,255,.83);
+}
+.project-detail__preview--pixel-world {
+  --preview-ink: #243d6b;
+  --preview-edge: #9ad1dc;
+  --preview-accent: #625bac;
+  --preview-glow: rgba(130, 214, 235, .3);
+  background: linear-gradient(130deg, rgba(226,249,255,.92), rgba(255,239,250,.88) 58%, rgba(255,248,224,.88));
+}
+.project-detail__preview--rainy-arcade {
+  --preview-ink: #e9f4ff;
+  --preview-edge: #7baac7;
+  --preview-accent: #c7e4fa;
+  --preview-glow: rgba(33, 108, 157, .28);
+  background: linear-gradient(135deg, rgba(12,39,67,.95), rgba(42,76,104,.91));
+}
+.project-detail__preview--preservative {
+  --preview-ink: #f6ead8;
+  --preview-edge: #b38b70;
+  --preview-accent: #e6ba8e;
+  --preview-glow: rgba(119, 77, 51, .3);
+  background: linear-gradient(145deg, rgba(34,41,34,.96), rgba(71,55,48,.94));
+}
+.project-detail__preview-heading { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin: 0 0 18px; }
+.project-detail__preview-heading > div { max-width: 670px; }
+.project-detail__preview-heading span { color: var(--preview-accent); font: 700 11px/1.4 "Microsoft YaHei", sans-serif; letter-spacing: .22em; }
+.project-detail__preview-heading h2 { margin: 7px 0 6px; color: var(--preview-ink); font: 700 clamp(25px, 3vw, 39px)/1.18 Georgia, "Microsoft YaHei", serif; }
+.project-detail__preview-heading p { margin: 0; color: var(--preview-ink); opacity: .84; font: 14px/1.6 "Microsoft YaHei", sans-serif; }
+.project-detail__preview-open { flex: none; padding: 11px 18px; border: 1px solid var(--preview-edge); border-radius: 999px; color: var(--preview-ink); background: rgba(255,255,255,.15); font: 700 13px/1.3 "Microsoft YaHei", sans-serif; text-decoration: none; }
+.project-detail__preview-open:hover { box-shadow: 0 0 0 5px var(--preview-glow); transform: translateY(-2px); }
+.project-detail__preview-open:focus-visible,
+.project-detail__preview-tabs button:focus-visible { outline: 3px solid var(--preview-accent); outline-offset: 3px; }
+.project-detail__preview-tabs { display: flex; gap: 9px; margin-bottom: 14px; }
+.project-detail__preview-tabs button { padding: 9px 17px; border: 1px solid var(--preview-edge); border-radius: 999px; color: var(--preview-ink); background: rgba(255,255,255,.34); cursor: pointer; font: 700 13px/1.2 "Microsoft YaHei", sans-serif; }
+.project-detail__preview-tabs button[aria-selected="true"] { color: #fff; border-color: #4c5294; background: #555c9b; box-shadow: 0 5px 16px rgba(52,72,131,.22); }
+.project-detail__preview-window { overflow: hidden; border: 2px solid var(--preview-edge); border-radius: 16px; background: #fff; box-shadow: 0 16px 36px var(--preview-glow); }
+.project-detail__preview-chrome { display: flex; align-items: center; gap: 15px; height: 35px; padding: 0 14px; border-bottom: 1px solid var(--preview-edge); color: var(--preview-ink); background: rgba(236,244,247,.93); font: 600 11px/1.2 "Courier New", monospace; letter-spacing: .02em; }
+.project-detail__preview--rainy-arcade .project-detail__preview-chrome { background: #d8e8f0; color: #25475a; }
+.project-detail__preview--preservative .project-detail__preview-chrome { background: #e5ddd1; color: #544135; }
+.project-detail__preview-dots { color: var(--preview-accent); font-size: 23px; letter-spacing: .14em; line-height: .5; }
+.project-detail__preview-window iframe { display: block; width: 100%; height: clamp(430px, 63vw, 690px); border: 0; background: #fff; }
+.project-detail__preview-pending { display: grid; place-content: center; min-height: clamp(430px, 63vw, 690px); padding: 28px; color: #344475; background: radial-gradient(circle at 50% 37%, rgba(255,255,255,.86), rgba(209,231,248,.58) 44%, rgba(238,212,232,.68)), url("/portfolio/pixel-world-case-08-playable-worlds.png") center / cover; text-align: center; }
+.project-detail__preview-pending strong { font: 700 clamp(26px, 4vw, 44px)/1.2 Georgia, "Microsoft YaHei", serif; text-shadow: 0 2px 15px #fff; }
+.project-detail__preview-pending p { max-width: 450px; margin: 12px auto 0; padding: 10px; border-radius: 10px; background: rgba(255,255,255,.72); font: 15px/1.6 "Microsoft YaHei", sans-serif; }
+.project-detail__preview-note { margin: 14px 2px 0; color: #3b4f76; font: 600 12px/1.6 "Microsoft YaHei", sans-serif; }
+.project-detail__link--code,
+.project-detail__link--download { margin-top: 0; border: 1px solid rgba(255,255,255,.58); box-shadow: 0 8px 20px rgba(23,35,58,.16); }
+.project-detail--pixel-world-review .project-detail__link--code { background: #5563a8; color: #f9f4ff; }
+.project-detail--rainy-arcade-review .project-detail__link--code { background: #1b4561; color: #e4f4ff; }
+.project-detail--preservative-review .project-detail__link--code { background: #4f493b; color: #fff0d8; }
+.project-detail--auto-tune-review .project-detail__link--download { background: #575c9a; color: #fff; }
+.project-detail--study-assistant-review .project-detail__link--download { background: #5d6857; color: #fff9e8; }
+.project-detail__download-help { flex-basis: 100%; margin: 0; padding-top: 3px; color: #344557; font: 600 12px/1.55 "Microsoft YaHei", sans-serif; text-shadow: 0 1px 5px rgba(255,255,255,.8); }
+
 /* First detail-page review: let the game's own world frame the case study. */
 .project-detail--iwbtz-review {
   color: #263c56;
@@ -374,6 +440,11 @@
   .encounter-card__creature { width: 73px; left: -20px; bottom: -23px; }
   .encounter-card button { cursor: pointer; }
   .project-detail__hero, .project-detail__grid, .project-detail__gallery { grid-template-columns: 1fr; }
+  .project-detail__preview { padding: 14px; margin-bottom: 25px; border-radius: 18px; }
+  .project-detail__preview-heading { display: grid; align-items: start; gap: 13px; }
+  .project-detail__preview-open { justify-self: start; }
+  .project-detail__preview-window iframe,
+  .project-detail__preview-pending { height: 500px; min-height: 500px; }
   .project-detail__gallery figure:last-child:nth-child(odd) { grid-column: auto; }
   .project-detail__hero img { grid-row: 1; }
   .project-detail--iwbtz-review { background-position: center, 57% center; background-attachment: scroll; }

@@ -14,6 +14,7 @@ const eslintConfig = [
   {
     ignores: [
       ".next/**",
+      ".next-*/**",
       "out/**",
       "node_modules/**",
       "__zip_verify_windows_*/**",

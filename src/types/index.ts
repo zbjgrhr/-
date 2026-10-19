@@ -90,6 +90,7 @@ export interface ProjectArchive {
   screenshots: string[];
   github?: string;
   liveDemo?: string;
+  download?: string;
   learned: string[];
   category?: string;
   period?: string;

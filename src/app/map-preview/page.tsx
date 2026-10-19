@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { projects } from "@/data/projects";
 import { localizeProject } from "@/data/projectTranslations";
 import { publicLinks } from "@/data/profile";
+import type { ProjectArchive } from "@/types";
 import { useUiStore } from "@/store/uiStore";
 import "./preview.css";
 import "./menu-overlay.css";
@@ -146,6 +147,71 @@ function NineDots({ size = 30 }: { size?: number }) {
       height={size}
       unoptimized
     />
+  );
+}
+
+function ProjectLivePreview({ project, locale }: { project: ProjectArchive; locale: "zh" | "en" }) {
+  const [pixelView, setPixelView] = useState<"studio" | "finished">("studio");
+  if (!project.liveDemo) return null;
+  const pixelWorld = project.id === "pixel-world";
+  const finished = pixelWorld && pixelView === "finished";
+  const address = new URL(project.liveDemo).hostname;
+  const description = project.id === "preservative"
+    ? (locale === "zh" ? "在页面内阅读《Project Zomboid》国际化社群与营销分析。" : "Read the Project Zomboid community and marketing report here.")
+    : project.id === "rainy-arcade"
+      ? (locale === "zh" ? "直接进入雨夜游戏厅，探索可游玩的故事。" : "Step into the arcade and explore its playable stories.")
+      : (locale === "zh" ? "在这里体验 Pixel World 制作器。" : "Explore the Pixel World creator here.");
+
+  return (
+    <section className={"project-detail__preview project-detail__preview--" + project.id} aria-label={locale === "zh" ? "在线项目预览" : "Live project preview"}>
+      <div className="project-detail__preview-heading">
+        <div>
+          <span>{locale === "zh" ? "先进入作品" : "ENTER THE WORK"}</span>
+          <h2>{locale === "zh" ? "在线项目" : "Live project"}</h2>
+          <p>{description}</p>
+        </div>
+        <a className="project-detail__preview-open" href={project.liveDemo} target="_blank" rel="noopener noreferrer">
+          {locale === "zh" ? "在新窗口打开 ↗" : "Open in new tab ↗"}
+        </a>
+      </div>
+      {pixelWorld && (
+        <div className="project-detail__preview-tabs" role="tablist" aria-label={locale === "zh" ? "Pixel World 体验选择" : "Pixel World experience"}>
+          <button type="button" role="tab" aria-selected={!finished} onClick={() => setPixelView("studio")}>{locale === "zh" ? "制作器" : "Creator"}</button>
+          <button type="button" role="tab" aria-selected={finished} onClick={() => setPixelView("finished")}>{locale === "zh" ? "成品游戏" : "Finished game"}</button>
+        </div>
+      )}
+      <div className="project-detail__preview-window">
+        <div className="project-detail__preview-chrome" aria-hidden="true"><span className="project-detail__preview-dots">•••</span><span>{finished ? (locale === "zh" ? "成品游戏 · 待接入" : "Finished game · coming soon") : address}</span></div>
+        {finished ? (
+          <div className="project-detail__preview-pending">
+            <strong>{locale === "zh" ? "成品游戏入口" : "Finished game"}</strong>
+            <p>{locale === "zh" ? "可玩成品收到后，会在这里与制作器一键切换。" : "The playable build will be added here for one-click switching with the creator."}</p>
+          </div>
+        ) : (
+          <iframe key={project.liveDemo} src={project.liveDemo} title={project.title + (locale === "zh" ? "在线项目" : " live project")} loading="lazy" allow="fullscreen; autoplay" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
+        )}
+      </div>
+      {pixelWorld && <p className="project-detail__preview-note">{locale === "zh" ? "Pixel World 部署于 Vercel；若页面无法加载，请开启 VPN 后重试，或用右上角在新窗口打开。" : "Pixel World is hosted on Vercel. If it does not load, connect to your VPN or open it in a new tab."}</p>}
+    </section>
+  );
+}
+
+function AboutGameExperience({ locale }: { locale: "zh" | "en" }) {
+  if (locale === "en") return (
+    <div className="map-preview__game-experience">
+      <h3>Game experience</h3>
+      <section><h4>Mobile, competitive, and strategy games</h4><p>I placed 27th nationally in the 2022 NetEase Werewolf Masters tournament and reached King rank in Honor of Kings. Long-term play in Clash of Clans, plus Avalon and Last War, informs my understanding of resource growth, alliances, and cross-server competition. Gardenscapes and Merge Harbor add a casual and merge-game perspective.</p><p>Drawing on public material and simulated data, I built the <a href="https://lion-xsog.upma.site/" target="_blank" rel="noopener noreferrer">Merge Harbor · 14-day event analysis and Excel model ↗</a>: 14 sheets covering funnels, return behavior, rewards, experiments, and an operations calendar, with a companion PDF report.</p></section>
+      <section><h4>PC, consoles, VR, and community</h4><p>I have played over 4,000 hours on Steam, including survival, open-world, narrative, and horror games. I have written breakdown notes on 13 games there, focusing on atmosphere, narrative rhythm, resource loops, and player motivation.</p><p>I independently designed, built, tested, and published the <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3814649025" target="_blank" rel="noopener noreferrer">Project Zomboid Preservative mod ↗</a>. My mods have drawn around 4,600 unique visitors, 1,490 subscriptions, and 190 favorites; I respond to player discussions and feedback as the work evolves.</p><p>I also completed the bilingual <a href="https://just-pxmi.upma.site/" target="_blank" rel="noopener noreferrer">Project Zomboid international community and marketing analysis ↗</a> and its presentation, 16 pages each. I follow Xbox, PlayStation, Meta Quest, and PICO, with hands-on motion-tracking experience.</p></section>
+      <section><h4>Anime-style games and overseas communities</h4><p>I have spent 500+ hours in Genshin Impact and Honkai Impact 3rd, and regularly play Arknights and Identity V. I follow player sentiment, updates, events, and community discussions. I also participate in Steam and Discord communities and track international game publishing through industry research sources.</p></section>
+    </div>
+  );
+  return (
+    <div className="map-preview__game-experience">
+      <h3>游戏经历</h3>
+      <section><h4>多品类手游与竞技</h4><p>网易狼人杀 2022 年大师赛全国第 27 名、《王者荣耀》王者段位。长期游玩《部落冲突》，并体验《阿瓦隆之王》《Last War》等 SLG，熟悉资源发育、联盟集结与跨服对抗等社交留存机制；也体验《梦幻花园》《Merge Harbor》等休闲合成玩法，形成跨品类运营节奏与用户画像的对比视角。</p><p>结合合成类游戏的个人体验、公开资料与模拟数据，完成 <a href="https://lion-xsog.upma.site/" target="_blank" rel="noopener noreferrer">Merge Harbor · 14 天活动分析与 Excel 模型 ↗</a>。独立搭建 14 个工作表，覆盖漏斗、回流、奖励配置、实验与运营日历；分析中期流失，设计积分要求调整实验，并输出配套 PDF 报告，逐项核对数据口径与计算结果。</p></section>
+      <section><h4>PC／多端经历与社区活跃</h4><p>Steam 累计游玩 4,000+ 小时，深度体验《七日杀》《方舟：生存进化》《塞尔达传说》《博德之门 3》等开放世界、生存与叙事作品，通关《生化危机》《行尸走肉》《逃生》等恐怖游戏系列；在 Steam 撰写 13 款游戏拆解笔记，从氛围营造、叙事节奏、资源循环与玩家参与动机分析玩法设计。</p><p><a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3814649025" target="_blank" rel="noopener noreferrer">《Project Zomboid》模组《防腐剂》 ↗</a>由我独立完成设计、开发、测试和上线。个人开发的数款模组总计约 4,600 位不重复访客、1,490 次订阅、190 次收藏；逐条回复 4 个讨论帖与 30 条玩家留言，收集建议并持续更新。</p><p>完成 <a href="https://just-pxmi.upma.site/" target="_blank" rel="noopener noreferrer">《Project Zomboid》国际化社群与营销分析 ↗</a>中英双语报告及配套演示稿（各 16 页），研究商店页呈现、Discord 运营、本地化反馈与 UGC 传播，成果发表于 Steam 社区。长期活跃于 Xbox、PlayStation、Meta Quest 及 PICO 平台，配备体感追踪设备，熟悉主机与 VR 游戏生态。</p></section>
+      <section><h4>二次元游戏与海外社区</h4><p>《原神》《崩坏 3》累计体验 500+ 小时，长期游玩《明日方舟》《第五人格》；关注二次元社区的版本、活动与玩家讨论，辨识社区热点、玩家情绪和争议信息。持续参与 Steam、Discord 社区讨论，跟踪 UGC、口碑与海外发行；通过游戏出海、罗斯基、白鲸出海、Sensor Tower、SteamDB 和 GamesIndustry.biz 等渠道关注市场与营销案例。</p></section>
+    </div>
   );
 }
 
@@ -582,6 +648,7 @@ export default function MapPreviewPage() {
         >
           <div className="project-detail__panel">
             <button className="project-detail__back" type="button" onClick={closeCard}>{locale === "zh" ? "← 返回地图" : "← Back to map"}</button>
+            <ProjectLivePreview project={activeProject} locale={locale} />
             <div className="project-detail__hero">
               <div><span>{activeCopy.category}</span><h1>{activeCopy.title}</h1><p>{activeCopy.oneLiner}</p></div>
               <Image src={activeDetailImage} alt={activeProject.title + " 项目图片"} width={1280} height={720} unoptimized priority />
@@ -603,8 +670,9 @@ export default function MapPreviewPage() {
               ))}
             </div>
             <div className="project-detail__links">
-              {activeProject.liveDemo && <a className="project-detail__link" href={activeProject.liveDemo} target="_blank" rel="noreferrer">{locale === "zh" ? "查看在线项目 ↗" : "Open live project ↗"}</a>}
-              {activeProject.github && <a className="project-detail__link" href={activeProject.github} target="_blank" rel="noreferrer">{locale === "zh" ? "查看项目代码 ↗" : "View source code ↗"}</a>}
+              {activeProject.download && <a className="project-detail__link project-detail__link--download" href={activeProject.download} download>{locale === "zh" ? "下载可安装扩展包 ↓" : "Download installable extension ↓"}</a>}
+              {activeProject.github && !activeProject.download && <a className="project-detail__link project-detail__link--code" href={activeProject.github} target="_blank" rel="noopener noreferrer">{locale === "zh" ? "查看项目代码 ↗" : "View source code ↗"}</a>}
+              {activeProject.download && <p className="project-detail__download-help">{locale === "zh" ? "下载后解压，在 Chrome / Edge 扩展程序中开启开发者模式，再选择“加载已解压的扩展程序”。" : "Unzip, enable Developer mode in Chrome / Edge extensions, then choose Load unpacked."}</p>}
             </div>
           </div>
         </div>
@@ -673,7 +741,7 @@ export default function MapPreviewPage() {
       {menuOpen && (
         <div className="map-preview__menu" role="dialog" aria-modal="true" aria-label="作品集目录">
           <div className="map-preview__menu-backdrop" onClick={closeMenu} />
-          <div className="map-preview__menu-window">
+          <div className={"map-preview__menu-window" + (menuView === "about" ? " map-preview__menu-window--about" : "")}>
             <div className="map-preview__menu-art" aria-hidden="true" />
             <div className="map-preview__menu-content">
               <div className="map-preview__menu-actions">
@@ -702,6 +770,7 @@ export default function MapPreviewPage() {
                   <span>01</span>
                   <h2>{locale === "zh" ? "关于我" : "ABOUT"} <small>{locale === "zh" ? "ABOUT" : "张铧心"}</small></h2>
                   <p>{locale === "zh" ? "我喜欢把一个念头做成可以亲自走进去的世界，也喜欢把复杂的工具做得顺手。游戏策划、AI 产品、互动原型与用户研究，是我持续往返的几条路。" : "I like turning an idea into a world someone can enter, and making complicated tools feel natural to use. Game design, AI products, interactive prototypes, and user research are the paths I keep crossing."}</p>
+                  <AboutGameExperience locale={locale} />
                 </section>
               )}
 

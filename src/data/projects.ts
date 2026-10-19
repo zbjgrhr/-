@@ -99,7 +99,7 @@ export const projects: ProjectArchive[] = [
       "/map-preview/curated/preservative-03.webp",
       "/map-preview/curated/preservative-04.webp",
     ],
-    liveDemo: "https://steamcommunity.com/sharedfiles/filedetails/?id=3814649025",
+    liveDemo: "https://just-pxmi.upma.site/",
     learned: [
       "A survival convenience remains interesting when its cost is legible, configurable, and recoverable through play.",
       "Publishing turns system design into an ongoing conversation with real players.",
@@ -249,7 +249,8 @@ export const projects: ProjectArchive[] = [
       "/map-preview/curated/auto-tune-02.webp",
       "/map-preview/curated/auto-tune-03.webp",
     ],
-    github: "https://github.com/zbjgrhr/Social-Media_Auto-Reply",
+    github: "https://github.com/zbjgrhr/Auto_Tune",
+    download: "/downloads/auto-tune-extension.zip",
     learned: [
       "Automation copy must be as precise as the capability it describes.",
       "Shared state reduces duplicate logic, but platform-specific failures still need explicit handling.",
@@ -294,7 +295,8 @@ export const projects: ProjectArchive[] = [
       "/map-preview/curated/study-assistant-03.webp",
       "/map-preview/curated/study-assistant-04.webp",
     ],
-    github: "https://github.com/zbjgrhr/web-translate-highlight-mind-map-notes-timer",
+    github: "https://github.com/zbjgrhr/Literature_Research_Assistant_-",
+    download: "https://github.com/zbjgrhr/Literature_Research_Assistant_-/archive/refs/heads/main.zip",
     learned: [
       "Persistence is part of the reading experience, not merely a storage problem.",
       "Browser tools earn trust when users can see, undo, and restore the changes made to a page.",
