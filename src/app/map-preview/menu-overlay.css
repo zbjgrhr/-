@@ -242,8 +242,8 @@
 .map-preview__menu-card > b { position: absolute; right: 23px; bottom: 21px; color: #aa8fc3; font: 25px/1 Georgia, serif; }
 
 .map-preview__menu-detail { max-width: 470px; }
-.map-preview__menu-window--about { grid-template-columns: 26% 74%; width: min(1320px, 100%); }
-.map-preview__menu-window--about .map-preview__menu-content { justify-content: flex-start; padding-top: clamp(55px, 5vw, 78px); }
+.map-preview__menu-window--about { grid-template-columns: 26% 74%; width: min(1320px, 100%); height: min(760px, calc(100dvh - 36px)); min-height: 0; }
+.map-preview__menu-window--about .map-preview__menu-content { min-height: 0; justify-content: flex-start; overflow-y: auto; overscroll-behavior: contain; padding-top: clamp(55px, 5vw, 78px); }
 .map-preview__menu-window--about .map-preview__menu-detail { max-width: 820px; }
 .map-preview__menu-detail h2 { margin: 24px 0 30px; color: #37334f; font: 700 clamp(30px, 2.6vw, 42px)/1.15 "Microsoft YaHei", sans-serif; }
 .map-preview__menu-detail p { margin: 0; color: #5e596d; font: 16px/1.95 "Microsoft YaHei", sans-serif; }
@@ -305,7 +305,7 @@
   .map-preview__menu { padding: 12px; }
   .map-preview__menu-window { display: flex; flex-direction: column; max-height: calc(100dvh - 24px); }
   .map-preview__menu-window--about .map-preview__menu-art { min-height: 13dvh; }
-  .map-preview__menu-window--about .map-preview__menu-content { padding-top: 42px; }
+  .map-preview__menu-window--about .map-preview__menu-content { flex: 1 1 auto; padding-top: 42px; }
   .map-preview__menu-art { min-height: 24dvh; flex: none; background-position: center 38%; }
   .map-preview__menu-content { min-height: 0; padding: 52px 21px 25px; }
   .map-preview__menu-actions { top: 11px; right: 12px; }

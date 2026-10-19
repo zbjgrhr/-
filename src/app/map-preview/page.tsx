@@ -157,7 +157,7 @@ function ProjectLivePreview({ project, locale }: { project: ProjectArchive; loca
   const finished = pixelWorld && pixelView === "finished";
   const address = new URL(project.liveDemo).hostname;
   const description = project.id === "preservative"
-    ? (locale === "zh" ? "在页面内阅读《Project Zomboid》国际化社群与营销分析。" : "Read the Project Zomboid community and marketing report here.")
+    ? (locale === "zh" ? "我在 Steam 撰写了 13 款游戏的拆解笔记，代表作是《Project Zomboid》国际化社群与营销分析。另为《Project Zomboid》制作数款模组，代表作《防腐剂》见下文。" : "A featured piece from my Steam notes on 13 games: the Project Zomboid international community and marketing analysis. I also made several Project Zomboid mods, including Preservative, featured below.")
     : project.id === "rainy-arcade"
       ? (locale === "zh" ? "直接进入雨夜游戏厅，探索可游玩的故事。" : "Step into the arcade and explore its playable stories.")
       : (locale === "zh" ? "在这里体验 Pixel World 制作器。" : "Explore the Pixel World creator here.");
@@ -167,12 +167,9 @@ function ProjectLivePreview({ project, locale }: { project: ProjectArchive; loca
       <div className="project-detail__preview-heading">
         <div>
           <span>{locale === "zh" ? "先进入作品" : "ENTER THE WORK"}</span>
-          <h2>{locale === "zh" ? "在线项目" : "Live project"}</h2>
+          <h2>{locale === "zh" ? "在线浏览作品" : "Explore the work online"}</h2>
           <p>{description}</p>
         </div>
-        <a className="project-detail__preview-open" href={project.liveDemo} target="_blank" rel="noopener noreferrer">
-          {locale === "zh" ? "在新窗口打开 ↗" : "Open in new tab ↗"}
-        </a>
       </div>
       {pixelWorld && (
         <div className="project-detail__preview-tabs" role="tablist" aria-label={locale === "zh" ? "Pixel World 体验选择" : "Pixel World experience"}>
@@ -188,10 +185,10 @@ function ProjectLivePreview({ project, locale }: { project: ProjectArchive; loca
             <p>{locale === "zh" ? "可玩成品收到后，会在这里与制作器一键切换。" : "The playable build will be added here for one-click switching with the creator."}</p>
           </div>
         ) : (
-          <iframe key={project.liveDemo} src={project.liveDemo} title={project.title + (locale === "zh" ? "在线项目" : " live project")} loading="lazy" allow="fullscreen; autoplay" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
+          <iframe key={project.liveDemo} src={project.liveDemo} title={project.title + (locale === "zh" ? "在线浏览作品" : " live project")} loading="lazy" allow="fullscreen; autoplay" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
         )}
       </div>
-      {pixelWorld && <p className="project-detail__preview-note">{locale === "zh" ? "Pixel World 部署于 Vercel；若页面无法加载，请开启 VPN 后重试，或用右上角在新窗口打开。" : "Pixel World is hosted on Vercel. If it does not load, connect to your VPN or open it in a new tab."}</p>}
+      {pixelWorld && <p className="project-detail__preview-note">{locale === "zh" ? "Pixel World 部署于 Vercel；若页面无法加载，请开启 VPN 后重试，或使用页面顶部的按钮在新窗口打开。" : "Pixel World is hosted on Vercel. If it does not load, connect to your VPN or use the button at the top to open it in a new tab."}</p>}
     </section>
   );
 }
@@ -647,7 +644,15 @@ export default function MapPreviewPage() {
           aria-label={activeProject.title + " 项目详情"}
         >
           <div className="project-detail__panel">
-            <button className="project-detail__back" type="button" onClick={closeCard}>{locale === "zh" ? "← 返回地图" : "← Back to map"}</button>
+            <nav className="project-detail__toolbar" aria-label={locale === "zh" ? "项目操作" : "Project actions"}>
+              <button className="project-detail__action project-detail__action--back" type="button" onClick={closeCard}><span className="project-detail__action-icon" aria-hidden="true">←</span><span>{locale === "zh" ? "返回地图" : "Back to map"}</span></button>
+              <div className="project-detail__toolbar-links">
+                {activeProject.liveDemo && <a className="project-detail__action project-detail__action--primary" href={activeProject.liveDemo} target="_blank" rel="noopener noreferrer"><span className="project-detail__action-icon" aria-hidden="true">↗</span><span>{locale === "zh" ? "打开在线作品" : "Open live work"}</span></a>}
+                {activeProject.download && <a className="project-detail__action project-detail__action--primary" href={activeProject.download} download><span className="project-detail__action-icon" aria-hidden="true">↓</span><span>{locale === "zh" ? "下载可安装扩展包" : "Download extension"}</span></a>}
+                {activeProject.github && <a className="project-detail__action project-detail__action--code" href={activeProject.github} target="_blank" rel="noopener noreferrer"><span className="project-detail__action-icon" aria-hidden="true">⌘</span><span>{locale === "zh" ? "查看 GitHub 代码" : "View GitHub code"}</span><span aria-hidden="true">↗</span></a>}
+              </div>
+            </nav>
+            {activeProject.download && <p className="project-detail__download-help"><span aria-hidden="true">✦</span>{locale === "zh" ? "安装方法：解压后，在 Chrome / Edge 的扩展程序页开启开发者模式，选择“加载已解压的扩展程序”。" : "To install: unzip, enable Developer mode in Chrome / Edge extensions, then choose Load unpacked."}</p>}
             <ProjectLivePreview project={activeProject} locale={locale} />
             <div className="project-detail__hero">
               <div><span>{activeCopy.category}</span><h1>{activeCopy.title}</h1><p>{activeCopy.oneLiner}</p></div>
@@ -668,11 +673,6 @@ export default function MapPreviewPage() {
                   <figcaption>{galleryCaptions[activeProject.id]?.[locale][index]}</figcaption>
                 </figure>
               ))}
-            </div>
-            <div className="project-detail__links">
-              {activeProject.download && <a className="project-detail__link project-detail__link--download" href={activeProject.download} download>{locale === "zh" ? "下载可安装扩展包 ↓" : "Download installable extension ↓"}</a>}
-              {activeProject.github && !activeProject.download && <a className="project-detail__link project-detail__link--code" href={activeProject.github} target="_blank" rel="noopener noreferrer">{locale === "zh" ? "查看项目代码 ↗" : "View source code ↗"}</a>}
-              {activeProject.download && <p className="project-detail__download-help">{locale === "zh" ? "下载后解压，在 Chrome / Edge 扩展程序中开启开发者模式，再选择“加载已解压的扩展程序”。" : "Unzip, enable Developer mode in Chrome / Edge extensions, then choose Load unpacked."}</p>}
             </div>
           </div>
         </div>
@@ -769,7 +769,7 @@ export default function MapPreviewPage() {
                 <section className="map-preview__menu-detail">
                   <span>01</span>
                   <h2>{locale === "zh" ? "关于我" : "ABOUT"} <small>{locale === "zh" ? "ABOUT" : "张铧心"}</small></h2>
-                  <p>{locale === "zh" ? "我喜欢把一个念头做成可以亲自走进去的世界，也喜欢把复杂的工具做得顺手。游戏策划、AI 产品、互动原型与用户研究，是我持续往返的几条路。" : "I like turning an idea into a world someone can enter, and making complicated tools feel natural to use. Game design, AI products, interactive prototypes, and user research are the paths I keep crossing."}</p>
+                  <p>{locale === "zh" ? "我主要做游戏策划与互动产品设计，也会自己开发原型、研究用户需求。做项目时，我关注玩法和功能是否清楚，以及第一次使用的人能否顺利上手。" : "I work on game design and interactive products, and I build prototypes and research user needs myself. In each project, I focus on whether the play and features are clear and whether someone new can get started easily."}</p>
                   <AboutGameExperience locale={locale} />
                 </section>
               )}
