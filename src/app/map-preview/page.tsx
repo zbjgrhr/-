@@ -644,14 +644,26 @@ export default function MapPreviewPage() {
           aria-label={activeProject.title + " 项目详情"}
         >
           <div className="project-detail__panel">
-            <nav className="project-detail__toolbar" aria-label={locale === "zh" ? "项目操作" : "Project actions"}>
-              <button className="project-detail__action project-detail__action--back" type="button" onClick={closeCard}><span className="project-detail__action-icon" aria-hidden="true">←</span><span>{locale === "zh" ? "返回地图" : "Back to map"}</span></button>
-              <div className="project-detail__toolbar-links">
-                {activeProject.liveDemo && <a className="project-detail__action project-detail__action--primary" href={activeProject.liveDemo} target="_blank" rel="noopener noreferrer"><span className="project-detail__action-icon" aria-hidden="true">↗</span><span>{locale === "zh" ? "打开在线作品" : "Open live work"}</span></a>}
-                {activeProject.download && <a className="project-detail__action project-detail__action--primary" href={activeProject.download} download><span className="project-detail__action-icon" aria-hidden="true">↓</span><span>{locale === "zh" ? "下载可安装扩展包" : "Download extension"}</span></a>}
-                {activeProject.github && <a className="project-detail__action project-detail__action--code" href={activeProject.github} target="_blank" rel="noopener noreferrer"><span className="project-detail__action-icon" aria-hidden="true">⌘</span><span>{locale === "zh" ? "查看 GitHub 代码" : "View GitHub code"}</span><span aria-hidden="true">↗</span></a>}
-              </div>
-            </nav>
+            {activeProject.id === "pixel-world" ? (
+              <nav className="pw-garden" aria-label={locale === "zh" ? "Pixel World 项目操作" : "Pixel World project actions"}>
+                <span className="pw-garden__sprig pw-garden__sprig--left" aria-hidden="true" />
+                <span className="pw-garden__sprig pw-garden__sprig--right" aria-hidden="true" />
+                <span className="pw-garden__glint pw-garden__glint--one" aria-hidden="true">✦</span>
+                <span className="pw-garden__glint pw-garden__glint--two" aria-hidden="true">✧</span>
+                <button className="pw-garden__button pw-garden__button--back" type="button" onClick={closeCard}><span className="pw-garden__icon" aria-hidden="true">←</span><span>{locale === "zh" ? "返回地图" : "Back to map"}</span></button>
+                <a className="pw-garden__button pw-garden__button--live" href={activeProject.liveDemo} target="_blank" rel="noopener noreferrer"><span className="pw-garden__icon" aria-hidden="true">✧</span><strong>{locale === "zh" ? "打开在线作品" : "Open live work"}</strong><span className="pw-garden__out" aria-hidden="true">↗</span></a>
+                <a className="pw-garden__button pw-garden__button--code" href={activeProject.github} target="_blank" rel="noopener noreferrer"><span className="pw-garden__icon" aria-hidden="true">{"</>"}</span><span>{locale === "zh" ? "查看项目代码" : "View source code"}</span><span className="pw-garden__out" aria-hidden="true">↗</span></a>
+              </nav>
+            ) : (
+              <nav className="project-detail__toolbar" aria-label={locale === "zh" ? "项目操作" : "Project actions"}>
+                <button className="project-detail__action project-detail__action--back" type="button" onClick={closeCard}><span className="project-detail__action-icon" aria-hidden="true">←</span><span>{locale === "zh" ? "返回地图" : "Back to map"}</span></button>
+                <div className="project-detail__toolbar-links">
+                  {activeProject.liveDemo && <a className="project-detail__action project-detail__action--primary" href={activeProject.liveDemo} target="_blank" rel="noopener noreferrer"><span className="project-detail__action-icon" aria-hidden="true">↗</span><span>{locale === "zh" ? "打开在线作品" : "Open live work"}</span></a>}
+                  {activeProject.download && <a className="project-detail__action project-detail__action--primary" href={activeProject.download} download><span className="project-detail__action-icon" aria-hidden="true">↓</span><span>{locale === "zh" ? "下载可安装扩展包" : "Download extension"}</span></a>}
+                  {activeProject.github && <a className="project-detail__action project-detail__action--code" href={activeProject.github} target="_blank" rel="noopener noreferrer"><span className="project-detail__action-icon" aria-hidden="true">⌘</span><span>{locale === "zh" ? "查看 GitHub 代码" : "View GitHub code"}</span><span aria-hidden="true">↗</span></a>}
+                </div>
+              </nav>
+            )}
             {activeProject.download && <p className="project-detail__download-help"><span aria-hidden="true">✦</span>{locale === "zh" ? "安装方法：解压后，在 Chrome / Edge 的扩展程序页开启开发者模式，选择“加载已解压的扩展程序”。" : "To install: unzip, enable Developer mode in Chrome / Edge extensions, then choose Load unpacked."}</p>}
             <ProjectLivePreview project={activeProject} locale={locale} />
             <div className="project-detail__hero">
